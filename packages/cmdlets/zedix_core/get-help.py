@@ -16,7 +16,7 @@ else:
         description = found["description"]
         blockCommonParameters = found["blockCommonParameters"]
         try:
-            paramhelp = found["paramhelp"]
+            paramhelp = f"Params: {found['paramhelp']}"
         except:
             paramhelp = ""
         aliases = str(aliases).strip("[").strip("]").replace("'",'"').replace(",",", ")

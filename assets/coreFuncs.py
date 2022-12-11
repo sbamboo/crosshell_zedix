@@ -47,8 +47,20 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                     fparamhelp = fconfig.get("paramhelp")
                 if fconfig.get("blockCommonparams") != "" and fconfig.get("blockCommonparams") != '""':
                     fblockCommonparams = fconfig.get("blockCommonparams")
+                if fconfig.get("synopsisDesc") != "" and fconfig.get("synopsisDesc") != '""':
+                    fsynopsisDesc = fconfig.get("synopsisDesc")
+                if fsynopsisDesc == "True":
+                    if fending == ".ps1":
+                        raw_content = open(os.path.realpath(fpath),"r").read()
+                        split_content = raw_content.split("\n")
+                        o_fdesc = fdescription
+                        try:
+                            if str(split_content[0]).strip() == "<#" and str(split_content[1]).strip() == ".SYNOPSIS":
+                                fdescription = str(split_content[2]).strip()
+                        except:
+                            fdescription = o_fdesc
             # Add to pathables
-            pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:"{fdescription}";paramhelp:"{fparamhelp}";blockCommonParameters:"{fblockCommonparams}"')
+            pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:"{fdescription}";paramhelp:"{fparamhelp}";blockCommonParameters:"{fblockCommonparams}";synopsisDesc{fsynopsisDesc}')
             fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 

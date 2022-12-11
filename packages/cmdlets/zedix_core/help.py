@@ -94,6 +94,8 @@ for index,cmdlet in enumerate(gottenData):
         fendingpref = "  (win)"
     elif fending == ".cmd" or fending == ".bat":
         fendingpref = "  (cmd)"
+    if desc == "" and fendingpref != "":
+        fendingpref = fendingpref.strip(" ")
     if str(alis) == "['']":
         print(f"\033[90m{numpref}\033[34m{name}  \033[90m{desc}\033[3;22;90m{fendingpref}\033[0m")
     else:

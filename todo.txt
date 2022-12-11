@@ -1,5 +1,4 @@
 aliasSpecific parameters (alias:params)
-settings handler
-persistance handler
+get desc from pwsh synopsis
 port builtins
-searchTerm for gethelp
+config option to load parameter help using "pwsh get-help <path> | select .parameters" or smth
