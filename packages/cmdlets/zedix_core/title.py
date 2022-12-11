@@ -12,7 +12,6 @@ try:
 except:
     title = ""
 
-
 # Set
 if operation == "-set" or operation == "-s":
     saveTitle(title,cs_persistanceFile)

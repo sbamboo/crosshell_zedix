@@ -39,7 +39,7 @@ zedix_doLoop = True
 
 # [Settings]
 # Get and set settings
-cssettings = cs_settings("load",cs_settingsFile,cssettings_raw)
+cssettings_raw = cs_settings("load",cs_settingsFile,cssettings_raw)
 cssettings = cssettings_raw
 # Load title
 perstitle = cs_persistance("get","cs_title",cs_persistanceFile)
