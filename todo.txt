@@ -2,3 +2,5 @@ aliasSpecific parameters (alias:params)
 get desc from pwsh synopsis
 port builtins
 config option to load parameter help using "pwsh get-help <path> | select .parameters" or smth
+update system
+packagehand "platform" tag to allow use of same packagehand repo with both zedix and pwsh platforms
