@@ -1,0 +1,10 @@
+{
+  "type": "cmdlet",
+  "target": "global",
+  "Description": "Rich prefix cmdlets.",
+  "version": "1.2",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_private/private_richprefix/private_richprefix_latest_global.package",
+  "sourceType": "web",
+  "format": "zip",
+  "versionTag": "latest"
+}

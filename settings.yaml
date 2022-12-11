@@ -1,0 +1,8 @@
+Crosshell_Settings:
+    Presets:
+        Title: "Crosshell (Zedix)"
+        Prefix: "> "
+
+    General:
+        Prefix_Enabled: True
+        Prefix_Dir_Enabled: True
