@@ -2,6 +2,7 @@ import sys
 import subprocess
 import os
 import ast
+from assets.evaluate import *
 
 # [Setup]
 def runShell(main=str(),captureOutput=False,params=list(),cmd=list()):
@@ -13,7 +14,7 @@ def runShell(main=str(),captureOutput=False,params=list(),cmd=list()):
         return out.upper()
 
 # [Runners]
-def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,legacyNames=False,captureOutput=False):
+def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,legacyNames=False,allowFuncCalls=False,captureOutput=False):
     inputs = os.path.realpath(inputs)
     inputs = inputs.replace("\\\\", "\\")
     inputs = inputs.replace("//", "/")
@@ -26,6 +27,7 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
         fp2 += f"§{elem}"
     fp2 = fp2.strip("§")
     fp2 = fp2.replace("§",os.sep)
+    fp2 += os.sep + "support"
     # Continue
     if sendVars == False:
         if captureOutput == True:
@@ -44,14 +46,28 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
         runtime = os.path.realpath(runtime)
         exitFile = str(os.path.realpath(f"{fp2}{os.sep}exit.empty"))
         passbackFile = str(os.path.realpath(f"{fp2}{os.sep}passback.vars"))
+        funcCallFile = str(os.path.realpath(f"{fp2}{os.sep}passback.calls"))
         if os.path.exists(exitFile) == True:
             os.remove(exitFile)
         if captureOutput == True:
-            capturedOutput = runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}"])
+            capturedOutput = runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}",f"{allowFuncCalls}"])
         else:
-            runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}"])
+            runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}",f"{allowFuncCalls}"])
         if passBackVars == True:
             while True:
+                # If allowFuncCalls continisly check for functionCalls
+                if os.path.exists(funcCallFile) == True:
+                    try:
+                        content = open(funcCallFile, "r").read()
+                        content = content.rstrip("\n")
+                    except:
+                        content = ""
+                    os.remove(funcCallFile)
+                    # Handle decode atempt
+                    if "{%1%}" in content or "{%2%}" in content:
+                        content = str(content) + "-decode"
+                    # Send call to function
+                    cs_execInput(content)
                 if os.path.exists(passbackFile) == True:
                     break
             content = open(passbackFile,"r",encoding="utf-8").read()

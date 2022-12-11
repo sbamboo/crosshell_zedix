@@ -2,7 +2,8 @@
 # Author: Simon Kalmi Claesson
 
 from assets.utils.utilFuncs import *
-import assets.support.crossRunner as cse
+from assets.coreFuncs import *
+import assets.crossRunner as cse
 import os
 import sys
 from io import StringIO
@@ -42,8 +43,13 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                     faliases = fconfig.get("aliases")
                 if fconfig.get("description") != "" and fconfig.get("description") != '""':
                     fdescription = fconfig.get("description")
+                if fconfig.get("paramhelp") != "" and fconfig.get("paramhelp") != '""':
+                    fparamhelp = fconfig.get("paramhelp")
+                if fconfig.get("blockCommonparams") != "" and fconfig.get("blockCommonparams") != '""':
+                    fblockCommonparams = fconfig.get("blockCommonparams")
             # Add to pathables
-            pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:{fdescription}')
+            pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:"{fdescription}";paramhelp:"{fparamhelp}";blockCommonParameters:"{fblockCommonparams}"')
+            fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 
 def cs_getPathableProperties(pathData=str()):
@@ -110,6 +116,10 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False):
         ps_legacynames = True
     else:
         ps_legacynames = False
+    if "pwsh.allowFuncCalls: True" in str(configLines):
+        ps_allowFuncCalls = True
+    else:
+        ps_allowFuncCalls = False
 
     # [Accual execution]
     # Python
@@ -129,7 +139,7 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False):
                 print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
     # Powershell
     elif fending == ".ps1":
-        newVars,capturedOutput = cse.Powershell(path, params, ps_retainVariables, globalInput, ps_passBackVars, ps_legacynames, captureOutput)
+        newVars,capturedOutput = cse.Powershell(path, params, ps_retainVariables, globalInput, ps_passBackVars, ps_legacynames, ps_allowFuncCalls, captureOutput)
         for e in newVars:
             globals()[e] = newVars[e]
     # Cmd
@@ -188,4 +198,28 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
         dictionary = cs_persistance_yaml("get",dict(),data_file)
         dictionary.remove(str(name))
         cs_persistance_yaml("set",dictionary,data_file)
-        
+
+def cs_handleCommonParameters(cmd=str(),params=list()):
+    if len(params) != 0:
+        lastParam = str(params[-1])
+        # Help
+        if lastParam == "/help" or lastParam == "/?" or lastParam == "-?" or lastParam == "/h" or lastParam == "/Help" or lastParam == "/H":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "get-help"
+        # Search
+        if lastParam == "/search" or lastParam == "/Search":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "help"
+        # Webi
+        if lastParam == "/webi" or lastParam == "/Webi":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "webi"
+        # Calc
+        if lastParam == "/calc" or lastParam == "/Calc":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "calc"
+    return cmd,params

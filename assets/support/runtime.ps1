@@ -2,8 +2,8 @@
 $file = $args[0]
 $globals = $args[1]
 $passBackVars = $args[2]
-$allowFuncCalls = $args[3]
-$legacyNames = $args[4]
+$legacyNames = $args[3]
+$allowFuncCalls = $args[4]
 $parameter = $args[5..$args.Length]
 
 # handle globals and push to powershell script scope

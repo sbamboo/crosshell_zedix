@@ -6,6 +6,7 @@ import argparse
 from assets.utils.conUtils import *
 from assets.utils.utilFuncs import *
 from assets.utils.formatter import *
+from assets.evaluate import *
 from assets.coreFuncs import *
 from assets.shellFuncs import *
 
@@ -16,8 +17,11 @@ parser = argparse.ArgumentParser(
   epilog="\033[31mStill in development, Made by Simon Kalmi Claesson\033[0m"
 )
 parser.add_argument('-c', dest="command", help='command to pass to crosshell')
-parser.add_argument('--command_no_exit', help='Starts crosshell after running a command', action='store_true')
+parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
+parser.add_argument('--nohead', help='supress header', action='store_true')
+parser.add_argument('--is_internaly_called', help='supress header', action='store_true')
+parser.add_argument('--debug_args', help='supress header', action='store_true')
 args = parser.parse_args()
 
 # [Setup]
@@ -27,6 +31,7 @@ cssettings_raw = {}
 csbasedir = os.path.dirname(os.path.realpath(__file__))
 cs_settingsFile = os.path.realpath(f"{csbasedir}/settings.yaml")
 cs_persistanceFile = os.path.realpath(f"{csbasedir}/assets/persistance.yaml")
+cs_versionFile = os.path.realpath(f"{csbasedir}/assets/version.yaml")
 csworking_directory = os.getcwd()
 csprefix_dir = True
 csprefix_enabled = True
@@ -61,19 +66,27 @@ if persprefix_dir != "" and persprefix_dir != None:
 else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
 
+# Get version data
+try:
+    versionData = cs_persistance_yaml("get",dict(),cs_versionFile)
+except:
+    versionData = {}
+
 # [Code]
 
 # Clear on start
 if args.nocls == False:
     clear()
 
+# Debug args
+if args.debug_args == True: print(args)
+
 # Load pathables
 cspathables = cs_loadCmdlets("./packages/cmdlets",allowedFileTypes)
 
 # Run loop
-cs_writeHead()
+if args.nohead == False: cs_writeHead(versionData,csbasedir,globals())
 while zedix_doLoop == True:
-    cs_persistance("set","cs_prefix",cs_persistanceFile,csshell_prefix)
     if args.command != "" and args.command != None:
         paramCommand = True
         inputs = str(args.command)
@@ -101,6 +114,8 @@ while zedix_doLoop == True:
         partials = pipePart.split(" ")
         cmd = partials[0]
         params = partials[1:]
+        # Handle commonparameters
+        cmd,params = cs_handleCommonParameters(cmd,params)
         # Reload command
         if cmd == "reload":
             cspathables = cs_loadCmdlets("./packages/cmdlets",allowedFileTypes)
@@ -145,8 +160,8 @@ while zedix_doLoop == True:
                             pipeSTDOUT = cs_exec(path,params,globals(),True)
                         else:
                             cs_exec(path,params,globals(),False)
-    if paramCommand == True: 
-        if args.command_no_exit == False:
-            zedix_doLoop = False
+    if paramCommand == True:
+        if bool(args.noexit) == False:
+            exit()
         else:
             args.command = ""

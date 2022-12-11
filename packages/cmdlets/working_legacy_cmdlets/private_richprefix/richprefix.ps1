@@ -6,6 +6,7 @@
 # [CStags]
 # pwsh.passCSvars: True
 # pwsh.returnCSVars: True
+# pwsh.allowFuncCalls: True
 # [TagEnd]
 
 param([alias("l")][string]$load,[switch]$debug)
@@ -44,4 +45,5 @@ if ($load) {
 }
 
 # Export variables
+. "$script:cs_runtime_loc\pwsh_functionCaller.ps1" "prefix $csshell_prefix -set" -encode
 . "$script:cs_runtime_loc\pwsh_exportVariables.ps1" "!csshell_prefix"

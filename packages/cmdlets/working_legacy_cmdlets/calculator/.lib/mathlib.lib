@@ -1,0 +1,350 @@
+§Format:0,Lang:ps1,Exec:pwsh§
+
+#This library is a math library for powershell, it includes afew math functions and abunch of functions to allow dotNET math methods to be run without the "[Math]::" prefix.
+#This library is created and owned by: Simon Kalmi Claesson
+#Even if it dosen't have a signed license, dont redistribute this file without asking it's orginal owner/author. If you redistribute it you do you must also credit the original owner/author.
+#
+#More info can be found at:
+#https://sites.google.com/view/scofficial/docs/library/mathlib
+#
+
+#LibInfo
+$script:mathlib_version = "6.1"
+$script:mathlib_author = "Simon Kalmi Claesson"
+$script:mathlib_description = "Math related function library."
+$script:mathlib_iscombi = "False"
+$script:mathlib_changelog = "Rewrite"
+
+#InputHandler
+function script:mathlib_inputHandle() {
+  param([string]$method,[string]$in)
+  if ($global:mathlib_global_StrictParse -eq "True") {[String]$in = '"' + $in + '"'}
+   #CharacterMapping
+    $in = $in.replace('^',',')
+  [string]$out = "[Math]::" + $method + "(" + $in + ")"
+  return [string]$out
+}
+
+#ListOfContainedFunctions
+[array]$script:mathlib_containedfunctions = "mathP","curt","rt","sqrtBab","pw","Abs","Acos","Acosh","Asin","Asinh","Atan","Atanh","BigMul","BitDecrement","BitIncrement","Cbrt","Ceiling","Clamp","CopySign","Cos","Cosh","DivRem","E","Exp","Floor","FusedMultiplyAdd","IEEERemainder","IlogB","Log","Log10","Log2","Max","MaxMagnitude","Min","MinMagnitude","Pi","Pow","ReciprocalEstimate","ReciprocalSqrtEstimate","Round","ScaleB","Sign","Sin","SinCos","Sinh","Sqrt","Tan","Tanh","Tau","Truncate"
+
+#MathFunctions
+function script:mathP() {
+  [string]$in = $args
+  [array]$inA = $in -split "("
+  $method = $inA[0]
+  $argument = $inA[1]; $argument.TrimEnd(")")
+  [string]$out = "[Math]::" + $method + "(" + "$argument" + ")" 
+  iex($out)
+}
+
+function script:curt {
+ [string]$num = $args
+ $curt = [math]::Pow($num, (1.0/3.0))
+ return $curt
+}
+
+function script:rt($ind) {
+  [array]$argu = $ind -split " "
+  $a = $argu[0]
+  $num = $argu[1]
+  [string]$numS = $a + ".0"
+  $rt = [math]::Pow($num, (1.0/$numS))
+  return $rt
+}
+
+function script:sqrtBab($n) {
+   $x = $n
+   $y = 1
+   $e = 0.0000001
+   while($x-$y -gt $e) {
+     $x = ($x + $y)/2
+     $y = $n / $x
+   }
+     if ($args -like "*-round*") {$x = [math]::Round($x)}
+   return $x
+}
+
+function script:pw() {
+  $in = $args
+  $in = $in -replace ",","^"
+  [Array]$array = $in.Split("^")
+  [String]$a = $array[0]
+  [String]$b = $array[1]
+  $result = [Math]::Pow($a,$b)
+  return $result
+}
+
+#DotNetMappings
+#Abs
+function script:Abs() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Abs" -in $argu)
+}
+
+#Acos
+function script:Acos() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Acos" -in $argu)
+}
+
+#Acosh
+function script:Acosh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Acosh" -in $argu)
+}
+
+#Asin
+function script:Asin() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Asin" -in $argu)
+}
+
+#Asinh
+function script:Asinh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Asinh" -in $argu)
+}
+
+#Atan
+function script:Atan() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Atan" -in $argu)
+}
+
+#Atanh
+function script:Atanh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Atanh" -in $argu)
+}
+
+#BigMul
+function script:BigMul() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "BigMul" -in $argu)
+}
+
+#BitDecrement
+function script:BitDecrement() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "BitDecrement" -in $argu)
+}
+
+#BitIncrement
+function script:BitIncrement() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "BitIncrement" -in $argu)
+}
+
+#Cbrt
+function script:Cbrt() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Cbrt" -in $argu)
+}
+
+#Ceiling
+function script:Ceiling() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Ceiling" -in $argu)
+}
+
+#Clamp
+function script:Clamp() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Clamp" -in $argu)
+}
+
+#CopySign
+function script:CopySign() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "CopySign" -in $argu)
+}
+
+#Cos
+function script:Cos() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Cos" -in $argu)
+}
+
+#Cosh
+function script:Cosh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Cosh" -in $argu)
+}
+
+#DivRem
+function script:DivRem() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "DivRem" -in $argu)
+}
+
+#E (Const)
+function script:E() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "E" -in $argu)
+ $script:const_e = [Math]::E
+}
+
+#Exp
+function script:Exp() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Exp" -in $argu)
+}
+
+#Floor
+function script:Floor() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Floor" -in $argu)
+}
+
+#FusedMultiplyAdd
+function script:FusedMultiplyAdd() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "FusedMultiplyAdd" -in $argu)
+}
+
+#IEEERemainder
+function script:IEEERemainder() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "IEEERemainder" -in $argu)
+}
+
+#ILogB
+function script:ILogB() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "ILogB" -in $argu)
+}
+
+#Log
+function script:Log() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Log" -in $argu)
+}
+
+#Log10
+function script:Log10() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Log10" -in $argu)
+}
+
+#Log2
+function script:Log2() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Log2" -in $argu)
+}
+
+#Max
+function script:Max() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Max" -in $argu)
+}
+
+#MaxMagnitude
+function script:MaxMagnitude() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "MaxMagnitude" -in $argu)
+}
+
+#Min
+function script:Min() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Min" -in $argu)
+}
+
+#MinMagnitude
+function script:MinMagnitude() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "MinMagnitude" -in $argu)
+}
+
+#Pi (Const)
+function script:Pi {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Pi" -in $argu)
+ $script:const_pi = [Math]::Pi
+}
+
+#Pow
+function script:Pow() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Pow" -in $argu)
+}
+
+#ReciprocalEstimate
+function script:ReciprocalEstimate() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "ReciprocalEstimate" -in $argu)
+}
+
+#ReciprocalSqrtEstimate
+function script:ReciprocalSqrtEstimate() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "ReciprocalSqrtEstimate" -in $argu)
+}
+
+#Round
+function script:Round() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Round" -in $argu)
+}
+
+#ScaleB
+function script:ScaleB() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "ScaleB" -in $argu)
+}
+
+#Sign
+function script:Sign() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Sign" -in $argu)
+}
+
+#Sin
+function script:Sin() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Sin" -in $argu)
+}
+
+#SinCos
+function SinCos() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "SinCos" -in $argu)
+}
+
+#Sinh
+function script:Sinh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Sinh" -in $argu)
+}
+
+#Sqrt
+function script:Sqrt() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Sqrt" -in $argu)
+}
+
+#Tan
+function script:Tan() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Tan" -in $argu)
+}
+
+#Tanh
+function script:Tanh() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Tanh" -in $argu)
+}
+
+#Tau (Const)
+function script:Tau() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Tau" -in $argu)
+ $script:const_tau = [Math]::Tau
+}
+
+#Truncate
+function script:Truncate() {
+ foreach ($a in ($args -split " ")) {[string]$argu += ",$a"}; [string]$argu = $argu.trimStart(",")
+ iex (mathlib_inputHandle -method "Truncate" -in $argu)
+}

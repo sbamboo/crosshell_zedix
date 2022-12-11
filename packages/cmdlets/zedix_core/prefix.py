@@ -6,18 +6,27 @@ try:
     prefix = ' '.join(prefix)
     if prefix[0] == " ":
         prefix.replace(" ", "",1)
-    prefix = prefix.replace("\\'","§")
-    prefix = prefix.replace("'","")
-    prefix = prefix.replace('§',"'")
 except:
     prefix = ""
+
+# Handle decode
+if "-decode" in operation:
+    operation = operation.replace("-decode","")
+    prefix = prefix.replace("{%1%}", "'")
+    prefix = prefix.replace("{%2%}", '"')
+
+prefix = prefix.replace("\\'","§")
+prefix = prefix.replace("'","")
+prefix = prefix.replace('§',"'")
 
 # Set
 if operation == "-set" or operation == "-s":
     csshell_prefix = prefix
+    cs_persistance("set","cs_prefix",cs_persistanceFile,csshell_prefix)
 # Reset
 if operation == "-reset" or operation == "-r":
     csshell_prefix = cssettings["Presets"]["Prefix"]
+    cs_persistance("set","cs_prefix",cs_persistanceFile,csshell_prefix)
 # Dir
 if operation == "-dir":
     persprefix_dir = cs_persistance("get","cs_prefix_enabled_dir",cs_persistanceFile)
