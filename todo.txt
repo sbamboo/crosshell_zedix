@@ -3,3 +3,9 @@ port builtins
 config option to load parameter help using "pwsh get-help <path> | select .parameters" or smth
 update system
 packagehand "platform" tag to allow use of same packagehand repo with both zedix and pwsh platforms
+init local package
+init global package
+
+
+For crosshell pwsh:
+"Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh
