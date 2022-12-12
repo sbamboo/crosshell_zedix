@@ -42,6 +42,8 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
                 vars += f"{key}§{varDict[key]}§¤§"
         vars.rstrip("§¤§")
         # Run
+        if IsLinux(): 
+            if str(fp2)[0] != str(os.sep): fp2 = os.sep + fp2
         runtime = f"{fp2}{os.sep}runtime.ps1"
         runtime = os.path.realpath(runtime)
         exitFile = str(os.path.realpath(f"{fp2}{os.sep}exit.empty"))

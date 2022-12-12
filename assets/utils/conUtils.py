@@ -67,3 +67,29 @@ def pause():
 def boo():
     print("Boo has run!")
 
+# Os checker functions
+def IsWindows():
+    platformv = platform.system()
+    if platformv == "Linux":
+        return False
+    elif platformv == "Darwin":
+        return False
+    elif platformv == "Windows":
+        return True
+def IsLinux():
+    platformv = platform.system()
+    if platformv == "Linux":
+        return True
+    elif platformv == "Darwin":
+        return False
+    elif platformv == "Windows":
+        return False
+def IsMacOS():
+    platformv = platform.system()
+    if platformv == "Linux":
+        return False
+    elif platformv == "Darwin":
+        return True
+    elif platformv == "Windows":
+        return False
+

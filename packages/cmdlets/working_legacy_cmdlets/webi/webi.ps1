@@ -5,7 +5,7 @@
 param([string]$id,[string]$nid,[alias("o")][switch]$open,[switch]$list)
 
 #Sets
-function script:Test-Network { if (Get-NetAdapter | Where Status -eq "Up") {return $true} else {return $false}}
+function script:Test-Network { if ($IsWindows) {if (Get-NetAdapter | Where Status -eq "Up") {return $true} else {return $false}}}
 $script:Shell_NetworkAvaliable = Test-Network
 function script:INeedNetwork {
   if ($script:Shell_NetworkAvaliable -eq $false) {
