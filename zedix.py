@@ -65,6 +65,9 @@ if persprefix_dir != "" and persprefix_dir != None:
     csprefix_dir = persprefix_dir
 else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
+# Load printcmdletdebug
+persPrintCmdletDebug = False
+persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
 
 # Get version data
 try:
@@ -143,7 +146,7 @@ while zedix_doLoop == True:
                 else:
                     # Excute
                     if hasPipes == False:
-                        cs_exec(path,params,globals(),False)
+                        cs_exec(path,params,globals(),False,persPrintCmdletDebug)
                     else:
                         # Handle unnice pipeElems in pipeSTDOUT
                         if "b'" in str(pipeSTDOUT):
@@ -157,9 +160,9 @@ while zedix_doLoop == True:
                         if pipeSTDOUT != "" and pipeSTDOUT != None:
                             params = [pipeSTDOUT, *params]
                         if pipeIndex != (len(pipeParts)-1):
-                            pipeSTDOUT = cs_exec(path,params,globals(),True)
+                            pipeSTDOUT = cs_exec(path,params,globals(),True,persPrintCmdletDebug)
                         else:
-                            cs_exec(path,params,globals(),False)
+                            cs_exec(path,params,globals(),False,persPrintCmdletDebug)
     if paramCommand == True:
         if bool(args.noexit) == False:
             exit()

@@ -30,6 +30,7 @@ if operation == "-set":
     if str(content) != str(currentConfig):
         cssettings[category][name] = content
         cs_settings("set",cs_settingsFile,cssettings)
+        persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
         print(f"\033[32mChanged {category}.{name} to '{content}' from '{currentConfig}'\033[0m")
 
 # Get
@@ -42,4 +43,5 @@ if operation == "-get":
 if operation == "-reload":
     currentSettings = cs_settings("load",cs_settingsFile,cssettings)
     cssettings = currentSettings
+    persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
     print("\033[32mReloaded settings.\033[0m")

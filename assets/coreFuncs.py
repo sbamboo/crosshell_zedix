@@ -96,7 +96,7 @@ def cs_getPathablePath(pathables,inputs=str()):
     if found != True:
         return f"\033[31mError: Cmdlet '{inputs}' not found!\033[0m"
 
-def cs_exec(path,params=list(),globalInput=None,captureOutput=False):
+def cs_exec(path,params=list(),globalInput=None,captureOutput=False,PrintCmdletDebug=False):
     fending = str("." +''.join(path.split('.')[-1]))
     # Get file specific info
     if fending != ".exe":
@@ -140,15 +140,24 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False):
         if captureOutput == True:
             old_stdout = sys.stdout
             redirected_output = sys.stdout = StringIO()
-            exec(open(path).read(), globalInput)
+            if PrintCmdletDebug == True:
+                exec(open(path).read(), globalInput)
+            else:
+                try:
+                    exec(open(path).read(), globalInput)
+                except:
+                    print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
             sys.stdout = old_stdout
             capturedOutput = redirected_output.getvalue()
         else:
             capturedOutput = False
-            try:
+            if PrintCmdletDebug == True:
                 exec(open(path).read(), globalInput)
-            except:
-                print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
+            else:
+                try:
+                    exec(open(path).read(), globalInput)
+                except:
+                    print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
     # Powershell
     elif fending == ".ps1":
         newVars,capturedOutput = cse.Powershell(path, params, ps_retainVariables, globalInput, ps_passBackVars, ps_legacynames, ps_allowFuncCalls, captureOutput)
