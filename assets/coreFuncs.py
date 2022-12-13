@@ -37,6 +37,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                 # config
                 if fconfig.get("pathoverwrite") != "" and fconfig.get("pathoverwrite") != '""':
                     fpath = fconfig.get("pathoverwrite")
+                    fpath = fpath.replace("{cmdletsFolder}",Path)
                 if fconfig.get("nameoverwrite") != "" and fconfig.get("nameoverwrite") != '""':
                     fname = fconfig.get("nameoverwrite")
                 if fconfig.get("aliases") != "" and fconfig.get("aliases") != '[]':
