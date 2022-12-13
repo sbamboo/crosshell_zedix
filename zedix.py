@@ -85,7 +85,7 @@ if args.nocls == False:
 if args.debug_args == True: print(args)
 
 # Load pathables
-cspathables = cs_loadCmdlets("./packages/cmdlets",allowedFileTypes)
+cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),allowedFileTypes)
 
 # Run loop
 if args.nohead == False: cs_writeHead(versionData,csbasedir,globals())
@@ -121,7 +121,7 @@ while zedix_doLoop == True:
         cmd,params = cs_handleCommonParameters(cmd,params)
         # Reload command
         if cmd == "reload":
-            cspathables = cs_loadCmdlets("./packages/cmdlets",allowedFileTypes)
+            cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),allowedFileTypes)
         # Restart command
         #elif cmd == "restart":
         #    path = csbasedir + os.sep + "zedix.py"

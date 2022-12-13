@@ -1,4 +1,4 @@
-cs_prefix: '> '
+cs_prefix: '{dir}> '
 cs_prefix_enabled: 'True'
 cs_prefix_enabled_dir: 'True'
 cs_title: Crosshell (Zedix)

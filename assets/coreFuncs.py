@@ -67,10 +67,13 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
 def cs_getPathableProperties(pathData=str()):
     splitData = list(pathData.split(';'))
     pathData = dict()
+    pdiv = ":" + os.sep
     for propertie in splitData:
+        propertie = propertie.replace(":\\","§pathDivider§")
         splitProp = propertie.split(':')
         prop_name = splitProp[0]
         prop_data = splitProp[1:len(splitProp)]
+        prop_data = str(prop_data).replace("§pathDivider§",pdiv)
         prop_data = str(prop_data).replace("['","").replace("']","")
         prop_data = prop_data.replace(str(os.sep+os.sep),os.sep)
         # String
