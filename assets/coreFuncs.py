@@ -84,6 +84,7 @@ def cs_getPathableProperties(pathData=str()):
     return dict(pathData)
 
 def cs_getPathablePath(pathables,inputs=str()):
+    inputs = inputs.lower()
     for cmdlet in pathables:
         cmdlet = cs_getPathableProperties(cmdlet)
         name = cmdlet["name"]

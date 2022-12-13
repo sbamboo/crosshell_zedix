@@ -1,0 +1,10 @@
+{"package_tagmeta":[
+  {"format":"1"},
+
+  {"source":{
+    "wimmi":   "local#a,#fromwebdata",
+    "site":    ""
+    "author":  ""
+    "sources": "https://www.bgreco.net/fortune"
+  }}
+]}

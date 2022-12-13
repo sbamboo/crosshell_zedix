@@ -1,7 +1,7 @@
 dirIn = ' '.join(argv)
 dirIn.strip(" ")
 
-if os.path.exists(dirIn) != True:
+if os.path.exists(dirIn) == True:
     try:
         os.remove(dirIn)
     except:

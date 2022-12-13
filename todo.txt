@@ -6,6 +6,8 @@ packagehand "platform" tag to allow use of same packagehand repo with both zedix
 init local package
 init global package
 getting ids of commands buult up of packagename and commandname (from path)
+make al input that is inside " not split by space
+
 
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh

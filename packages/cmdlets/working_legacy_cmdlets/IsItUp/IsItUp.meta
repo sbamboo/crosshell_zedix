@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "An unofficial tool to check if a site is up using isitup.org",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/IsItUp/IsItUp_latest_global.package",
+  "type": "cmdlet"
+}
