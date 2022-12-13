@@ -1,4 +1,3 @@
-import os
 dirIn = ' '.join(argv)
 dirIn.strip(" ")
 old_dir = csworking_directory
