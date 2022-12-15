@@ -41,13 +41,16 @@ def download(url, formatting="{l_bar}{color}{bar}{reset}{r_bar}", chars=None, nc
             if int(procentA-1) <= int(len(colorList)):
                 color = colorList[procentA-1]
             else: color = colorList[0]
-            formatting = formatting.replace("{color}",color)
             formatting = formatting.replace("{reset}","\033[0m")
-            progress_bar.bar_format = formatting
+            if "{color}" in formatting:
+                p1 = str(formatting.split("{color}")[0])
+                p2 = str(''.join(formatting.split("{color}")[1:]))
+                progress_bar.bar_format = p1 + color + p2
+            else:
+                progress_bar.bar_format = formatting.replace("{color}",color)
     progress_bar.close()
 
 formatting = "{desc}: {percentage:3.0f}% |{color}{bar}{reset}| {n_fmt}/{total_fmt}  {rate_fmt}{postfix}  [Elap: {elapsed} | ETA: {remaining}]"
 chars = " " + chr(9592) + chr(9473)
 url = "https://github.com/Qalculate/qalculate-qt/releases/download/v4.4.0/qalculate-4.4.0-x64.msi"
-fname = "tqdm-4.64.1-py2.py3-none-any.whl"
 download(url,formatting,chars)
