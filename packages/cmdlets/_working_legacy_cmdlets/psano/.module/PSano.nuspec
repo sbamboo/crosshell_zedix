@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>PSano</id>
+    <version>0.2.0</version>
+    <authors>David</authors>
+    <owners>david@brettle.org.uk</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Very minimal text editor impliemnted in pure powershell.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>(c) 2019 David. All rights reserved.</copyright>
+    <tags>editor text PSModule PSIncludes_Function PSFunction_Edit-TextFile PSCommand_Edit-TextFile PSCommand_PSano</tags>
+  </metadata>
+</package>

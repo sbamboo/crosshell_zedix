@@ -1,0 +1,10 @@
+{"package_tagmeta":[
+  {"format":"1"},
+
+  {"source":{
+    "wimmi":   "local#a",
+    "site":    ""
+    "author":  "Org: Markus Fleschutz, Modifier: Simon Kalmi Claesson"
+    "sources": "https://github.com/hugenda/PowerShell-2/blob/master/Scripts/speak-test.ps1"
+  }}
+]}

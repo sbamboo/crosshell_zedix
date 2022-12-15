@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "win",
+  "versionTag": "latest",
+  "Description": "Tool to align the windows 11 taskbar",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/taskbarAligner/taskbarAligner_latest_win.package",
+  "type": "cmdlet"
+}

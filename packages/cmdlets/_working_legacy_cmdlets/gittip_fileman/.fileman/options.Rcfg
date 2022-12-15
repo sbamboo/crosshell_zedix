@@ -1,0 +1,19 @@
+pref -
+setpref /
+fm_editor Notepad.exe
+fm_mode_shash False
+fm_mode_simple False
+fm_mode_diagram False
+fm_autoLoadSettings True
+fm_savelastDir false
+fm_loadlastDir false
+theme_folder Blue Black
+theme_item Green Black
+theme_LWtime Yellow Black
+theme_size Red Black
+theme_zip DarkGreen Black
+theme_text Gray Black
+theme_console Gray Black
+theme_diagram Gray Black
+theme_dirNote DarkBlue Black
+theme_hash Magenta Black

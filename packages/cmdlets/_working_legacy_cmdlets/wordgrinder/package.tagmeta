@@ -1,0 +1,10 @@
+{"package_tagmeta":[
+  {"format":"1"},
+
+  {"source":{
+    "wimmi":   "download#a",
+    "site":    "http://cowlark.com/wordgrinder/"
+    "author":  "David Given"
+    "sources": "https://github.com/davidgiven/wordgrinder"
+  }}
+]}

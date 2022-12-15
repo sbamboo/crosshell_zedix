@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Contains tools for schoolwork and/or general work. (misc)",
+  "sourceType": "web",
+  "version": "1.1",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/schooltools/schooltools_latest_global.package",
+  "type": "cmdlet"
+}

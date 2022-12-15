@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Modified version of the Show-Tree.ps1 script.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/gittip_tree/gittip_tree_latest_global.package",
+  "type": "cmdlet"
+}

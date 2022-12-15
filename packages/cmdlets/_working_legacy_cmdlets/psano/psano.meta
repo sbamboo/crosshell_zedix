@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Text Editor a bit like nano, written in pure powershell.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/psano/psano_latest_global.package",
+  "type": "cmdlet"
+}

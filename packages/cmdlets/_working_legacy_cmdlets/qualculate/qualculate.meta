@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "win",
+  "versionTag": "latest",
+  "Description": "Qualculate cli calculator.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/qualculate/qalculate_latest_win.package",
+  "type": "cmdlet"
+}

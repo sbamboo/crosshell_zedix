@@ -7,7 +7,8 @@ init local package
 init global package
 getting ids of commands buult up of packagename and commandname (from path)
 make al input that is inside " not split by space
-
+mappedCmdlets yaml with category pwsh and such
+dependency api for packages from packagehand as well as python modules
 
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh

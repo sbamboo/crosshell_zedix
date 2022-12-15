@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Contains cmdlets for calculating numbers and other stuff.",
+  "sourceType": "web",
+  "version": "1.1",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/calculator/calculator_latest_global.package",
+  "type": "cmdlet"
+}

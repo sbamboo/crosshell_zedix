@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Dictionary converter for wordgrinder.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/DictionaryConverter/DictionaryConverter_latest_global.package",
+  "type": "cmdlet"
+}

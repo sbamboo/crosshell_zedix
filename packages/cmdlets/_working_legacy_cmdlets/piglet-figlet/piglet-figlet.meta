@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "PowerShell implementation of the popular Figlet command line utility.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/piglet-figlet/piglet-figlet_latest_global.package",
+  "type": "cmdlet"
+}

@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "win",
+  "versionTag": "latest",
+  "Description": "Otis Gustafsson's Swearword generator.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/swear-word-generator/SwearWordGenerator_latest_global.package",
+  "type": "cmdlet"
+}

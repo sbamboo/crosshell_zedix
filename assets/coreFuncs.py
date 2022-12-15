@@ -85,16 +85,16 @@ def cs_getPathableProperties(pathData=str()):
     return dict(pathData)
 
 def cs_getPathablePath(pathables,inputs=str()):
-    inputs = inputs.lower()
     for cmdlet in pathables:
         cmdlet = cs_getPathableProperties(cmdlet)
         name = cmdlet["name"]
         aliases = cmdlet["aliases"]
         found = False
-        if name == inputs:
+        if name.casefold() == inputs.casefold():
             found = True
-        elif inputs in aliases:
-            found = True
+        for alias in aliases:
+            if inputs.casefold() == str(alias).casefold():
+                found = True
         if found == True:
             path = cmdlet["path"]
             return path

@@ -1,0 +1,10 @@
+{"package_tagmeta":[
+  {"format":"1"},
+
+  {"source":{
+    "wimmi":   "download#a",
+    "site":    ""
+    "author":  "junegunn"
+    "sources": "https://github.com/junegunn/fzf"
+  }}
+]}

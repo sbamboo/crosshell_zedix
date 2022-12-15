@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "win",
+  "versionTag": "latest",
+  "Description": "A modern and intuitive terminal-based text editor.",
+  "sourceType": "web",
+  "version": "2.0.11",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/micro/micro-2.0.11_latest_win.package",
+  "type": "cmdlet"
+}

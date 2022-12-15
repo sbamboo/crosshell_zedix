@@ -1,0 +1,24 @@
+3.0_b3
+Fix
+ - *returns to startdir after settings Load
+Add
+ - *Diagram_Mode (Format-List like title)
+ - *Dir-Note color option
+ - *Diagram_mode Color option
+
+
+
+3.0_b4
+Fix
+ - Running operation on folder opens it
+Add
+ - Support for §def§ in theme options
+ - multiple options.Rcfg's
+ - generate builtIns.Rcfg file
+ - Open in explorer.exe option
+ - EnvVar support (check if in contains $env: is so iex test-path in and if true cd)
+
+3.0b5
+Fix
+ - If last change date is a single digit day the filename gets one space before the others and missaligns.
+   (if $date -lt *smth* add a space)

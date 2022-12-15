@@ -1,0 +1,10 @@
+{
+  "format": "zip",
+  "target": "win",
+  "versionTag": "latest",
+  "Description": "A modern replacement for ls.",
+  "sourceType": "web",
+  "version": "1.0",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/_thirdpartyimports/exa/exa_latest_win.package",
+  "type": "cmdlet"
+}

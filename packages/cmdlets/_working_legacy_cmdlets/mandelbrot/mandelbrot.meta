@@ -1,0 +1,10 @@
+{
+  "target": "global",
+  "versionTag": "latest",
+  "Description": "Cmdlet for generating a Mandelbrot set.",
+  "source": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/repository/cmdlet/MandelBrot/MandelBrot_latest_global.package",
+  "version": "1.0",
+  "format": "zip",
+  "sourceType": "web",
+  "type": "cmdlet"
+}
