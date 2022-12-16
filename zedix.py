@@ -118,6 +118,9 @@ while zedix_doLoop == True:
         #Handle strings
         foundStrings = re.finditer(r'".*?"',pipePart)
         for m in foundStrings:
+            if str(m.group()) == str(pipePart):
+                pipePart = "print " + str(pipePart).strip('"')
+        for m in foundStrings:
             o = str(m.group()).replace(" ","§!i_space!§")
             pipePart = pipePart.replace(str(m.group()),o)
         partials = pipePart.split(" ")
