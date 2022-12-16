@@ -1,6 +1,7 @@
 # [Imports]
 import os
 import argparse
+import re
 
 # [Local imports]
 from assets.utils.conUtils import *
@@ -114,9 +115,17 @@ while zedix_doLoop == True:
             pipePart = pipePart.replace("("," ")
             pipePart = pipePart.replace(")"," ")
             pipePart = pipePart.replace(","," ")
+        #Handle strings
+        foundStrings = re.finditer(r'".*?"',pipePart)
+        for m in foundStrings:
+            o = str(m.group()).replace(" ","§!i_space!§")
+            pipePart = pipePart.replace(str(m.group()),o)
         partials = pipePart.split(" ")
         cmd = partials[0]
+        cmd = cmd.replace("§!i_space!§"," ")
         params = partials[1:]
+        for i,param in enumerate(params):
+            params[i] = str(params[i]).replace("§!i_space!§"," ")
         # Handle commonparameters
         cmd,params = cs_handleCommonParameters(cmd,params)
         # Reload command
