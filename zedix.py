@@ -170,7 +170,7 @@ while zedix_doLoop == True:
                             pipeSTDOUT = str_pipeSTDOUT
                         # Handle pipeSTDOUT
                         if pipeSTDOUT != "" and pipeSTDOUT != None:
-                            params = [pipeSTDOUT, *params]
+                            params = [*params,pipeSTDOUT]
                         if pipeIndex != (len(pipeParts)-1):
                             pipeSTDOUT = cs_exec(path,params,globals(),True,persPrintCmdletDebug)
                         else:
