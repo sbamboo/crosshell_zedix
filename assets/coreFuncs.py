@@ -70,11 +70,17 @@ def cs_getPathableProperties(pathData=str()):
     pathData = dict()
     pdiv = ":" + os.sep
     for propertie in splitData:
+        propertie = propertie.replace("https://","§url_https_dividerr§")
+        propertie = propertie.replace("http://","§url_http_dividerr§")
         propertie = propertie.replace(":\\","§pathDivider§")
         splitProp = propertie.split(':')
         prop_name = splitProp[0]
-        prop_data = splitProp[1:len(splitProp)]
+        prop_data = splitProp[1:]
+        #prop_data = ':'.join(splitProp[1:])
+        #prop_data = prop_data.strip(":")
         prop_data = str(prop_data).replace("§pathDivider§",pdiv)
+        prop_data = str(prop_data).replace("§url_https_dividerr§","https://")
+        prop_data = str(prop_data).replace("§url_http_dividerr§","http://")
         prop_data = str(prop_data).replace("['","").replace("']","")
         prop_data = prop_data.replace(str(os.sep+os.sep),os.sep)
         # String
