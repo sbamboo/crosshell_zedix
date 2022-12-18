@@ -1,2 +1,4 @@
-18,1KB >> 56,1KB >> 91.5KB
- zip      unpack    runned
+18,4KB >> 56,3KB >> 118KB
+zip       unpack    runned
+
+(Tested using size propertie in windows and 7zip_ultra_deflate)

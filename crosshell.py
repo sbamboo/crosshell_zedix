@@ -1,3 +1,6 @@
+# [Startup Message]
+print("[Crosshell]: Starting...")
+
 # [Imports]
 import os
 import argparse
