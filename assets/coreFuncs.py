@@ -1,6 +1,7 @@
 # Main functions for the zedix core
 # Author: Simon Kalmi Claesson
 
+# [Imports]
 from assets.utils.utilFuncs import *
 from assets.coreFuncs import *
 import assets.crossRunner as cse
@@ -10,6 +11,7 @@ from io import StringIO
 import yaml
 import json
 
+# Function to load cmdlets
 def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
     pathables = []
     if allowedFileTypes == []:
@@ -32,6 +34,12 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
             # Handle other properties
             fconfigfile =  fpath.replace(fending,".cfg")
             faliases = "[]"
+            # Non configfile defaults
+            faliases = []
+            fdescription = ""
+            fparamhelp = ""
+            fblockCommonparams = ""
+            fsynopsisDesc = ""
             if os.path.exists(fconfigfile):
                 fconfig = readConfig(fconfigfile)
                 # config
@@ -60,11 +68,12 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                                 fdescription = str(split_content[2]).strip()
                         except:
                             fdescription = o_fdesc
-            # Add to pathables
+                # Add to pathables
             pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:"{fdescription}";paramhelp:"{fparamhelp}";blockCommonParameters:"{fblockCommonparams}";synopsisDesc{fsynopsisDesc}')
             fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 
+# Function to get properties of a pathable
 def cs_getPathableProperties(pathData=str()):
     splitData = list(pathData.split(';'))
     pathData = dict()
@@ -90,6 +99,7 @@ def cs_getPathableProperties(pathData=str()):
     #print("\033[31m" + str(pathData) + "\033[0m")
     return dict(pathData)
 
+# Function to get pathable path
 def cs_getPathablePath(pathables,inputs=str()):
     for cmdlet in pathables:
         cmdlet = cs_getPathableProperties(cmdlet)
@@ -107,6 +117,7 @@ def cs_getPathablePath(pathables,inputs=str()):
     if found != True:
         return f"\033[31mError: Cmdlet '{inputs}' not found!\033[0m"
 
+# Funtion to execute cmdlet
 def cs_exec(path,params=list(),globalInput=None,captureOutput=False,PrintCmdletDebug=False):
     fending = str("." +''.join(path.split('.')[-1]))
     # Get file specific info
@@ -184,6 +195,7 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,PrintCmdletD
     if captureOutput == True:
         return capturedOutput
 
+# Function to handle settings json
 def cs_settings_json(mode=str(),settings_file=str(),settings=dict()):
     # Load
     if mode == "load":
@@ -195,6 +207,7 @@ def cs_settings_json(mode=str(),settings_file=str(),settings=dict()):
         with open(settings_file, "w") as outfile:
             json.dump(settings, outfile)
 
+# Function to handle settings
 def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     # Load
     if mode == "load":
@@ -206,6 +219,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
         with open(settings_file, "w") as outfile:
             yaml.dump(settings, outfile)
 
+# Function to handle persistance yaml
 def cs_persistance_yaml(mode=str(),dictionary=dict(),yaml_file=str()):
     if mode == "get":
         with open(yaml_file, "r") as yamli_file:
@@ -215,6 +229,7 @@ def cs_persistance_yaml(mode=str(),dictionary=dict(),yaml_file=str()):
         with open(yaml_file, "w") as outfile:
             yaml.dump(dictionary, outfile)
 
+# Function to handle persistance
 def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
     # Get
     if mode == "get":
@@ -231,6 +246,7 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
         dictionary.remove(str(name))
         cs_persistance_yaml("set",dictionary,data_file)
 
+# Function to handle commonparameters from input and return the correct values
 def cs_handleCommonParameters(cmd=str(),params=list()):
     if len(params) != 0:
         lastParam = str(params[-1])

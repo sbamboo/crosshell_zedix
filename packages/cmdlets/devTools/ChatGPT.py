@@ -1,6 +1,6 @@
 import requests
 
-api_key = "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"
+api_key = ""
 
 # Set the endpoint URL
 endpoint = "https://api.openai.com/chat/gpt"

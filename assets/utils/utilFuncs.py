@@ -1,6 +1,8 @@
 # Additional functions for the Zedix crosshell core
 # Author: Simon Kalmi Claesson
 
+# [Imports]
+
 from os.path import exists
 try:
     from os import scandir
@@ -9,15 +11,18 @@ except ImportError:
 
 # [Files & Folders]
 
+# Function to test path using os.exists
 def testPath(path):
     if exists(path):
         return True
     else:
         return False
 
+# Function to get file content using open().read()
 def getContent(filepath):
     return open(filepath, 'r').read()
 
+# Function to write a string to a file using open().write()
 def outFile(inputs=str(),filepath=str(),append=False,encoding=None):
     if encoding == None:
         encoding = "utf-8"
@@ -30,6 +35,7 @@ def outFile(inputs=str(),filepath=str(),append=False,encoding=None):
         f.write(inputs)
         f.close()
     
+# Function to create an empty file using open("x")
 def touchFile(filepath,encoding=None):
     if encoding == None:
         encoding = "utf-8"
@@ -40,6 +46,7 @@ def touchFile(filepath,encoding=None):
         f = open(filepath, "w", encoding=encoding)
         f.close()
 
+# Function to scantree using scantree()
 def scantree(path):
     for entry in scandir(path):
         if entry.is_dir(follow_symlinks=False):

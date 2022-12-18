@@ -1,10 +1,13 @@
 # Formatter by Simon Kalmi Claesson
 #
+
+# [Imports]
 import os
 import socket
 import re
 import getpass
 
+# Function to format prefix
 def formatPrefix(s=str(),prefix_dir=bool(),prefix_enabled=bool(),current_directory=str(),varDict=dict()):
     # Fix {dir} reserved
     cs1 = "{" + "dir" + "}"
