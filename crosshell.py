@@ -9,6 +9,7 @@ import re
 from assets.evaluate import *
 from assets.coreFuncs import *
 from assets.shellFuncs import *
+from assets.gitFolderDown import *
 # Utils
 from assets.utils.conUtils import *
 from assets.utils.utilFuncs import *
@@ -58,9 +59,15 @@ persPrintCmdletDebug = False
 # Setup filepaths
 path_packagesfolder = f"{csbasedir}{os.sep}packages"
 path_cmdletsfolder = f"{path_packagesfolder}{os.sep}cmdlets"
+path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}zedix_core"
 # Create if missing
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
+if os.path.exists(path_cmdlet_zedix_core) != True:
+    print("\033[32mDownloading core files...\033[0m")
+    os.mkdir(path_cmdlet_zedix_core)
+    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/zedix_core",path_cmdlet_zedix_core)
+    print("\033[32mDone!\033[0m")
 if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
 if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
 if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf-8")
@@ -77,6 +84,7 @@ else:
     saveTitle(cssettings["Presets"]["Title"],cs_persistanceFile)
 # Load prefix from persistance otherwise from settings
 persprefix = cs_persistance("get","cs_prefix",cs_persistanceFile)
+defaultPrefix = cssettings["Presets"]["Prefix"]
 if persprefix != "" and persprefix != None:
     csshell_prefix = persprefix
 else:
@@ -132,7 +140,7 @@ while crosshell_doLoop == True:
         paramCommand = False
         # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
         if bool(csprefix_enabled) == True:
-            # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>)
+            # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
             inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals()))
         else:
             inputs = input("")

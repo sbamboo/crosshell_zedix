@@ -101,6 +101,7 @@ def cs_getPathableProperties(pathData=str()):
 
 # Function to get pathable path
 def cs_getPathablePath(pathables,inputs=str()):
+    found = False
     for cmdlet in pathables:
         cmdlet = cs_getPathableProperties(cmdlet)
         name = cmdlet["name"]
@@ -213,7 +214,17 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        return settings
+        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","PrintCmdletDebug":"true"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"}}    
+        try:
+            v = settings
+            if settings == "" or settings == {} or settings == None:
+                v = preset
+        except:
+            v = preset
+        if v == preset:
+            with open(settings_file, "w") as outfile:
+                yaml.dump(v, outfile)
+        return v
     # Set
     if mode == "set":
         with open(settings_file, "w") as outfile:
@@ -224,6 +235,8 @@ def cs_persistance_yaml(mode=str(),dictionary=dict(),yaml_file=str()):
     if mode == "get":
         with open(yaml_file, "r") as yamli_file:
             dictionary = yaml.safe_load(yamli_file)
+            if dictionary == "" or dictionary == {} or dictionary == None:
+                dictionary = {}
         return dictionary
     if mode == "set":
         with open(yaml_file, "w") as outfile:
@@ -234,7 +247,11 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
     # Get
     if mode == "get":
         dictionary = cs_persistance_yaml("get",dict(),data_file)
-        return dictionary.get(str(name))
+        try:
+            v = dictionary.get(str(name))
+        except:
+            v = ""
+        return v
     # Set
     if mode == "set":
         dictionary = cs_persistance_yaml("get",dict(),data_file)

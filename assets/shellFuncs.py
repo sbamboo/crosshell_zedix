@@ -49,7 +49,7 @@ def cs_writeProfile(basedir,globalInput):
 def cs_writeHead(versionData=dict(),basedir=str(),globalInput=dict()):
     hasMoreLines = False
     # Channel Messages (Version Channel)
-    channel = versionData["channel"]
+    channel = versionData.get("channel")
     # Release/Stable (No message)
     if channel != "Release" and channel != "Stable":
         hasMoreLines = True

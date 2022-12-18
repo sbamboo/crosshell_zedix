@@ -8,7 +8,8 @@ import re
 import getpass
 
 # Function to format prefix
-def formatPrefix(s=str(),prefix_dir=bool(),prefix_enabled=bool(),current_directory=str(),varDict=dict()):
+def formatPrefix(s=str(),prefix_dir=bool(),prefix_enabled=bool(),current_directory=str(),varDict=dict(),fallBackPrefix=""):
+    if s == "" or s == str() or s == None: return fallBackPrefix
     # Fix {dir} reserved
     cs1 = "{" + "dir" + "}"
     cs2 = "{" + "dir:"
