@@ -54,6 +54,16 @@ csworking_directory = os.getcwd()
 allowedFileTypes = [".py",".ps1",".cmd",".bat",".exe"]
 persPrintCmdletDebug = False
 
+# [Create folders]
+# Setup filepaths
+path_packagesfolder = f"{csbasedir}{os.sep}packages"
+path_cmdletsfolder = f"{path_packagesfolder}{os.sep}cmdlets"
+# Create if missing
+if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
+if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
+if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
+if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
+if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf-8")
 
 # [Settings]
 # Get and set settings
