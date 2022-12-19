@@ -77,7 +77,7 @@ def cs_writeHead(versionData=dict(),basedir=str(),globalInput=dict()):
     hasShownGuideStateFile = os.path.realpath(f"{basedir}{os.sep}assets{os.sep}hasshownguide.state")
     # If a file exists dont inform of the guide
     if os.path.exists(hasShownGuideStateFile):
-        print("\033[32mWelcome, write 'help' for help. To add messages to here edit: /assets/profile.ps1\033[0m")
+        print("\033[32mWelcome, write 'help' for help. To add messages to here edit: /assets/profile.msg\033[0m")
     # Otherwise do inform of a guide and create a state file to let crosshell know it has shown the guide message
     else:
         print("\033[32mWelcome, for a guide on how to use crosshell write 'guide' or for command help write 'help'.\033[0m") 
