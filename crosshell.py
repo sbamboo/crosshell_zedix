@@ -78,6 +78,7 @@ csprefix_enabled = True
 crosshell_doLoop = True
 csworking_directory = os.getcwd()
 allowedFileTypes = [".py",".ps1",".cmd",".bat",".exe"]
+defaultTabCompleteItems = ["reload","exit","cls","/help","/search","/webi","/calc"]
 persPrintCmdletDebug = False
 
 # [Create folders]
@@ -116,20 +117,22 @@ else:
     csshell_prefix = cssettings["Presets"]["Prefix"]
 # Load prefix_enabled from persistance otherwise from settings
 persprefix_enabled = cs_persistance("get","cs_prefix_enabled",cs_persistanceFile)
-if persprefix_enabled != "" and persprefix_enabled != None:
+if persprefix_enabled != "" and persprefix_enabled != None and persprefix_enabled != str():
     csprefix_enabled = persprefix_enabled
 else:
     csprefix_enabled = cssettings["General"]["Prefix_Enabled"]
 # Load prefix_dir from persistance otherwise from settings
 persprefix_dir = cs_persistance("get","cs_prefix_enabled_dir",cs_persistanceFile)
-if persprefix_dir != "" and persprefix_dir != None:
+if persprefix_dir != "" and persprefix_dir != None and persprefix_dir != str():
     csprefix_dir = persprefix_dir
 else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
 # Load printcmdletdebug setting
-persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
+persPrintCmdletDebug = retbool(cssettings["General"]["PrintCmdletDebug"])
 # Load EnableTabcomplete setting
-EnableTabComplete = bool(cssettings["General"]["EnableTabComplete"])
+EnableTabComplete = retbool(cssettings["General"]["EnableTabComplete"])
+# Load PrintComments setting
+PrintComments = retbool(cssettings["General"]["PrintComments"])
 
 # Get version data
 try:
@@ -168,7 +171,7 @@ while crosshell_doLoop == True:
         # Check if the user has enabled tabcomplete and run the neccessary code if so
         if EnableTabComplete == True:
             # Prepare highlight and tab/autocomplete
-            items = ["reload","exit","cls"]
+            items = defaultTabCompleteItems
             for cmdlet in cspathables:
                 aliases = ((''.join((cmdlet.split(";")[2]).split(":")[1:]).strip("[")).strip("]")).split(",")
                 for alias in aliases:
@@ -178,9 +181,9 @@ while crosshell_doLoop == True:
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
             session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer))
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
-            if bool(csprefix_enabled) == True:
+            if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = session.prompt(ANSI(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals())))
+                inputs = session.prompt(ANSI(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
             else:
                 inputs = session.prompt("")
         # Otherwise run the normal code
@@ -188,7 +191,7 @@ while crosshell_doLoop == True:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if bool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals()))
+                inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))
             else:
                 inputs = input("")
     # Check if the input has pipes and if so set the hasPipes bool variable accoringlt and split the input by the pipe syntax " | "

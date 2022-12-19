@@ -252,7 +252,7 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
             v = dictionary.get(str(name))
         except:
             v = ""
-        return v
+        return str(v)
     # Set
     if mode == "set":
         dictionary = cs_persistance_yaml("get",dict(),data_file)
@@ -289,3 +289,10 @@ def cs_handleCommonParameters(cmd=str(),params=list()):
             params = [cmd,*params]
             cmd = "calc"
     return cmd,params
+
+# Function to check if a string value is boolean true or false
+def retbool(value=str()):
+    if value == "true" or value == "True":
+        return True
+    else:
+        return False
