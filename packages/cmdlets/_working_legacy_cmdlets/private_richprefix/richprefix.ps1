@@ -3,7 +3,13 @@
   Cmdlet for handling rich prefix. (Needs a nerdfont installed)
 #>
 
-param([alias("l")][string]$load,[alias("r")][switch]$reset,[switch]$debug)
+# [CStags]
+# pwsh.passCSvars: True
+# pwsh.returnCSVars: True
+# pwsh.allowFuncCalls: True
+# [TagEnd]
+
+param([alias("l")][string]$load,[switch]$debug)
 
 #get presets
 if (test-path "$psscriptroot\presets.list") {
@@ -35,9 +41,9 @@ if ($load) {
   if ($richprefixs[-1] -ne "'") {$richprefix = $richprefix + "'"}
 
   #load
-  CheckAndRun-input "prefix -set $richprefix"
+  $csshell_prefix = $richprefix
 }
 
-if ($reset) {
-    CheckAndRun-input "prefix -reset"
-}
+# Export variables
+. "$script:cs_runtime_loc\pwsh_functionCaller.ps1" "prefix $csshell_prefix -set" -encode
+. "$script:cs_runtime_loc\pwsh_exportVariables.ps1" "!csshell_prefix"
