@@ -13,4 +13,3 @@ allow user on non pwsh-avaliable-platform to connect to powershell remotely by s
 
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh
-FIX: Prefix dir dosen't load on startup
