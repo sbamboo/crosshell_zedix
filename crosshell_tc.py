@@ -38,8 +38,8 @@ if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing
 from assets.uilib.tqdm_ui import *
 from assets.uilib.tabcomplete_ui import *
 
-# [Autocomplete Imports]
-# Autocomplete (Pygments and prompt_toolkit)
+# [Tabcomplete Imports]
+# Tabcomplete (Pygments and prompt_toolkit)
 from pygments.lexers import PythonLexer
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
@@ -127,7 +127,7 @@ else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
 # Load printcmdletdebug setting
 persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
-# Load EnableAutocomplete setting
+# Load EnableTabcomplete setting
 EnableTabComplete = bool(cssettings["General"]["EnableTabComplete"])
 
 # Get version data
