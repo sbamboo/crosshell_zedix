@@ -1,5 +1,4 @@
 # [Imports]
-print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 import os
 try:
     from tqdm import tqdm

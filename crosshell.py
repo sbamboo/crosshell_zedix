@@ -1,28 +1,10 @@
-# [Startup Message]
-print("[Crosshell]: Starting...")
-
 # [Imports]
 import os
 import argparse
 import re
 
-
-# [Local imports]
-# Core
-from assets.evaluate import *
-from assets.coreFuncs import *
-from assets.shellFuncs import *
-from assets.gitFolderDown import *
-# Utils
-from assets.utils.conUtils import *
-from assets.utils.utilFuncs import *
-from assets.utils.formatter import *
-# Ui
-from assets.uilib.tqdm_ui import *
-
-
 # [Parameters]
-# Define Help
+# Define Help (This comes before the rest of the arguments so I can check for is-internaly-called)
 parser = argparse.ArgumentParser(
   prog="Crosshell (Zedix)",
   description='''Python version of crosshell!''',
@@ -37,6 +19,24 @@ parser.add_argument('--is_internaly_called', help='supress header', action='stor
 parser.add_argument('--debug_args', help='supress header', action='store_true')
 # Create main arguments object
 args = parser.parse_args()
+
+# [Startup Message]
+if args.is_internaly_called != True: print("[Crosshell]: Starting...")
+
+
+# [Local imports]
+# Core
+from assets.evaluate import *
+from assets.coreFuncs import *
+from assets.shellFuncs import *
+from assets.gitFolderDown import *
+# Utils
+from assets.utils.conUtils import *
+from assets.utils.utilFuncs import *
+from assets.utils.formatter import *
+# Ui
+if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
+from assets.uilib.tqdm_ui import *
 
 # ==========================================================[Setup code]========================================================== #
 
