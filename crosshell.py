@@ -1,4 +1,4 @@
-# [Arguments]
+# [Imports]
 import os
 import re
 import argparse
@@ -45,6 +45,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.formatted_text import ANSI
+
 # ==========================================================[Setup code]========================================================== #
 
 # [Class definitions]
@@ -169,6 +170,10 @@ while crosshell_doLoop == True:
             # Prepare highlight and tab/autocomplete
             items = ["reload","exit","cls"]
             for cmdlet in cspathables:
+                aliases = ((''.join((cmdlet.split(";")[2]).split(":")[1:]).strip("[")).strip("]")).split(",")
+                for alias in aliases:
+                    if str(alias) != "" and str(alias) != str() and str(alias) != None:
+                        items.append( str(alias).strip('"') )
                 items.append( (cmdlet.split(";")[0]).split(":")[1].strip('"') )
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
             session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer))
@@ -209,6 +214,9 @@ while crosshell_doLoop == True:
         for m in foundStrings:
             if str(m.group()) == str(pipePart):
                 pipePart = "print " + str(pipePart).strip('"')
+        # Handle hardcoded comment elements '#<comment>'
+        if str(pipePart)[0] == "#":
+            pipePart = "comment " + str(pipePart).strip("#")
         # Handle spaces inside string and replace them with a temporary placeholder "§!i_space!§" before split by space so spaces inside string elements are kept
         for m in foundStrings:
             o = str(m.group()).replace(" ","§!i_space!§")

@@ -170,6 +170,9 @@ while crosshell_doLoop == True:
         for m in foundStrings:
             if str(m.group()) == str(pipePart):
                 pipePart = "print " + str(pipePart).strip('"')
+        # Handle hardcoded comment elements '#<comment>'
+        if str(pipePart)[0] == "#":
+            pipePart = "comment " + str(pipePart).strip("#")
         # Handle spaces inside string and replace them with a temporary placeholder "§!i_space!§" before split by space so spaces inside string elements are kept
         for m in foundStrings:
             o = str(m.group()).replace(" ","§!i_space!§")
