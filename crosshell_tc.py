@@ -36,7 +36,7 @@ from assets.utils.formatter import *
 # Ui
 if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.uilib.tqdm_ui import *
-from assets.uilib.autocomplete_ui import *
+from assets.uilib.tabcomplete_ui import *
 
 # [Autocomplete Imports]
 # Autocomplete (Pygments and prompt_toolkit)
