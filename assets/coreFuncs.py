@@ -46,6 +46,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                 if fconfig.get("pathoverwrite") != "" and fconfig.get("pathoverwrite") != '""':
                     fpath = fconfig.get("pathoverwrite")
                     fpath = fpath.replace("{cmdletsFolder}",Path)
+                    fpath = fpath.replace("\\",os.sep)
                 if fconfig.get("nameoverwrite") != "" and fconfig.get("nameoverwrite") != '""':
                     fname = fconfig.get("nameoverwrite")
                 if fconfig.get("aliases") != "" and fconfig.get("aliases") != '[]':
@@ -214,7 +215,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","PrintCmdletDebug":"true"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"}}    
+        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","PrintCmdletDebug":"true","EnableTabComplete":"false"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"}}    
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:

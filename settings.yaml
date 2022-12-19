@@ -2,6 +2,7 @@ General:
   Prefix_Dir_Enabled: true
   Prefix_Enabled: true
   PrintCmdletDebug: true
+  EnableTabComplete: true
 Presets:
   Prefix: '> '
   Title: Crosshell (Zedix)
