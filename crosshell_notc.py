@@ -1,7 +1,7 @@
-# [Arguments]
+# [Imports]
 import os
-import re
 import argparse
+import re
 
 # [Parameters]
 # Define Help (This comes before the rest of the arguments so I can check for is-internaly-called)
@@ -23,6 +23,7 @@ args = parser.parse_args()
 # [Startup Message]
 if args.is_internaly_called != True: print("[Crosshell]: Starting...")
 
+
 # [Local imports]
 # Core
 from assets.evaluate import *
@@ -36,30 +37,8 @@ from assets.utils.formatter import *
 # Ui
 if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.uilib.tqdm_ui import *
-from assets.uilib.tabcomplete_ui import *
 
-# [Tabcomplete Imports]
-# Tabcomplete (Pygments and prompt_toolkit)
-from pygments.lexers import PythonLexer
-from prompt_toolkit import PromptSession
-from prompt_toolkit.completion import Completer, Completion
-from prompt_toolkit.lexers import PygmentsLexer
-from prompt_toolkit.formatted_text import ANSI
 # ==========================================================[Setup code]========================================================== #
-
-# [Class definitions]
-# Define a custom completer class
-items = []
-class CustomCompleter(Completer):
-    def get_completions(self, document, complete_event):
-        # Get the current word being typed by the user
-        word_before_cursor = document.get_word_before_cursor(WORD=True)
-
-        # Find all items that start with the current word
-        matches = [item for item in items if item.startswith(word_before_cursor)]
-
-        # Return a list of Completion objects for the matches
-        return [Completion(match, start_position=-len(word_before_cursor)) for match in matches]
 
 # [Setup]
 # Python
@@ -127,8 +106,6 @@ else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
 # Load printcmdletdebug setting
 persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
-# Load EnableTabcomplete setting
-EnableTabComplete = bool(cssettings["General"]["EnableTabComplete"])
 
 # Get version data
 try:
@@ -164,28 +141,12 @@ while crosshell_doLoop == True:
     # If no command argument was given ask the user for input
     else:
         paramCommand = False
-        # Check if the user has enabled tabcomplete and run the neccessary code if so
-        if EnableTabComplete == True:
-            # Prepare highlight and tab/autocomplete
-            items = ["reload","exit","cls"]
-            for cmdlet in cspathables:
-                items.append( (cmdlet.split(";")[0]).split(":")[1].strip('"') )
-            # Create a PromptSession object and pass it the custom completer and syntax highlighter
-            session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer))
-            # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
-            if bool(csprefix_enabled) == True:
-                # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = session.prompt(ANSI(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals())))
-            else:
-                inputs = session.prompt("")
-        # Otherwise run the normal code
+        # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
+        if bool(csprefix_enabled) == True:
+            # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
+            inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals()))
         else:
-            # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
-            if bool(csprefix_enabled) == True:
-                # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),bool(csprefix_dir),bool(csprefix_enabled),csworking_directory,globals()))
-            else:
-                inputs = input("")
+            inputs = input("")
     # Check if the input has pipes and if so set the hasPipes bool variable accoringlt and split the input by the pipe syntax " | "
     if " | " in inputs: # Has pipes
         hasPipes = True
