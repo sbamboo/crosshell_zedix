@@ -291,8 +291,8 @@ def cs_handleCommonParameters(cmd=str(),params=list()):
     return cmd,params
 
 # Function to check if a string value is boolean true or false
-def retbool(value=str()):
-    if value == "true" or value == "True":
+def retbool(value):
+    if value == "true" or value == "True" or value == True:
         return True
     else:
         return False

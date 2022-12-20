@@ -1,41 +1,5 @@
 {
-  "book_page": [
-    "Repetition",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "week": "50",
-  "lession_desc": [
-    "Repetition",
-    "§null§",
-    "§null§",
-    "Nationellt Ma1c",
-    "Programmering"
-  ],
-  "ex_2": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "ex_1": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "days": [
-    "Måndag",
-    "Tisdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag"
-  ],
-  "upg_ca": [
+  "upg_st": [
     "§null§",
     "§null§",
     "§null§",
@@ -49,7 +13,14 @@
     "§null§",
     "§null§"
   ],
-  "upg_st": [
+  "lession_desc": [
+    "§null§",
+    "§null§",
+    "§null§",
+    "LOV",
+    "LOV"
+  ],
+  "upg_ca": [
     "§null§",
     "§null§",
     "§null§",
@@ -57,6 +28,35 @@
     "§null§"
   ],
   "upg_ec": [
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§"
+  ],
+  "ex_2": [
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§"
+  ],
+  "week": "51",
+  "days": [
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag"
+  ],
+  "book_page": [
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§"
+  ],
+  "ex_1": [
     "§null§",
     "§null§",
     "§null§",

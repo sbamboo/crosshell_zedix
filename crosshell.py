@@ -15,8 +15,8 @@ parser.add_argument('-c', dest="command", help='command to pass to crosshell')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
 parser.add_argument('--nohead', help='supress header', action='store_true')
-parser.add_argument('--is_internaly_called', help='supress header', action='store_true')
-parser.add_argument('--debug_args', help='supress header', action='store_true')
+parser.add_argument('--is_internaly_called', help='crosshell.internal.argument', action='store_true')
+parser.add_argument('--debug_args', help='Prints out arguments', action='store_true')
 # Create main arguments object
 args = parser.parse_args()
 
@@ -45,6 +45,7 @@ from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
 from prompt_toolkit.lexers import PygmentsLexer
 from prompt_toolkit.formatted_text import ANSI
+from prompt_toolkit.history import History
 
 # ==========================================================[Setup code]========================================================== #
 
@@ -61,6 +62,16 @@ class CustomCompleter(Completer):
 
         # Return a list of Completion objects for the matches
         return [Completion(match, start_position=-len(word_before_cursor)) for match in matches]
+class MyHistory(History):
+    def load_history_strings(self):
+        # Load the history strings from some source (e.g. a file or database)
+        # and return them as a list of strings
+        return []
+
+    def store_string(self, string):
+        # Store the given string in some source (e.g. a file or database)
+        pass
+InputHistory = MyHistory()
 
 # [Setup]
 # Python
@@ -117,13 +128,13 @@ else:
     csshell_prefix = cssettings["Presets"]["Prefix"]
 # Load prefix_enabled from persistance otherwise from settings
 persprefix_enabled = cs_persistance("get","cs_prefix_enabled",cs_persistanceFile)
-if persprefix_enabled != "" and persprefix_enabled != None and persprefix_enabled != str():
+if persprefix_enabled != "" and persprefix_enabled != None and persprefix_enabled != str() and persprefix_enabled != "None":
     csprefix_enabled = persprefix_enabled
 else:
     csprefix_enabled = cssettings["General"]["Prefix_Enabled"]
 # Load prefix_dir from persistance otherwise from settings
 persprefix_dir = cs_persistance("get","cs_prefix_enabled_dir",cs_persistanceFile)
-if persprefix_dir != "" and persprefix_dir != None and persprefix_dir != str():
+if persprefix_dir != "" and persprefix_dir != None and persprefix_dir != str() and persprefix_dir != "None":
     csprefix_dir = persprefix_dir
 else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
@@ -174,12 +185,14 @@ while crosshell_doLoop == True:
             items = defaultTabCompleteItems
             for cmdlet in cspathables:
                 aliases = ((''.join((cmdlet.split(";")[2]).split(":")[1:]).strip("[")).strip("]")).split(",")
+                name = (cmdlet.split(";")[0]).split(":")[1].strip('"')
                 for alias in aliases:
+                    alias = str(alias).strip('"')
                     if str(alias) != "" and str(alias) != str() and str(alias) != None:
-                        items.append( str(alias).strip('"') )
-                items.append( (cmdlet.split(";")[0]).split(":")[1].strip('"') )
+                        if alias not in items: items.append( alias )
+                if name not in items: items.append( name )
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
-            session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer))
+            session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer), history=InputHistory, )
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
@@ -189,7 +202,7 @@ while crosshell_doLoop == True:
         # Otherwise run the normal code
         else:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
-            if bool(csprefix_enabled) == True:
+            if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
                 inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))
             else:
@@ -299,12 +312,20 @@ while crosshell_doLoop == True:
                             params = [*params,pipeSTDOUT]
                         # If the current pipe aren't the last one request the STDOUT to the pipeSTDOUT variable
                         if pipeIndex != (len(pipeParts)-1):
-                            # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                            pipeSTDOUT = cs_exec(path,params,globals(),True,persPrintCmdletDebug)
+                            try:
+                                # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
+                                pipeSTDOUT = cs_exec(path,params,globals(),True,persPrintCmdletDebug)
+                            except KeyboardInterrupt:
+                                #call a dummy function
+                                dummy()
                         # If it is the last one don't request STDOUT so the last pipeElem's output dosen't get captured, which is not needed
                         else:
-                            # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                            cs_exec(path,params,globals(),False,persPrintCmdletDebug)
+                            try:
+                                # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
+                                cs_exec(path,params,globals(),False,persPrintCmdletDebug)   
+                            except KeyboardInterrupt:
+                                #call a dummy function
+                                dummy()
     # If a command argument is given check if the console should exit post command execution
     if paramCommand == True:
         # If the noexit argument is not given exit

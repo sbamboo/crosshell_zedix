@@ -86,7 +86,11 @@ def pause():
 
 # Debug boo function
 def boo():
-    print("Boo has run!")
+    print("Boo! Oh now you are scared :)")
+
+# Dummy function (call a dummy dummy to protect my yumme yummy tummy tummy)
+def dummy():
+    _ = str()
 
 # Os checker functions
 def IsWindows():
