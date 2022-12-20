@@ -2,7 +2,7 @@ General:
   Prefix_Dir_Enabled: true
   Prefix_Enabled: true
   HandleCmdletError: true
-  PrintCmdletDebug: false
+  PrintCmdletDebug: true
   PrintComments: false
 
 SmartInput:
@@ -21,3 +21,7 @@ SmartInput:
 Presets:
   Prefix: '> '
   Title: Crosshell (Zedix)
+
+PaletteText_Palette:
+  Green: '#00ff00'
+  "92": '#00ff00'

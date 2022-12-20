@@ -15,13 +15,13 @@ parser.add_argument('-c', dest="command", help='command to pass to crosshell')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
 parser.add_argument('--nohead', help='supress header', action='store_true')
-parser.add_argument('--is_internaly_called', help='crosshell.internal.argument', action='store_true')
+parser.add_argument('--noinfo', help='supresses startup info', action='store_true')
 parser.add_argument('--debug_args', help='Prints out arguments', action='store_true')
 # Create main arguments object
 args = parser.parse_args()
 
 # [Startup Message]
-if args.is_internaly_called != True: print("[Crosshell]: Starting...")
+if args.noinfo != True: print("[Crosshell]: Starting...")
 
 # [Local imports]
 # Core
@@ -29,12 +29,13 @@ from assets.evaluate import *
 from assets.coreFuncs import *
 from assets.shellFuncs import *
 from assets.gitFolderDown import *
+from assets.paletteText import *
 # Utils
 from assets.utils.conUtils import *
 from assets.utils.utilFuncs import *
 from assets.utils.formatter import *
 # Ui
-if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
+if args.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.uilib.tqdm_ui import *
 
 # ==========================================================[Setup code]========================================================== #
@@ -82,6 +83,8 @@ if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf
 # Get and set settings
 cssettings_raw = cs_settings("load",cs_settingsFile,cssettings_raw)
 cssettings = cssettings_raw
+# Load palette
+cs_palette = cssettings["PaletteText_Palette"]
 # Load title from persistance otherwise from settings
 perstitle = cs_persistance("get","cs_title",cs_persistanceFile)
 if perstitle != "" and perstitle != None:

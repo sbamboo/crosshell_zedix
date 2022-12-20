@@ -14,4 +14,4 @@ def cs_execInput(cmd=str()):
     # Set path to main file
     mainfile = f"{path}{os.sep}crosshell.py"
     # Call a os.system command which starts the app in a sepparate session to run the command
-    os.system(f'python3 "{mainfile}" --nocls --nohead -c "{cmd}" --is_internaly_called')
+    os.system(f'python3 "{mainfile}" --nocls --nohead -c "{cmd}" --noinfo')
