@@ -10,6 +10,7 @@ import sys
 from io import StringIO
 import yaml
 import json
+import traceback
 
 # Function to load cmdlets
 def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
@@ -120,7 +121,7 @@ def cs_getPathablePath(pathables,inputs=str()):
         return f"\033[31mError: Cmdlet '{inputs}' not found!\033[0m"
 
 # Funtion to execute cmdlet
-def cs_exec(path,params=list(),globalInput=None,captureOutput=False,PrintCmdletDebug=False):
+def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdletError=False,PrintCmdletDebug=False):
     fending = str("." +''.join(path.split('.')[-1]))
     # Get file specific info
     if fending != ".exe":
@@ -161,27 +162,36 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,PrintCmdletD
     # Python
     if fending == ".py":
         globalInput["argv"] = params
+        cmdlet = globalInput["cmd"]
         if captureOutput == True:
             old_stdout = sys.stdout
             redirected_output = sys.stdout = StringIO()
-            if PrintCmdletDebug == True:
-                exec(open(path).read(), globalInput)
-            else:
+            if HandleCmdletError == True:
                 try:
                     exec(open(path).read(), globalInput)
-                except:
-                    print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
+                except Exception:
+                    if PrintCmdletDebug == True:
+                        print(f"\033[31m{ traceback.format_exc() }\033[0m")
+                    else:
+                        print(f"\033[33mCmdlet '{cmdlet}' didn't execute fully, might be an error in the cmdlet code!\033[0m")
+            else:
+                exec(open(path).read(), globalInput)
+
             sys.stdout = old_stdout
             capturedOutput = redirected_output.getvalue()
         else:
             capturedOutput = False
-            if PrintCmdletDebug == True:
-                exec(open(path).read(), globalInput)
-            else:
+            if HandleCmdletError == True:
                 try:
                     exec(open(path).read(), globalInput)
-                except:
-                    print("\033[33mCmdlet didn't execute fully, might be an error in the cmdlet code!\033[0m")
+                except Exception:
+                    if PrintCmdletDebug == True:
+                        print(f"\033[31m{ traceback.format_exc() }\033[0m")
+                    else:
+                        print(f"\033[33mCmdlet '{cmdlet}' didn't execute fully, might be an error in the cmdlet code!\033[0m")
+            else:
+                exec(open(path).read(), globalInput)
+
     # Powershell
     elif fending == ".ps1":
         newVars,capturedOutput = cse.Powershell(path, params, ps_retainVariables, globalInput, ps_passBackVars, ps_legacynames, ps_allowFuncCalls, captureOutput)
@@ -215,7 +225,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","PrintCmdletDebug":"true","EnableTabComplete":"false"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"}}    
+        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false"},"SmartInput":{"Enabled":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"true","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"}}
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:
@@ -263,32 +273,6 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
         dictionary = cs_persistance_yaml("get",dict(),data_file)
         dictionary.remove(str(name))
         cs_persistance_yaml("set",dictionary,data_file)
-
-# Function to handle commonparameters from input and return the correct values
-def cs_handleCommonParameters(cmd=str(),params=list()):
-    if len(params) != 0:
-        lastParam = str(params[-1])
-        # Help
-        if lastParam == "/help" or lastParam == "/?" or lastParam == "-?" or lastParam == "/h" or lastParam == "/Help" or lastParam == "/H":
-            params.pop(-1)
-            params = [cmd,*params]
-            cmd = "get-help"
-        # Search
-        if lastParam == "/search" or lastParam == "/Search":
-            params.pop(-1)
-            params = [cmd,*params]
-            cmd = "help"
-        # Webi
-        if lastParam == "/webi" or lastParam == "/Webi":
-            params.pop(-1)
-            params = [cmd,*params]
-            cmd = "webi"
-        # Calc
-        if lastParam == "/calc" or lastParam == "/Calc":
-            params.pop(-1)
-            params = [cmd,*params]
-            cmd = "calc"
-    return cmd,params
 
 # Function to check if a string value is boolean true or false
 def retbool(value):

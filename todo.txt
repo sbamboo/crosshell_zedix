@@ -5,8 +5,7 @@ update system
 packagehand "platform" tag to allow use of same packagehand repo with both zedix and pwsh platforms
 init local package
 init global package
-getting ids of commands buult up of packagename and commandname (from path)
-make al input that is inside " not split by space
+getting ids of commands built up of packagename and commandname (from path)
 mappedCmdlets yaml with category pwsh and such
 dependency api for packages from packagehand as well as python modules
 allow user on non pwsh-avaliable-platform to connect to powershell remotely by sending the file running it and getting back a response.

@@ -1,11 +1,14 @@
 import os
 try:
-  import pygments
+  from pygments.lexers import PythonLexer
 except:
   os.system("pip3 install pygments")
-  import pygments
+  from pygments.lexers import PythonLexer
 try:
-  import prompt_toolkit
+  from prompt_toolkit.formatted_text import ANSI
 except:
   os.system("pip3 install prompt_toolkit")
-  import prompt_toolkit
+  from prompt_toolkit.formatted_text import ANSI
+
+def sInputs_bottom_toolbar():
+  return ANSI("\033[32mWrite 'help' for help :)\033[0m")

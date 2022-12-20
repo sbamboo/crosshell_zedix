@@ -1,0 +1,1 @@
+print(cs_basiccalculate((' '.join(argv)).strip()))

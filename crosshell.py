@@ -36,52 +36,20 @@ from assets.utils.formatter import *
 # Ui
 if args.is_internaly_called != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.uilib.tqdm_ui import *
-from assets.uilib.tabcomplete_ui import *
-
-# [Tabcomplete Imports]
-# Tabcomplete (Pygments and prompt_toolkit)
-from pygments.lexers import PythonLexer
-from prompt_toolkit import PromptSession
-from prompt_toolkit.completion import Completer, Completion
-from prompt_toolkit.lexers import PygmentsLexer
-from prompt_toolkit.formatted_text import ANSI
-from prompt_toolkit.history import History
 
 # ==========================================================[Setup code]========================================================== #
-
-# [Class definitions]
-# Define a custom completer class
-items = []
-class CustomCompleter(Completer):
-    def get_completions(self, document, complete_event):
-        # Get the current word being typed by the user
-        word_before_cursor = document.get_word_before_cursor(WORD=True)
-
-        # Find all items that start with the current word
-        matches = [item for item in items if item.startswith(word_before_cursor)]
-
-        # Return a list of Completion objects for the matches
-        return [Completion(match, start_position=-len(word_before_cursor)) for match in matches]
-class MyHistory(History):
-    def load_history_strings(self):
-        # Load the history strings from some source (e.g. a file or database)
-        # and return them as a list of strings
-        return []
-
-    def store_string(self, string):
-        # Store the given string in some source (e.g. a file or database)
-        pass
-InputHistory = MyHistory()
 
 # [Setup]
 # Python
 os.system("") # Enables ANSI escape sequences on Windows
 # Core
 csbasedir = os.path.dirname(os.path.realpath(__file__))
-cs_versionFile = os.path.realpath(f"{csbasedir}/assets/version.yaml")
+cs_versionFile = os.path.realpath(f"{csbasedir}{os.sep}assets{os.sep}version.yaml")
 # Settings, Persistance files
-cs_settingsFile = os.path.realpath(f"{csbasedir}/settings.yaml")
-cs_persistanceFile = os.path.realpath(f"{csbasedir}/assets/persistance.yaml")
+cs_settingsFile = os.path.realpath(f"{csbasedir}{os.sep}settings.yaml")
+cs_persistanceFile = os.path.realpath(f"{csbasedir}{os.sep}assets{os.sep}persistance.yaml")
+# SmartInput
+sInput_history_location = os.path.realpath(f"{csbasedir}{os.sep}assets{os.sep}.history")
 # Defaults
 cssettings_raw = {}
 csprefix_dir = True
@@ -90,7 +58,8 @@ crosshell_doLoop = True
 csworking_directory = os.getcwd()
 allowedFileTypes = [".py",".ps1",".cmd",".bat",".exe"]
 defaultTabCompleteItems = ["reload","exit","cls","/help","/search","/webi","/calc"]
-persPrintCmdletDebug = False
+HandleCmdletError = False
+PrintCmdletDebug = False
 
 # [Create folders]
 # Setup filepaths
@@ -138,12 +107,25 @@ if persprefix_dir != "" and persprefix_dir != None and persprefix_dir != str() a
     csprefix_dir = persprefix_dir
 else:
     csprefix_dir = cssettings["General"]["Prefix_Dir_Enabled"]
+# Load handle cmdlet error setting
+HandleCmdletError = retbool(cssettings["General"]["HandleCmdletError"])
 # Load printcmdletdebug setting
-persPrintCmdletDebug = retbool(cssettings["General"]["PrintCmdletDebug"])
-# Load EnableTabcomplete setting
-EnableTabComplete = retbool(cssettings["General"]["EnableTabComplete"])
-# Load PrintComments setting
+PrintCmdletDebug = retbool(cssettings["General"]["PrintCmdletDebug"])
+# Load print comments setting
 PrintComments = retbool(cssettings["General"]["PrintComments"])
+
+# [SmartInput Settings]
+sInput_enabled = retbool(cssettings["SmartInput"]["Enabled"])
+sInput_tabCompletion = retbool(cssettings["SmartInput"]["TabCompletion"])
+sInput_history = retbool(cssettings["SmartInput"]["History"])
+sInput_historyType = cssettings["SmartInput"]["HistoryType"]
+sInput_historySuggest = retbool(cssettings["SmartInput"]["HistorySuggest"])
+sInput_highlight = retbool(cssettings["SmartInput"]["Highlight"])
+sInput_showToolBar = retbool(cssettings["SmartInput"]["ShowToolBar"])
+sInput_multiLine = retbool(cssettings["SmartInput"]["MultiLine"])
+sInput_mouseSupport = retbool(cssettings["SmartInput"]["MouseSupport"])
+sInput_lineWrap = retbool(cssettings["SmartInput"]["LineWrap"])
+sInput_cursorChar = cssettings["SmartInput"]["CursorChar"]
 
 # Get version data
 try:
@@ -151,6 +133,39 @@ try:
 except:
     versionData = {}
 
+# [Smart Input]
+if sInput_enabled == True:
+    # Tabcomplete (Pygments and prompt_toolkit)
+    from assets.uilib.tabcomplete_ui import *
+    from pygments.lexers import PythonLexer
+    from prompt_toolkit import PromptSession
+    from prompt_toolkit.completion import Completer, Completion
+    from prompt_toolkit.lexers import PygmentsLexer
+    from prompt_toolkit.formatted_text import ANSI
+    from prompt_toolkit.history import History
+    from prompt_toolkit.history import FileHistory
+    from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+    from prompt_toolkit.cursor_shapes import CursorShape
+    # Define a custom completer class
+    items = []
+    class CustomCompleter(Completer):
+        def get_completions(self, document, complete_event):
+            # Get the current word being typed by the user
+            word_before_cursor = document.get_word_before_cursor(WORD=True)
+            # Find all items that start with the current word
+            matches = [item for item in items if item.startswith(word_before_cursor)]
+            # Return a list of Completion objects for the matches
+            return [Completion(match, start_position=-len(word_before_cursor)) for match in matches]
+    class MyHistory(History):
+        def load_history_strings(self):
+            # Load the history strings from some source (e.g. a file or database)
+            # and return them as a list of strings
+            return []
+
+        def store_string(self, string):
+            # Store the given string in some source (e.g. a file or database)
+            pass
+    InputHistory = MyHistory()
 
 # =========================================================[Main app code]========================================================= #
 
@@ -180,7 +195,7 @@ while crosshell_doLoop == True:
     else:
         paramCommand = False
         # Check if the user has enabled tabcomplete and run the neccessary code if so
-        if EnableTabComplete == True:
+        if sInput_enabled == True:
             # Prepare highlight and tab/autocomplete
             items = defaultTabCompleteItems
             for cmdlet in cspathables:
@@ -191,8 +206,40 @@ while crosshell_doLoop == True:
                     if str(alias) != "" and str(alias) != str() and str(alias) != None:
                         if alias not in items: items.append( alias )
                 if name not in items: items.append( name )
+            # Prepare arguments for a prompSession
+            sInput_sessionArgs = {}
+            # Complete
+            if sInput_tabCompletion == True:
+                sInput_sessionArgs["completer"] = CustomCompleter()
+            # History
+            if sInput_history == True:
+                if sInput_historyType.strip('"') == "File":
+                    sInput_sessionArgs["history"] = FileHistory(sInput_history_location)
+                else:
+                    sInput_sessionArgs["history"] = InputHistory
+                # HistorySuggest
+                if sInput_historySuggest == True:
+                    sInput_sessionArgs["auto_suggest"] = AutoSuggestFromHistory()
+            # Highlight
+            if sInput_highlight == True:
+                sInput_sessionArgs["lexer"] = PygmentsLexer(PythonLexer)
+            # Toolbar
+            if sInput_showToolBar == True:
+                sInput_sessionArgs["bottom_toolbar"] = sInputs_bottom_toolbar()
+            # MultiLine
+            if sInput_multiLine == True:
+                sInput_sessionArgs["multiline"] = True
+            # MouseSupport
+            if sInput_mouseSupport == True:
+                sInput_sessionArgs["mouse_support"] = True
+            # LineWrap
+            if sInput_lineWrap == False:
+                sInput_sessionArgs["wrap_lines"] = False
+            # CursorChar
+            if sInput_cursorChar != "" and sInput_cursorChar != None:
+                sInput_sessionArgs["cursor"] = eval("CursorShape." + sInput_cursorChar)
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
-            session = PromptSession(completer=CustomCompleter(), lexer=PygmentsLexer(PythonLexer), history=InputHistory, )
+            session = PromptSession(**sInput_sessionArgs)
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
@@ -207,125 +254,137 @@ while crosshell_doLoop == True:
                 inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))
             else:
                 inputs = input("")
-    # Check if the input has pipes and if so set the hasPipes bool variable accoringlt and split the input by the pipe syntax " | "
-    if " | " in inputs: # Has pipes
-        hasPipes = True
-        pipeParts = inputs.split(" | ")
-    else: # No pipes
-        hasPipes = False
-        pipeParts = [inputs]
-    # Handle pipe parts and pipeSTDOUT passing
-    pipeSTDOUT = ""
-    # Enumerate through the pipeParts
-    for pipeIndex,pipePart in enumerate(pipeParts):
-        # Handle parantheses in command/pipePart
-        if "(" in pipePart and " " not in pipePart:
-            pipePart = pipePart.replace("("," ")
-            pipePart = pipePart.replace(")"," ")
-            pipePart = pipePart.replace(","," ")
-        # Handle hardcoded string elements '"<string>"'
-        # regex
-        foundStrings = re.finditer(r'".*?"',pipePart)
-        # Add the hardcoded print command to the pipePart/input
-        for m in foundStrings:
-            if str(m.group()) == str(pipePart):
-                pipePart = "print " + str(pipePart).strip('"')
-        # Handle hardcoded comment elements '#<comment>'
-        if str(pipePart)[0] == "#":
-            pipePart = "comment " + str(pipePart).strip("#")
-        # Handle spaces inside string and replace them with a temporary placeholder "§!i_space!§" before split by space so spaces inside string elements are kept
-        for m in foundStrings:
-            o = str(m.group()).replace(" ","§!i_space!§")
-            pipePart = pipePart.replace(str(m.group()),o)
-        # Split pipePart/input by space to command and parameters
-        partials = pipePart.split(" ")
-        # Set command
-        cmd = partials[0]
-        # Replace space temporary placeholder in command
-        cmd = cmd.replace("§!i_space!§"," ")
-        # Set parameters to send to command
-        params = partials[1:]
-        # Replace space temporary placeholder in parameters by enumerating through them
-        for i,param in enumerate(params):
-            params[i] = str(params[i]).replace("§!i_space!§"," ")
-        # Handle commonparameters with the function
-        # cs_handleCommonParameters(<command>,<parameters>)
-        cmd,params = cs_handleCommonParameters(cmd,params)
+    # Check if line includes newlines if so split by newlines and then continue
+    inputs_lines = inputs.split("\n")
+    for inputs_line in inputs_lines:
+        # Check if the input has pipes and if so set the hasPipes bool variable accoringlt and split the input by the pipe syntax " | "
+        if " | " in str(inputs_line): # Has pipes
+            hasPipes = True
+            pipeParts = str(inputs_line).split(" | ")
+        else: # No pipes
+            hasPipes = False
+            pipeParts = [str(inputs_line)]
+        # Handle pipe parts and pipeSTDOUT passing
+        pipeSTDOUT = ""
+        # Enumerate through the pipeParts
+        for pipeIndex,pipePart in enumerate(pipeParts):
+            # Handle parantheses in command/pipePart
+            if "(" in pipePart and " " not in pipePart:
+                pipePart = pipePart.replace("("," ")
+                pipePart = pipePart.replace(")"," ")
+                pipePart = pipePart.replace(","," ")
+            # Handle hardcoded string elements '"<string>"'
+            # regex
+            foundStrings = re.finditer(r'".*?"',pipePart)
+            # Add the hardcoded print command to the pipePart/input
+            for m in foundStrings:
+                if str(m.group()) == str(pipePart):
+                    pipePart = "print " + str(pipePart).strip('"')
+            # Handle hardcoded comment elements '#<comment>'
+            if str(pipePart) != "":
+                if str(pipePart)[0] == "#":
+                    pipePart = "comment " + str(pipePart).strip("#")
+            # Handle numerical expressions
+            if cs_Is_math_expression(str(pipePart)) == True:
+                    pipePart = "calc " + str(pipePart)
+            # Handle spaces inside string and replace them with a temporary placeholder "§!i_space!§" before split by space so spaces inside string elements are kept
+            for m in foundStrings:
+                o = str(m.group()).replace(" ","§!i_space!§")
+                pipePart = pipePart.replace(str(m.group()),o)
+            # Split pipePart/input by space to command and parameters
+            partials = pipePart.split(" ")
+            # Set command
+            cmd = partials[0]
+            # Replace space temporary placeholder in command
+            cmd = cmd.replace("§!i_space!§"," ")
+            # Set parameters to send to command
+            params = partials[1:]
+            # Replace space temporary placeholder in parameters by enumerating through them
+            for i,param in enumerate(params):
+                params[i] = str(params[i]).replace("§!i_space!§"," ")
+            # Handle commonparameters with the function
+            # cs_handleCommonParameters(<command>,<parameters>)
+            cmd,params = cs_handleCommonParameters(cmd,params)
 
-        # Handle built in reload command
-        if cmd == "reload":
-            # cs_loadCmdlets(<cmdlets-folder-path>,<allowedFileTypes>)
-            cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),allowedFileTypes)
+            # Handle built in reload command
+            if cmd == "reload":
+                # cs_loadCmdlets(<cmdlets-folder-path>,<allowedFileTypes>)
+                cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),allowedFileTypes)
 
-        # Handle built in restart command
-        #elif cmd == "restart":
-        #    path = csbasedir + os.sep + "zedix.py"
-        #    exec(open(path).read(), globals())
+            # Handle built in restart command
+            #elif cmd == "restart":
+            #    path = csbasedir + os.sep + "zedix.py"
+            #    exec(open(path).read(), globals())
 
-        # Handle built in cs.getPathables Command wich shows and parses the pathables dictionary/list
-        elif cmd == "cs.getPathables":
-            # Iterate through pathables
-            for i in cspathables:
-                # Parse out pathable data by semicolons for diffrent properties and colons for name/data of said property
-                d = i.split(";")
-                d[0] = d[0].replace(':"',': "')
-                # Print Name
-                print(f"\033[33m{d[0]}\033[0m")
-                # iterate through data and print it out (check for [] as a list or " for strings)
-                for i in range(1,len(d)):
-                    d[i] = d[i].replace(':"',': "')
-                    d[i] = d[i].replace(':[',': [')
-                    # Print data
-                    print(f"   \033[32m{d[i]}\033[0m")
-                # Print empty line
-                print("")
+            # Handle built in cs.getPathables Command wich shows and parses the pathables dictionary/list
+            elif cmd == "cs.getPathables":
+                # Iterate through pathables
+                for i in cspathables:
+                    # Parse out pathable data by semicolons for diffrent properties and colons for name/data of said property
+                    d = i.split(";")
+                    d[0] = d[0].replace(':"',': "')
+                    # Print Name
+                    print(f"\033[33m{d[0]}\033[0m")
+                    # iterate through data and print it out (check for [] as a list or " for strings)
+                    for i in range(1,len(d)):
+                        d[i] = d[i].replace(':"',': "')
+                        d[i] = d[i].replace(':[',': [')
+                        # Print data
+                        print(f"   \033[32m{d[i]}\033[0m")
+                    # Print empty line
+                    print("")
 
-        # Handle non hardcoded-builtin commands if command is not Empty or None
-        elif cmd != "" and cmd != None:
-            # Check for non hardcoded builtin commads
-            # cs_builtins(<command>,<parameters>,<allowedFileTypes>)
-            if "Info:" in cs_builtins(cmd,params,allowedFileTypes):
-                # Get cmdlet path with a function
-                # cs_getPathablePath(<pathables>,<command>)
-                path = cs_getPathablePath(cspathables,cmd)
-                # If the above function returned an error print it out
-                if "Error:" in path:
-                    print(path)
-                # Otherwise execute the cmdlet
-                else:
-                    # If no pipes are present execute the cmdlet without requesting STDOUT
-                    if hasPipes == False:
-                        # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                        cs_exec(path,params,globals(),False,persPrintCmdletDebug)
-                    # If pipes are present execute the cmdlet and handle pipeSTDOUT
+            # Handle non hardcoded-builtin commands if command is not Empty or None
+            elif cmd != "" and cmd != None:
+                # Check for non hardcoded builtin commads
+                # cs_builtins(<command>,<parameters>,<allowedFileTypes>)
+                if "Info:" in cs_builtins(cmd,params,allowedFileTypes):
+                    # Get cmdlet path with a function
+                    # cs_getPathablePath(<pathables>,<command>)
+                    path = cs_getPathablePath(cspathables,cmd)
+                    # If the above function returned an error print it out
+                    if "Error:" in path:
+                        print(path)
+                    # Otherwise execute the cmdlet
                     else:
-                        # Hardcoded parsing of byteType string (non decoded/encoded string) from pipeSTDOUT
-                        if "b'" in str(pipeSTDOUT):
-                            str_pipeSTDOUT = str(pipeSTDOUT)
-                            str_pipeSTDOUT = str_pipeSTDOUT.strip("b'")
-                            str_pipeSTDOUT= str_pipeSTDOUT.rstrip("'")
-                            str_pipeSTDOUT = str_pipeSTDOUT.replace("\\n","\n")
-                            str_pipeSTDOUT = str_pipeSTDOUT.replace("\\r","\r")
-                            pipeSTDOUT = str_pipeSTDOUT
-                        # Handle pipeSTDOUT by adding it to the end of the parameters list that later would get sent. If pipeSTDOUT is not empty or None
-                        if pipeSTDOUT != "" and pipeSTDOUT != None:
-                            params = [*params,pipeSTDOUT]
-                        # If the current pipe aren't the last one request the STDOUT to the pipeSTDOUT variable
-                        if pipeIndex != (len(pipeParts)-1):
+                        # If no pipes are present execute the cmdlet without requesting STDOUT
+                        if hasPipes == False:
+                            # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
                             try:
                                 # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                                pipeSTDOUT = cs_exec(path,params,globals(),True,persPrintCmdletDebug)
+                                cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)   
                             except KeyboardInterrupt:
                                 #call a dummy function
                                 dummy()
-                        # If it is the last one don't request STDOUT so the last pipeElem's output dosen't get captured, which is not needed
+                        # If pipes are present execute the cmdlet and handle pipeSTDOUT
                         else:
-                            try:
-                                # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                                cs_exec(path,params,globals(),False,persPrintCmdletDebug)   
-                            except KeyboardInterrupt:
-                                #call a dummy function
-                                dummy()
+                            # Hardcoded parsing of byteType string (non decoded/encoded string) from pipeSTDOUT
+                            if "b'" in str(pipeSTDOUT):
+                                str_pipeSTDOUT = str(pipeSTDOUT)
+                                str_pipeSTDOUT = str_pipeSTDOUT.strip("b'")
+                                str_pipeSTDOUT= str_pipeSTDOUT.rstrip("'")
+                                str_pipeSTDOUT = str_pipeSTDOUT.replace("\\n","\n")
+                                str_pipeSTDOUT = str_pipeSTDOUT.replace("\\r","\r")
+                                pipeSTDOUT = str_pipeSTDOUT
+                            # Handle pipeSTDOUT by adding it to the end of the parameters list that later would get sent. If pipeSTDOUT is not empty or None
+                            if pipeSTDOUT != "" and pipeSTDOUT != None:
+                                params = [*params,pipeSTDOUT]
+                            # If the current pipe aren't the last one request the STDOUT to the pipeSTDOUT variable
+                            if pipeIndex != (len(pipeParts)-1):
+                                try:
+                                    # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
+                                    pipeSTDOUT = cs_exec(path,params,globals(),True,HandleCmdletError,PrintCmdletDebug)
+                                except KeyboardInterrupt:
+                                    #call a dummy function
+                                    dummy()
+                            # If it is the last one don't request STDOUT so the last pipeElem's output dosen't get captured, which is not needed
+                            else:
+                                try:
+                                    # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
+                                    cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)   
+                                except KeyboardInterrupt:
+                                    #call a dummy function
+                                    dummy()
     # If a command argument is given check if the console should exit post command execution
     if paramCommand == True:
         # If the noexit argument is not given exit

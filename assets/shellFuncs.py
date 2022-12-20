@@ -3,6 +3,7 @@
 
 # [Imports]
 import os
+import re
 
 # [Local imports]
 from assets.utils.conUtils import *
@@ -88,3 +89,43 @@ def saveTitle(title=str(),filepath=str()):
     cs_persistance("set","cs_title",filepath,title)
     # setConTitle(<title>)
     setConTitle(title)
+
+    
+# Function to handle commonparameters from input and return the correct values
+def cs_handleCommonParameters(cmd=str(),params=list()):
+    if len(params) != 0:
+        lastParam = str(params[-1])
+        # Help
+        if lastParam == "/help" or lastParam == "/?" or lastParam == "-?" or lastParam == "/h" or lastParam == "/Help" or lastParam == "/H":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "get-help"
+        # Search
+        if lastParam == "/search" or lastParam == "/Search":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "help"
+        # Webi
+        if lastParam == "/webi" or lastParam == "/Webi":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "webi"
+        # Calc
+        if lastParam == "/calc" or lastParam == "/Calc":
+            params.pop(-1)
+            params = [cmd,*params]
+            cmd = "calc"
+    return cmd,params
+
+
+# Define a basic calculator function
+def cs_Is_math_expression(expression):
+    # Build a regular expression pattern to match digits, arithmetic operators, parentheses
+    pattern = r"^[0-9\.\+\-\*\/\(\)\s]*$"
+    # Use the search function to check if the expression matches the pattern
+    match = re.search(pattern, expression)
+    return match is not None
+def cs_basiccalculate(expression):
+    # Check if the expression is valid
+    if cs_Is_math_expression(expression):
+        return eval(expression)
