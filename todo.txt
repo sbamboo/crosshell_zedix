@@ -10,7 +10,7 @@ dependency api for packages from packagehand as well as python modules
 allow user on non pwsh-avaliable-platform to connect to powershell remotely by sending the file running it and getting back a response.
 add debugging capabilitys (crosshell_debugger)
 add input logging
-
+add script host
 
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh

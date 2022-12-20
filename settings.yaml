@@ -7,12 +7,12 @@ General:
 
 SmartInput:
   Enabled: true
-  TabCompletion: true
+  TabCompletion: false
   History: true
   HistoryType: "File" # 'File' or 'Memory'
   HistorySuggest: true
   Highlight: true
-  ShowToolBar: true
+  ShowToolBar: false
   MultiLine: false
   MouseSupport: false
   LineWrap : true
