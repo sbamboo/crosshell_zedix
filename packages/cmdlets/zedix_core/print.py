@@ -1,2 +1,2 @@
 inp = ' '.join(argv)
-print(inp.strip(" "))
+print(pt_format(cs_palette,inp.strip(" ")))

@@ -31,17 +31,17 @@ if operation == "-set":
         cssettings[category][name] = content
         cs_settings("set",cs_settingsFile,cssettings)
         persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
-        print(f"\033[32mChanged {category}.{name} to '{content}' from '{currentConfig}'\033[0m")
+        print(pt_format(cs_palette,f"\033[32mChanged {category}.{name} to '{content}' from '{currentConfig}'\033[0m"))
 
 # Get
 if operation == "-get":
     currentSettings = cs_settings("load",cs_settingsFile,cssettings)
     currentConfig = currentSettings[category][name]
-    print(f"\033[33m{category}.{name} = '{currentConfig}'\033[0m")
+    print(pt_format(cs_palette,f"\033[33m{category}.{name} = '{currentConfig}'\033[0m"))
 
 # Reload
 if operation == "-reload":
     currentSettings = cs_settings("load",cs_settingsFile,cssettings)
     cssettings = currentSettings
     persPrintCmdletDebug = bool(cssettings["General"]["PrintCmdletDebug"])
-    print("\033[32mReloaded settings.\033[0m")
+    print(pt_format(cs_palette,"\033[32mReloaded settings.\033[0m"))

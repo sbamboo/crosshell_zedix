@@ -186,7 +186,7 @@ cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),a
 # [Main Loop]
 
 # Write header if enabled from settings
-if args.nohead == False: cs_writeHead(versionData,csbasedir,globals())
+if args.nohead == False: cs_writeHead(versionData,csbasedir,globals(),cs_palette)
 
 # Run Loop if the "crosshell_doLoop" is enabled
 while crosshell_doLoop == True:
@@ -246,7 +246,7 @@ while crosshell_doLoop == True:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = session.prompt(ANSI(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
+                inputs = session.prompt(ANSI(pt_format(cs_palette,formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))))
             else:
                 inputs = session.prompt("")
         # Otherwise run the normal code
@@ -254,7 +254,7 @@ while crosshell_doLoop == True:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = input(formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))
+                inputs = input(pt_format(cs_palette,formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
             else:
                 inputs = input("")
     # Check if line includes newlines if so split by newlines and then continue
@@ -288,7 +288,8 @@ while crosshell_doLoop == True:
                 if str(pipePart)[0] == "#":
                     pipePart = "comment " + str(pipePart).strip("#")
             # Handle numerical expressions
-            if cs_Is_math_expression(str(pipePart)) == True:
+            if str(pipePart) != "":
+                if cs_Is_math_expression(str(pipePart)) == True:
                     pipePart = "calc " + str(pipePart)
             # Handle spaces inside string and replace them with a temporary placeholder "§!i_space!§" before split by space so spaces inside string elements are kept
             for m in foundStrings:
@@ -327,13 +328,13 @@ while crosshell_doLoop == True:
                     d = i.split(";")
                     d[0] = d[0].replace(':"',': "')
                     # Print Name
-                    print(f"\033[33m{d[0]}\033[0m")
+                    print(pt_format(cs_palette,f"\033[33m{d[0]}\033[0m"))
                     # iterate through data and print it out (check for [] as a list or " for strings)
                     for i in range(1,len(d)):
                         d[i] = d[i].replace(':"',': "')
                         d[i] = d[i].replace(':[',': [')
                         # Print data
-                        print(f"   \033[32m{d[i]}\033[0m")
+                        print(pt_format(cs_palette,f"   \033[32m{d[i]}\033[0m"))
                     # Print empty line
                     print("")
 

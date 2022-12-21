@@ -69,10 +69,10 @@ amntCmdlets = len(gottenData)
 
 print("")
 if searchTerm == "":
-    print(f"     \033[32mCommands in shell: \033[90m{amntCmdlets} command(s)\033[0m")
+    print(pt_format(cs_palette,f"     \033[32mCommands in shell: \033[90m{amntCmdlets} command(s)\033[0m"))
 else:
-    print(f"      \033[32mMatched Commands: \033[90m{amntCmdlets} command(s)\033[0m")
-print("\033[32m==========================================\033[0m")
+    print(pt_format(cs_palette,f"      \033[32mMatched Commands: \033[90m{amntCmdlets} command(s)\033[0m"))
+print(pt_format(cs_palette,"\033[32m==========================================\033[0m"))
 
 for index,cmdlet in enumerate(gottenData):
     name = cmdlet["name"]
@@ -97,9 +97,9 @@ for index,cmdlet in enumerate(gottenData):
     if desc == "" and fendingpref != "":
         fendingpref = fendingpref.strip(" ")
     if str(alis) == "['']":
-        print(f"\033[90m{numpref}\033[34m{name}  \033[90m{desc}\033[3;22;90m{fendingpref}\033[0m")
+        print(pt_format(cs_palette,f"\033[90m{numpref}\033[34m{name}  \033[90m{desc}\033[3;22;90m{fendingpref}\033[0m"))
     else:
         alis = str(alis).strip("[").strip("]").replace("'",'"').replace(",",", ")
-        print(f"\033[90m{numpref}\033[34m{name}  \033[90m{desc}  \033[37m{alis}\033[3;22;90m{fendingpref}\033[0m")
+        print(pt_format(cs_palette,f"\033[90m{numpref}\033[34m{name}  \033[90m{desc}  \033[37m{alis}\033[3;22;90m{fendingpref}\033[0m"))
 
-print("\n\033[32m(Use 'get-help <command>' for more info about that command, including the 'help' command.)\033[0m\n")
+print(pt_format(cs_palette,"\n\033[32m(Use 'get-help <command>' for more info about that command, including the 'help' command.)\033[0m\n"))

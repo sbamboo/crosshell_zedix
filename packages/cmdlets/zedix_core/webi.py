@@ -45,7 +45,7 @@ if _list == True:
     webiItems = rawlist.split(",")
     print("Avaliable shortener ids: ")
     for item in webiItems:
-        print(f"\033[33m{item}\033[0m")
+        print(pt_format(cs_palette,f"\033[33m{item}\033[0m"))
 
 # id
 if _id != "" and _id != None:
@@ -56,7 +56,7 @@ if _id != "" and _id != None:
     newlink = (((requests.get(url)).text).split(c)[1].split("\n")[0]).replace('"','')
     url = id_linkbase + newlink
     if url == id_linkbase:
-        print(f"\033[31mId '{id}' not found online. Try 'webi -list'\033[0m")
+        print(pt_format(cs_palette,f"\033[31mId '{id}' not found online. Try 'webi -list'\033[0m"))
     else:
         if _open == True:
             webbrowser.open(url)

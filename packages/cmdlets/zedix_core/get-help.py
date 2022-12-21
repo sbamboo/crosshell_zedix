@@ -20,11 +20,11 @@ else:
         except:
             paramhelp = ""
         aliases = str(aliases).strip("[").strip("]").replace("'",'"').replace(",",", ")
-        print(f"\033[34m{name}: \033[32m{description}\033[0m")
+        print(pt_format(cs_palette,f"\033[34m{name}: \033[32m{description}\033[0m"))
         if blockCommonParameters != "True":
             paramhelp += " [<CommonParameters>]"
             paramhelp = paramhelp.lstrip(" ")
         if paramhelp != "" and paramhelp != None:
-            print(f"\033[33m{paramhelp}\033[0m")
-        print(f"\033[33mAliases: {aliases}\033[0m")
-        print("\033[90mFor more info about CommonParameters write 'webi commonparameters'\033[0m")
+            print(pt_format(cs_palette,f"\033[33m{paramhelp}\033[0m"))
+        print(pt_format(cs_palette,f"\033[33mAliases: {aliases}\033[0m"))
+        print(pt_format(cs_palette,"\033[90mFor more info about CommonParameters write 'webi commonparameters'\033[0m"))

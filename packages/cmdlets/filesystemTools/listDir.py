@@ -31,16 +31,16 @@ if items != "" and items != None:
                 valid = False
         if valid:
             if item.is_dir():
-                string += f"\033[34;1m{item.name}\033[0;22m  "
+                string += pt_format(cs_palette,f"\033[34;1m{item.name}\033[0;22m  ")
             else:
                 fending = str("." +''.join(item.path.split('.')[-1]))
                 if fending == ".py":
-                    string += f"\033[32m{item.name}\033[0m  "
+                    string += pt_format(cs_palette,f"\033[32m{item.name}\033[0m  ")
                 elif fending == ".yaml" or fending == ".yml":
-                    string += f"\033[33m{item.name}\033[0m  "
+                    string += pt_format(cs_palette,f"\033[33m{item.name}\033[0m  ")
                 elif fending == ".tmp":
-                    string += f"\033[90m{item.name}\033[0m  "
+                    string += pt_format(cs_palette,f"\033[90m{item.name}\033[0m  ")
                 else:
-                    string += f"{item.name}  "
+                    string += pt_format(cs_palette,f"{item.name}  ")
     string.strip(" ")
     print(string)

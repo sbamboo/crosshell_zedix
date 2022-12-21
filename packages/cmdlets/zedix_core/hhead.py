@@ -1,1 +1,1 @@
-cs_writeHead(versionData,csbasedir,globals())
+cs_writeHead(versionData,csbasedir,globals(),cs_palette)

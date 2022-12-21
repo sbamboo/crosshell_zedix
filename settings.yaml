@@ -2,7 +2,7 @@ General:
   Prefix_Dir_Enabled: true
   Prefix_Enabled: true
   HandleCmdletError: true
-  PrintCmdletDebug: true
+  PrintCmdletDebug: false
   PrintComments: false
 
 SmartInput:
@@ -23,5 +23,39 @@ Presets:
   Title: Crosshell (Zedix)
 
 PaletteText_Palette:
-  Green: '#00ff00'
-  "92": '#00ff00'
+  # Text colors (normal intensity)
+  "30": "f#000000"  # Black
+  "31": "f#FF0000"  # Red
+  "32": "f#00FF00"  # Green
+  "33": "f#FFFF00"  # Yellow
+  "34": "f#0000FF"  # Blue
+  "35": "f#FF00FF"  # Magenta
+  "36": "f#00FFFF"  # Cyan
+  "37": "f#FFFFFF"  # White
+  # Text colors (bright intensity)
+  "90": "f#555555"  # Black
+  "91": "f#FF5555"  # Red
+  "92": "f#55FF55"  # Green
+  "93": "f#FFFF55"  # Yellow
+  "94": "f#5555FF"  # Blue
+  "95": "f#FF55FF"  # Magenta
+  "96": "f#55FFFF"  # Cyan
+  "97": "f#FFFFFF"  # White
+  # Background colors (normal intensity)
+  "40": "b#000000"  # Black
+  "41": "b#FF0000"  # Red
+  "42": "b#00FF00"  # Green
+  "43": "b#FFFF00"  # Yellow
+  "44": "b#0000FF"  # Blue
+  "45": "b#FF00FF"  # Magenta
+  "46": "b#00FFFF"  # Cyan
+  "47": "b#FFFFFF"  # White
+  # Background colors (bright intensity)
+  "100": "f#555555"  # Black
+  "101": "f#FF5555"  # Red
+  "102": "f#55FF55"  # Green
+  "103": "f#FFFF55"  # Yellow
+  "104": "f#5555FF"  # Blue
+  "105": "f#FF55FF"  # Magenta
+  "106": "f#55FFFF"  # Cyan
+  "107": "f#FFFFFF"  # White
