@@ -66,14 +66,14 @@ PrintCmdletDebug = False
 # Setup filepaths
 path_packagesfolder = f"{csbasedir}{os.sep}packages"
 path_cmdletsfolder = f"{path_packagesfolder}{os.sep}cmdlets"
-path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}zedix_core"
+path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell_core"
 # Create if missing
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
 if os.path.exists(path_cmdlet_zedix_core) != True:
     print("\033[32mDownloading core files...\033[0m")
     os.mkdir(path_cmdlet_zedix_core)
-    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/zedix_core",path_cmdlet_zedix_core)
+    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell_core",path_cmdlet_zedix_core)
     print("\033[32mDone!\033[0m")
 if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
 if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
