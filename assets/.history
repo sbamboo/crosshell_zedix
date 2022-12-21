@@ -49,3 +49,12 @@
 
 # 2022-12-21 18:16:00.063150
 +exit
+
+# 2022-12-21 21:42:09.269803
++packagehand --install "taskbarAligner"
+
+# 2022-12-21 21:43:55.130746
++exit
+
+# 2022-12-21 21:43:57.135131
++packagehand --install "taskbarAligner"
