@@ -13,5 +13,12 @@ add input logging
 add script host
 make text formatter only exept ansi codes but allow the specify of foregrpund or background in mappikgs ex: "f#00ff00" se oxkså tiöl ayt slå ihop funktionerna definera en standard lista funktionen tar från ifall settings ej finns sammt att om nyckeln ej finns i någon av dem replaca inte
 
+SPANG:
+language build up of id's and rowNums similar to basic:
+1 import cs
+10 cs.core.mkdir "hello world"
+using id's and likewise and a import system
+
+
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh
