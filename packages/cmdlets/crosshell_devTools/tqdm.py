@@ -1,5 +1,5 @@
 # [Imports]
-from assets.uilib.tqdm_ui import *
+from assets.lib.tqdm_ui import *
 
 # [Download]
 formatting = "{desc}: {percentage:3.0f}% |{color}{bar}{reset}| {n_fmt}/{total_fmt}  {rate_fmt}{postfix}  [Elap: {elapsed} | ETA: {remaining}]"

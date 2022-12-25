@@ -1,5 +1,5 @@
 # [Imports]
-from assets.uilib.tqdm_ui import *
+from assets.lib.tqdm_ui import *
 import argparse
 import requests
 import yaml

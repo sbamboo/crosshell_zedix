@@ -36,7 +36,7 @@ from assets.utils.utilFuncs import *
 from assets.utils.formatter import *
 # Ui
 if args.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
-from assets.uilib.tqdm_ui import *
+from assets.lib.tqdm_ui import *
 
 # ==========================================================[Setup code]========================================================== #
 
@@ -139,7 +139,7 @@ except:
 # [Smart Input]
 if sInput_enabled == True:
     # Tabcomplete (Pygments and prompt_toolkit)
-    from assets.uilib.tabcomplete_ui import *
+    from assets.lib.tabcomplete_ui import *
     from pygments.lexers import PythonLexer
     from prompt_toolkit import PromptSession
     from prompt_toolkit.completion import Completer, Completion

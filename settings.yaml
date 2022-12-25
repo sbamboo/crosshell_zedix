@@ -19,7 +19,7 @@ SmartInput:
   CursorChar: "BLINKING_BEAM" # BLOCK, UNDERLINE, BEAM, BLINKING_BLOCK, BLINKING_UNDERLINE, BLINKING_BEAM
 
 Presets:
-  Prefix: '> '
+  Prefix: 'CS {dir}> '
   Title: Crosshell (Zedix)
 
 PaletteText_Palette:
