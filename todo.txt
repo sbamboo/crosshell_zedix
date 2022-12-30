@@ -20,5 +20,11 @@ language build up of id's and rowNums similar to basic:
 using id's and likewise and a import system
 
 
+GAMEHUB:
+Memory game with monopoly ascii engine.
+List of sprites in sprites directory (smal textures)
+Then use diffrnet amount of tiles depending on level and then randomise sprite per texture two times per sprite.
+(Random of tilelist)
+
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh
