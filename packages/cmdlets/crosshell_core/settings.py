@@ -24,6 +24,9 @@ try:
 except:
     category = ""
 
+# Notice
+print(pt_format(cs_palette,f"\033[33mThis cmdlet can be used to change settings, but it is currently recomended to manualy edit the settings file: '{cs_settingsFile}'\033[0m"))
+
 # Set
 if operation == "-set":
     currentConfig = cssettings[category][name]

@@ -12,6 +12,9 @@ add debugging capabilitys (crosshell_debugger)
 add input logging
 add script host
 make text formatter only exept ansi codes but allow the specify of foregrpund or background in mappikgs ex: "f#00ff00" se oxkså tiöl ayt slå ihop funktionerna definera en standard lista funktionen tar från ifall settings ej finns sammt att om nyckeln ej finns i någon av dem replaca inte
+msgcenter cmdlet to enable/disable messages in the header
+module api for crosshell to allow injects of code (code running) at diffrent points (startup, post-startup, pre-prefix, post-cmd-exec)
+port more cmdlets to use the argparser
 
 SPANG:
 language build up of id's and rowNums similar to basic:
@@ -25,6 +28,9 @@ Memory game with monopoly ascii engine.
 List of sprites in sprites directory (smal textures)
 Then use diffrnet amount of tiles depending on level and then randomise sprite per texture two times per sprite.
 (Random of tilelist)
+
+TODO cmdlet:
+allowes you to add todos that you will get remembered on when starting crosshell (using a module api)
 
 For crosshell pwsh:
 "Crosshell CANVA-Update" cmdlet that runns CANVA-Update to update crosshell pwsh
