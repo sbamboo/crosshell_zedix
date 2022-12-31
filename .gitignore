@@ -1,4 +1,3 @@
 *.pyc
-assets/.history
-.vscode/*
+.vscode
 assets/.history
