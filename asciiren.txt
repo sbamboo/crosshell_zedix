@@ -1,0 +1,29 @@
+ASCII ren:
+
+Types (Gameasset types):   # Specific filenames or with .gameasset and the type propertie
+  Sprite
+  Text
+  Box
+  Tileset
+  Animation/Anim
+  UIasset # static
+  UIlayout # takes layout configuration with characters (config files)
+  
+
+
+Function calls:
+  loadAsset(file,buffer)
+  renderAsset(data,[pos],[size],buffer,linewrap) # Size is optional
+
+###
+Buffering is when asciiren saves the data to a variable in either the global or localscope (option-needed)
+so when it tries to load/render an asset it pulls/puts the data in the variable.
+Buffering is enabled by default but can be disabled to allow so called "live-assets" where it loads it everytime from file to allow rendering file changes.
+
+Size is if you want to limit how big a asset can go (cut-of)
+
+Linewrap is false by default so the render cuts of textures at the end of the console (console-size-cutoff)
+with it enabled however if just wont cut of textures so textures at the end will be linewrapped.
+
+
+Al game assets are rendering based on type in either fileextension or type propertie
