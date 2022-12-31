@@ -1,6 +1,6 @@
 aliasSpecific parameters (alias:params)
 config option to load parameter help using "pwsh get-help <path> | select .parameters" or smth
-update system
+update system with git mode where it on startup gets update from git. (OBS! option in settings and settable with "update -setmode")
 packagehand "platform" tag to allow use of same packagehand repo with both zedix and pwsh platforms
 init local package
 init global package
@@ -15,6 +15,8 @@ make text formatter only exept ansi codes but allow the specify of foregrpund or
 msgcenter cmdlet to enable/disable messages in the header
 module api for crosshell to allow injects of code (code running) at diffrent points (startup, post-startup, pre-prefix, post-cmd-exec)
 port more cmdlets to use the argparser
+list cmdlet listing entries in piped list (if pipe-input is list or dict) or with presets like commands.
+also make listcmdlets cmdlet pass list if piped into the list cmdlet.
 
 SPANG:
 language build up of id's and rowNums similar to basic:
