@@ -1,3 +1,4 @@
-cs_prefix: 'CS {dir}> '
-cs_prefix_enabled_dir: 'True'
+cs_prefix: '{f.magenta}{user}{f.darkgray}@{f.blue}{hostname}{f.darkgray}{f.darkgray}{dir:":
+  {dir}\"}> {r}'
+cs_prefix_enabled_dir: 'False'
 cs_title: Crosshell (Zedix)
