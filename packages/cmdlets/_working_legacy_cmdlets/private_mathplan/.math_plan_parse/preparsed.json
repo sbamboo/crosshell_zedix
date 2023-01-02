@@ -1,4 +1,11 @@
 {
+  "upg_ec": [
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§",
+    "§null§"
+  ],
   "upg_st": [
     "§null§",
     "§null§",
@@ -13,12 +20,13 @@
     "§null§",
     "§null§"
   ],
-  "lession_desc": [
+  "week": "1",
+  "ex_1": [
     "§null§",
     "§null§",
     "§null§",
-    "LOV",
-    "LOV"
+    "§null§",
+    "§null§"
   ],
   "upg_ca": [
     "§null§",
@@ -27,7 +35,14 @@
     "§null§",
     "§null§"
   ],
-  "upg_ec": [
+  "lession_desc": [
+    "LOV",
+    "LOV",
+    "LOV",
+    "LOV",
+    "LOV"
+  ],
+  "book_page": [
     "§null§",
     "§null§",
     "§null§",
@@ -41,26 +56,11 @@
     "§null§",
     "§null§"
   ],
-  "week": "51",
   "days": [
     "Måndag",
     "Tisdag",
     "Onsdag",
     "Torsdag",
     "Fredag"
-  ],
-  "book_page": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "ex_1": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
   ]
 }

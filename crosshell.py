@@ -28,15 +28,15 @@ if args.noinfo != True: print("[Crosshell]: Starting...")
 from assets.evaluate import *
 from assets.coreFuncs import *
 from assets.shellFuncs import *
-from assets.gitFolderDown import *
 from assets.paletteText import *
 # Utils
 from assets.utils.conUtils import *
 from assets.utils.utilFuncs import *
 from assets.utils.formatter import *
-# Ui
+# libaries
 if args.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.lib.tqdm_ui import *
+from assets.lib.gitFolderDown import *
 
 # ==========================================================[Setup code]========================================================== #
 

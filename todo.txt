@@ -17,6 +17,7 @@ module api for crosshell to allow injects of code (code running) at diffrent poi
 port more cmdlets to use the argparser
 list cmdlet listing entries in piped list (if pipe-input is list or dict) or with presets like commands.
 also make listcmdlets cmdlet pass list if piped into the list cmdlet.
+implement nettest
 
 SPANG:
 language build up of id's and rowNums similar to basic:
