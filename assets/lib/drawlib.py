@@ -14,6 +14,18 @@ def fill_terminal(char):
     print(char * columns)
 
 
+# Function to draw a memsprite
+def printmemsprite(texture,posX,posY,colorcode):
+  print("\033[s") # Save cursorPos
+  c = 0
+  OposY = int(posY)
+  for line in texture:
+    posY = OposY + c
+    ANSIprefix = "\033[" + str(posY) + ";" + str(posX) + "H" + "\033[" + str(colorcode) + "m"
+    print(ANSIprefix, str(line), "\033[0m")
+    c += 1
+  print("\033[u\033[2A") # Load cursorPos
+
 
 # Draw a point of cords
 def draw_point(char, x, y):
@@ -87,3 +99,66 @@ def draw_triangle(char, x1, y1, x2, y2, x3, y3):
   draw_line(char,*p1,*p2)
   draw_line(char,*p1,*p3)
   draw_line(char,*p2,*p3)
+
+
+def draw_fillcircle(char,posX,posY,diameter):
+  colorcode = "33"
+  # Generate a memSprite
+  radius = diameter / 2 - .5
+  r = (radius + .25)**2 + 1
+  memsprite = ""
+  for i in range(diameter):
+    y = (i - radius)**2
+    for j in range(diameter):
+      x = (j - radius)**2
+      if x + y <= r:
+        memsprite = memsprite + f'{char}{char}'
+      else:
+        memsprite = memsprite + '  '
+    memsprite = memsprite + '\n'
+  # Print memsprite
+  printmemsprite( memsprite.split('\n'),posX,posY,colorcode )
+
+
+def draw_circle(char,posX,posY,diameter):
+  colorcode = "33"
+  # Generate a memSprite
+  radius = diameter / 2 - .5
+  r = (radius + .25)**2 + 1
+  r_min = (radius -1)**2 + 1
+  memsprite = ""
+  for i in range(diameter):
+    y = (i - radius)**2
+    for j in range(diameter):
+      x = (j - radius)**2
+      if r_min <= x+y <= r:
+        memsprite = memsprite + f'{char}{char}'
+      else:
+        memsprite = memsprite + '  '
+    memsprite = memsprite + '\n'
+  # Print memsprite
+  printmemsprite( memsprite.split('\n'),posX,posY,colorcode )
+
+
+def draw_circle_curves(char,posX,posY,diameter):
+  colorcode = "33"
+  # Generate a memSprite
+  radius = diameter / 2 - .5
+  r = (radius + .25)**2 + 1
+  r_min = (radius -1)**2 + 1
+  memsprite = ""
+  for i in range(diameter):
+    y = (i - radius)**2
+    for j in range(diameter):
+      x = (j - radius)**2
+      # Only draw if position is in the first quadrant
+      if x > 0 and y > 0:
+        if r_min <= x+y <= r:
+          memsprite = memsprite + f'{char}{char}'
+        else:
+          memsprite = memsprite + '  '
+      else:
+        memsprite = memsprite + '  '
+    memsprite = memsprite + '\n'
+  # Print memsprite
+  printmemsprite( memsprite.split('\n'),posX,posY,colorcode )

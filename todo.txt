@@ -18,6 +18,7 @@ port more cmdlets to use the argparser
 list cmdlet listing entries in piped list (if pipe-input is list or dict) or with presets like commands.
 also make listcmdlets cmdlet pass list if piped into the list cmdlet.
 implement nettest
+allow the use of ";" and "||" to allow for multiple lines of commands in the console
 
 SPANG:
 language build up of id's and rowNums similar to basic:

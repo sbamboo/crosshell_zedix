@@ -1,6 +1,3 @@
-try:
-	req = requests.get('https://google.com')
-	req.raise_for_status()
-	print( req.ok )
-except:
-	print("No connection established")
+from assets.lib.netwa import netwa
+
+print( netwa.t_has_connection() )

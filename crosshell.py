@@ -257,8 +257,14 @@ while crosshell_doLoop == True:
                 inputs = input(pt_format(cs_palette,formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
             else:
                 inputs = input("")
-    # Check if line includes newlines if so split by newlines and then continue
-    inputs_lines = inputs.split("\n")
+    # Check if line includes newlines if so replace with newline_placeholder
+    if "\n" in str(inputs):
+        inputs = inputs.replace("\n","§cs.internal.placeholders.newline§")
+    # Check if splitting syntax is pressent and if so replace with newline_placeholder
+    if " || " in str(inputs):
+        inputs = inputs.replace(" || ","§cs.internal.placeholders.newline§")
+    # Split line by any newline
+    inputs_lines = inputs.split("§cs.internal.placeholders.newline§")
     for inputs_line in inputs_lines:
         # Check if the input has pipes and if so set the hasPipes bool variable accoringlt and split the input by the pipe syntax " | "
         if " | " in str(inputs_line): # Has pipes
@@ -267,6 +273,15 @@ while crosshell_doLoop == True:
         else: # No pipes
             hasPipes = False
             pipeParts = [str(inputs_line)]
+        # handle for broken pipe
+        if str(inputs_line)[-2] == " " and str(inputs_line)[-1] == "|":
+            inputs_line = str(inputs_line).lstrip(" | ")
+        if str(inputs_line)[-1] == " " and str(inputs_line)[-2] == "|":
+            inputs_line = str(inputs_line).lstrip(" | ")
+        if str(inputs_line)[0] == " " and str(inputs_line)[1] == "|":
+            inputs_line = str(inputs_line).rstrip(" | ")
+        if str(inputs_line)[0] == "|" and str(inputs_line)[1] == " ":
+            inputs_line = str(inputs_line).rstrip(" | ")
         # Handle pipe parts and pipeSTDOUT passing
         pipeSTDOUT = ""
         # Enumerate through the pipeParts
