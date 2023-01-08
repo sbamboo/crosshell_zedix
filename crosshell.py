@@ -70,7 +70,7 @@ PrintCmdletDebug = False
 # Setup filepaths
 path_packagesfolder = f"{csbasedir}{os.sep}packages"
 path_cmdletsfolder = f"{path_packagesfolder}{os.sep}cmdlets"
-path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell_core"
+path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell.core.latest"
 # Create if missing
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
