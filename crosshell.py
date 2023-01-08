@@ -12,11 +12,13 @@ parser = argparse.ArgumentParser(
 )
 # Add in arguments
 parser.add_argument('-c', dest="command", help='command to pass to crosshell')
+parser.add_argument('-startdir', dest="cli_startdir", help='a starting directory to use with crosshell')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
 parser.add_argument('--nohead', help='supress header', action='store_true')
 parser.add_argument('--noinfo', help='supresses startup info', action='store_true')
 parser.add_argument('--debug_args', help='Prints out arguments', action='store_true')
+parser.add_argument('--debug_loadonly', help='Only loads crosshell', action='store_true')
 # Create main arguments object
 args = parser.parse_args()
 
@@ -177,8 +179,16 @@ if sInput_enabled == True:
 # Clear on start if enabled thru arguments
 if args.nocls == False: clear()
 
+# Change working directory if startdir argument is given
+argu_startdir = str(args.cli_startdir)
+if argu_startdir != "" and argu_startdir != None:
+    if os.path.exists(argu_startdir) == True:
+        os.chdir(argu_startdir)
+        csworking_directory = os.getcwd()
+
 # Debug args
 if args.debug_args == True: print(args)
+if args.debug_loadonly == True: crosshell_doLoop = False
 
 # Load pathables
 cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),allowedFileTypes)

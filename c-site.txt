@@ -1,0 +1,8 @@
+  C-SIDE: Crosshell Scripting (simple) IDE
+--------------------------------------------
+C-Side implementation inside crosshell (On Runtime Conversion)
+
+
+[SectionMarker] Automaticly add #
+
+; C-Side Setting  (Load and remove)

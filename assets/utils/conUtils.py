@@ -90,7 +90,7 @@ def boo():
 
 # Dummy function (call a dummy dummy to protect my yumme yummy tummy tummy)
 def dummy():
-    _ = str()
+    pass
 
 # Os checker functions
 def IsWindows():
