@@ -5,6 +5,7 @@ import argparse
 cparser = argparse.ArgumentParser(prog="sInput")
 # Arguments
 cparser.add_argument('--GetHistory', action='store_true', help="Get smart input history")
+cparser.add_argument('--ClearHistory', action='store_true', help="Clear History")
 # Options (Comsume al remaining arguments)
 cparser.add_argument('options', nargs='*')
 # Create main arguments object
@@ -44,6 +45,19 @@ if argus.GetHistory == True:
     # No historyType
     else:
         print(pt_format(cs_palette,"\033[31mERROR: HistoryType is invalid!\033[0m"))
+
+
+# [Get history]
+elif argus.ClearHistory == True:
+    # Notice user
+    choice = input(pt_format(cs_palette,"\033[33mClearing the history will remove al stored history in the persistance history file, this action can't be undone. Continue? [Y/N] \033[0m"))
+    if choice == "Y" or choice == "y":
+        # Clear history
+        outFile("",sInput_history_location,append=False)
+    else:
+        print(pt_format(cs_palette,"\033[31mOperation Canceled!\033[0m"))
+
+
 
 
 # No Input given

@@ -123,6 +123,9 @@ def cs_getPathablePath(pathables,inputs=str()):
 # Funtion to execute cmdlet
 def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdletError=False,PrintCmdletDebug=False):
     fending = str("." +''.join(path.split('.')[-1]))
+    # CSScriptRoot
+    CSScriptRoot = (f'{os.sep}'.join((path.split(os.sep))[:-1])).strip(os.sep)
+    globalInput["CSScriptRoot"] = CSScriptRoot
     # Get file specific info
     if fending != ".exe":
         commentChar = "#"

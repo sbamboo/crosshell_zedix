@@ -17,6 +17,7 @@ parser.add_argument('--noexit', help='Starts crosshell after running a command',
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
 parser.add_argument('--nohead', help='supress header', action='store_true')
 parser.add_argument('--noinfo', help='supresses startup info', action='store_true')
+parser.add_argument('--stripansi', help='Strips ansi in paletteText prints', action='store_true')
 parser.add_argument('--debug_args', help='Prints out arguments', action='store_true')
 parser.add_argument('--debug_loadonly', help='Only loads crosshell', action='store_true')
 # Create main arguments object
@@ -64,6 +65,7 @@ defaultTabCompleteItems = ["reload","exit","cls","/help","/search","/webi","/cal
 HandleCmdletError = False
 PrintCmdletDebug = False
 
+
 # [Create folders]
 # Setup filepaths
 path_packagesfolder = f"{csbasedir}{os.sep}packages"
@@ -73,10 +75,16 @@ path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell_core"
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
 if os.path.exists(path_cmdlet_zedix_core) != True:
-    print("\033[32mDownloading core files...\033[0m")
+    if args.stripansi == True:
+        print("\033[32mDownloading core files...\033[0m")
+    else:
+        print("Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
     gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell_core",path_cmdlet_zedix_core)
-    print("\033[32mDone!\033[0m")
+    if args.stripansi == True:
+        print("\033[32mDone!\033[0m")
+    else:
+        print("Done!")
 if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
 if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
 if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf-8")
@@ -87,6 +95,7 @@ cssettings_raw = cs_settings("load",cs_settingsFile,cssettings_raw)
 cssettings = cssettings_raw
 # Load palette
 cs_palette = cssettings["PaletteText_Palette"]
+cs_palette["_stripansi"] = args.stripansi
 # Load title from persistance otherwise from settings
 perstitle = cs_persistance("get","cs_title",cs_persistanceFile)
 if perstitle != "" and perstitle != None:
@@ -197,7 +206,6 @@ cspathables = cs_loadCmdlets(os.path.realpath(f"{csbasedir}/packages/cmdlets"),a
 
 # Write header if enabled from settings
 if args.nohead == False: cs_writeHead(versionData,csbasedir,globals(),cs_palette)
-
 # Run Loop if the "crosshell_doLoop" is enabled
 while crosshell_doLoop == True:
     # Handle the command argument and if a command is given set it as the input
@@ -373,7 +381,7 @@ while crosshell_doLoop == True:
                     path = cs_getPathablePath(cspathables,cmd)
                     # If the above function returned an error print it out
                     if "Error:" in path:
-                        print(path)
+                        print(pt_format(cs_palette,path))
                     # Otherwise execute the cmdlet
                     else:
                         # If no pipes are present execute the cmdlet without requesting STDOUT

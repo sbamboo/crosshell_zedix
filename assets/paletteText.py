@@ -42,6 +42,7 @@ paletteText_standardPalette = {
 
 # Function that takes palette data and a name or ansi code and returns an RGB ansi code
 def paletteText_getRGB(palette=dict(),key=str()):
+    if key == "_stripansi": return "[INVALID_PALETTE]"
     key = key.lstrip("{")
     key = key.rstrip("}")
     hexout = ""
@@ -71,6 +72,9 @@ def paletteText_getRGB(palette=dict(),key=str()):
 
 # Define a formatter function
 def pt_format(palette=dict(),string=str()):
+    try:
+        stripansi = palette["_stripansi"]
+    except: stripansi = False
     # placeholder for reset
     string = string.replace("\033[0m","§paletteText.placeholder.reset§")
     string = string.replace("{r}","§paletteText.placeholder.reset§")
@@ -84,4 +88,7 @@ def pt_format(palette=dict(),string=str()):
     # Remove placeholders
     string = string.replace("§paletteText.placeholder.reset§","\033[0m")
     # Return formatted string
+    if stripansi == True:
+        ansi_escape =re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
+        string = ansi_escape.sub('', string)
     return string
