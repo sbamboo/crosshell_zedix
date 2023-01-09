@@ -1,4 +1,5 @@
 General:
+  AutoClearConsole: false
   Prefix_Dir_Enabled: true
   Prefix_Enabled: true
   HandleCmdletError: true

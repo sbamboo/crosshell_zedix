@@ -127,6 +127,8 @@ HandleCmdletError = retbool(cssettings["General"]["HandleCmdletError"])
 PrintCmdletDebug = retbool(cssettings["General"]["PrintCmdletDebug"])
 # Load print comments setting
 PrintComments = retbool(cssettings["General"]["PrintComments"])
+# Autoclear setting
+AutoClearConsole = retbool(cssettings["General"]["AutoClearConsole"])
 
 # [SmartInput Settings]
 sInput_enabled = retbool(cssettings["SmartInput"]["Enabled"])
@@ -292,14 +294,15 @@ while crosshell_doLoop == True:
             hasPipes = False
             pipeParts = [str(inputs_line)]
         # handle for broken pipe
-        if str(inputs_line)[-2] == " " and str(inputs_line)[-1] == "|":
-            inputs_line = str(inputs_line).lstrip(" | ")
-        if str(inputs_line)[-1] == " " and str(inputs_line)[-2] == "|":
-            inputs_line = str(inputs_line).lstrip(" | ")
-        if str(inputs_line)[0] == " " and str(inputs_line)[1] == "|":
-            inputs_line = str(inputs_line).rstrip(" | ")
-        if str(inputs_line)[0] == "|" and str(inputs_line)[1] == " ":
-            inputs_line = str(inputs_line).rstrip(" | ")
+        if str(inputs_line) != "" and str(inputs_line) != str() and str(inputs_line) != None:
+            if str(inputs_line)[-2] == " " and str(inputs_line)[-1] == "|":
+                inputs_line = str(inputs_line).lstrip(" | ")
+            if str(inputs_line)[-1] == " " and str(inputs_line)[-2] == "|":
+                inputs_line = str(inputs_line).lstrip(" | ")
+            if str(inputs_line)[0] == " " and str(inputs_line)[1] == "|":
+                inputs_line = str(inputs_line).rstrip(" | ")
+            if str(inputs_line)[0] == "|" and str(inputs_line)[1] == " ":
+                inputs_line = str(inputs_line).rstrip(" | ")
         # Handle pipe parts and pipeSTDOUT passing
         pipeSTDOUT = ""
         # Enumerate through the pipeParts
@@ -422,6 +425,8 @@ while crosshell_doLoop == True:
                                 except KeyboardInterrupt:
                                     #call a dummy function
                                     dummy()
+            # Post command execution
+            if AutoClearConsole == True: clear()
     # If a command argument is given check if the console should exit post command execution
     if paramCommand == True:
         # If the noexit argument is not given exit
