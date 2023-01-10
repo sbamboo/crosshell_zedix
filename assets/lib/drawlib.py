@@ -40,8 +40,6 @@ def draw_point(char, x, y):
     print("\033[u", end="")
 
 
-
-
 # Draw a line
 def draw_line(char, start_x, start_y, end_x, end_y):
   # Save the current position of the write head

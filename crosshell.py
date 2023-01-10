@@ -295,10 +295,11 @@ while crosshell_doLoop == True:
             pipeParts = [str(inputs_line)]
         # handle for broken pipe
         if str(inputs_line) != "" and str(inputs_line) != str() and str(inputs_line) != None:
-            if str(inputs_line)[-2] == " " and str(inputs_line)[-1] == "|":
-                inputs_line = str(inputs_line).lstrip(" | ")
-            if str(inputs_line)[-1] == " " and str(inputs_line)[-2] == "|":
-                inputs_line = str(inputs_line).lstrip(" | ")
+            if len(str(inputs_line)) > 1:
+                if str(inputs_line)[-2] == " " and str(inputs_line)[-1] == "|":
+                    inputs_line = str(inputs_line).lstrip(" | ")
+                if str(inputs_line)[-1] == " " and str(inputs_line)[-2] == "|":
+                    inputs_line = str(inputs_line).lstrip(" | ")
             if str(inputs_line)[0] == " " and str(inputs_line)[1] == "|":
                 inputs_line = str(inputs_line).rstrip(" | ")
             if str(inputs_line)[0] == "|" and str(inputs_line)[1] == " ":
