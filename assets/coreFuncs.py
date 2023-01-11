@@ -228,7 +228,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
+        preset = {"General":{"AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:
