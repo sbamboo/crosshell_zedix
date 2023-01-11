@@ -147,3 +147,9 @@ def draw_curve(cordinates=tuple(), radius=int(), char=str(), quadrant=int()):
 # Function to use drawlibs SimpleSpriteRenderer
 def draw_sprite(TextureFile=str(),ScreenCordX=int(),ScreenCordY=int(),Color=None):
     rend(TextureFile=str(),ScreenCordX=int(),ScreenCordY=int(),Color=None)
+
+
+
+# [ASSET]
+# For assets functions use "from assets.lib.drawlib.asset import *"
+# For tui functions use "from assets.lib.drawlib.tui import *"
