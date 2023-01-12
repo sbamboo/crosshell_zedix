@@ -1,4 +1,4 @@
-from assets.lib.drawlib import *
+from assets.lib.drawlib.base import *
 fill_terminal(" ")
 
 
@@ -14,6 +14,12 @@ def ascii_curve(x1, y1, x2, y2):
     # Calculate the y value for the current x value using the slope
     y = m * (x - x1) + y1
 
+    # Increment the y value by 2 towards the middle of the curve
+    if x < (x1 + x2) / 2:
+      y += 2
+    elif x > (x1 + x2) / 2:
+      y -= 2
+
     # Print the appropriate number of spaces and hashes to draw the curve
     # If x is at the edges, increment y by 0 to keep the curve circular
     if x == x1 or x == x2:
@@ -23,4 +29,5 @@ def ascii_curve(x1, y1, x2, y2):
 
 # Example usage
 ascii_curve(0, 0, 20, 20)
+
 

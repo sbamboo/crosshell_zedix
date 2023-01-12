@@ -1,4 +1,4 @@
-from assets.lib.drawlib import *
+from assets.lib.drawlib.base import *
 fill_terminal(" ")
 
 

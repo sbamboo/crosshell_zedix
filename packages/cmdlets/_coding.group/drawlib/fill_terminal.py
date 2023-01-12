@@ -1,4 +1,4 @@
-from assets.lib.drawlib import *
+from assets.lib.drawlib.base import *
 try:
 	if argv[0] == '"' and argv[1] == '"': char = " "
 	else:
