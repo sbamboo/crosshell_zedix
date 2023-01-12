@@ -47,24 +47,24 @@ def load_asset(filepath):
 
 # Function to get a hexcode from a palette
 def drawlib_asset_palette(): return {
-    white: "#ffffff",
-    black: "#000000",
-    red: "#ff0000",
-    green: "#00ff00",
-    blue: "#0000ff",
-    yellow: "#ffff00",
-    magenta: "#ff00ff",
-    cyan: "#00ffff",
-    gray: "#666666",
-    light_gray: "#999999",
-    light_red: "#ff6666",
-    light_green: "#66ff66",
-    light_yellow: "#ffff66",
-    light_blue: "#6666ff",
-    light_magenta: "#ff66ff",
-    light_cyan: "#66ffff",
-    brown: "#a52a2a",
-    orange: "#ffa500"
+    "white": "#ffffff",
+    "black": "#000000",
+    "red": "#ff0000",
+    "green": "#00ff00",
+    "blue": "#0000ff",
+    "yellow": "#ffff00",
+    "magenta": "#ff00ff",
+    "cyan": "#00ffff",
+    "gray": "#666666",
+    "light_gray": "#999999",
+    "light_red": "#ff6666",
+    "light_green": "#66ff66",
+    "light_yellow": "#ffff66",
+    "light_blue": "#6666ff",
+    "light_magenta": "#ff66ff",
+    "light_cyan": "#66ffff",
+    "brown": "#a52a2a",
+    "orange": "#ffa500"
 }
 
 # Get ANSI code from palette
