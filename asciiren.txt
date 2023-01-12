@@ -8,7 +8,7 @@ Types (Gameasset types):   # Specific filenames or with .gameasset and the type 
   Animation/Anim
   UIasset # static
   UIlayout # takes layout configuration with characters (config files)
-  
+  ScriptableObject # Scripted object consisting of draw calls, such as draw_line.
 
 
 Function calls:
