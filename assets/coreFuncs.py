@@ -48,14 +48,19 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                     fpath = fconfig.get("pathoverwrite")
                     fpath = fpath.replace("{cmdletsFolder}",Path)
                     fpath = fpath.replace("\\",os.sep)
+                    fpath = fpath.strip('"')
+                    fending = str("." +''.join(fpath.split('.')[-1]))
                 if fconfig.get("nameoverwrite") != "" and fconfig.get("nameoverwrite") != '""':
                     fname = fconfig.get("nameoverwrite")
+                    fname = fname.strip('"')
                 if fconfig.get("aliases") != "" and fconfig.get("aliases") != '[]':
                     faliases = fconfig.get("aliases")
                 if fconfig.get("description") != "" and fconfig.get("description") != '""':
                     fdescription = fconfig.get("description")
+                    fdescription = str(fdescription).strip('"')
                 if fconfig.get("paramhelp") != "" and fconfig.get("paramhelp") != '""':
                     fparamhelp = fconfig.get("paramhelp")
+                    fparamhelp = str(fparamhelp).strip('"')
                 if fconfig.get("blockCommonparams") != "" and fconfig.get("blockCommonparams") != '""':
                     fblockCommonparams = fconfig.get("blockCommonparams")
                 if fconfig.get("synopsisDesc") != "" and fconfig.get("synopsisDesc") != '""':
