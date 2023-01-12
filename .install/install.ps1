@@ -1,5 +1,5 @@
-pip3 install pyyaml
-pip3 insyall tqdm
-pip3 install requests
-pip3 install promt_toolkit
-pip3 install pygments
+py -m pip install pyyaml
+py -m pip insyall tqdm
+py -m pip install requests
+py -m pip install promt_toolkit
+py -m pip install pygments

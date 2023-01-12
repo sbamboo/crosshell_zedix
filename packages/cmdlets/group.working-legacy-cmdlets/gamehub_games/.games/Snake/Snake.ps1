@@ -14,12 +14,16 @@ Using Namespace System.Windows.Threading
 
 # Gamehub additional changes:
 param([switch]$debug,[string]$params)
-# Handle params
-[array]$parameters = $params -split(",")
+
+# Default settings
 $mode = "Default"
 $inttheme_backgroundName = $host.UI.RawUI.BackgroundColor
 $inttheme_backgroundAnsi = "0m"
 $option_SafeSave = "False"
+
+# Handle params
+[array]$parameters = $params -split(",")
+# Handle settings
 foreach ($p in $parameters) {
     # Theme
     if ("$p" -like "*Theme:*") {
