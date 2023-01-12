@@ -1,6 +1,8 @@
 from asset import *
 
-def inputAtCords (posX, posY, text=None, color=None):
+def inputAtCords (posX, posY, text=None, color=None, offsetX=None, offsetY=None):
+	if offsetX != None: posX = posX + offsetX
+	if offsetY != None: posY = posY + offsetY
 	# Save cursorPos
 	print("\033[s")
 	# Get color code

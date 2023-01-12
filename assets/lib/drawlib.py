@@ -14,7 +14,7 @@ from assets.lib.drawlib.SimpleSpriteRenderer import *
 
 # [Functions]
 # PrintMemorySprite
-def printmemsprite(texture,posX,posY,colorcode): drawlib_internal_printmemsprite(texture,posX,posY,colorcode)
+def printmemsprite(texture,posX,posY,colorcode,offsetX,offsetY): drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX=None,offsetY=None)
 
 
 # Fill Screen

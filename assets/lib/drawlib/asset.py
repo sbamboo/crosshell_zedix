@@ -88,6 +88,6 @@ def getANSI (name):
 
 
 # Render asset using pos, texture and color
-def render_asset(posX,posY,texture,color):
+def render_asset(posX,posY,texture,color,offsetX,offsetY):
     colorcode = getANSI(color)
-    drawlib_internal_printmemsprite(texture,posX,posY,colorcode)
+    drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX,offsetY)

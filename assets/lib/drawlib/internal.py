@@ -4,7 +4,9 @@ import math
 
 # [Functions]
 # Function to draw a memsprite
-def drawlib_internal_printmemsprite(texture,posX,posY,colorcode):
+def drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX=None,offsetY=None):
+  if offsetX != None: posX = posX + offsetX
+  if offsetY != None: posY = posY + offsetY
   print("\033[s") # Save cursorPos
   c = 0
   OposY = int(posY)
