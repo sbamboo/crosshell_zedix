@@ -12,17 +12,33 @@ Using Namespace System.Windows.Markup
 Using Namespace System.Windows.Media
 Using Namespace System.Windows.Threading
 
-param([switch]$debug)
-
 # Gamehub additional changes:
-# Settings
-$option_SafeSave = "False"
+param([switch]$debug,[string]$params)
+# Handle params
+[array]$parameters = $params -split(",")
+$mode = "Default"
 $inttheme_backgroundName = $host.UI.RawUI.BackgroundColor
 $inttheme_backgroundAnsi = "0m"
-#$inttheme_backgroundName = "Black"
-#$inttheme_backgroundAnsi = "40m"
+$option_SafeSave = "False"
+foreach ($p in $parameters) {
+    # Theme
+    if ("$p" -like "*Theme:*") {
+        $mode = $p.replace("Theme:","")
+    }
+    # BackgroundName
+    if ("$p" -like "*BgName:*") {
+        $inttheme_backgroundName = $p.replace("BgName:","")
+    }
+    # BackgroundAnsi
+    if ("$p" -like "*BgAnsi:*") {
+        $inttheme_backgroundAnsi = $p.replace("BgAnsi:","")
+    }
+    # SafeSave
+    if ("$p" -like "*SafeSave:*") {
+        $option_SafeSave = $p.replace("SafeSave:","")
+    }
+}
 # Load theme
-$mode = "Default"
 [string]$theme = "$mode" + "_theme.xml"
 if (test-path "$psscriptroot\themes\$theme") {} else { $theme = "..\basetheme.xml" }
 $script:gamehub_app_theme_xml = get-content "$psscriptroot\themes\$theme"
@@ -70,6 +86,8 @@ $host.ui.RawUI.windowtitle = "Snake. Edited to work with gamehub!  (Original gam
     write-host "$gamehub_user      $gamehub_score"
   }
   write-host ""
+  $old_erroractionpreference = $erroractionpreference
+  $erroractionpreference = 'SilentlyContinue'
   $cursosPos = $host.UI.RawUI.CursorPosition
   write-host "`n`nOr 'exit' to quit.`n`nGamehub sync is not complete. Please be aware that your score might not always save and might save to incorrect values. If you find a bug please contact me. (the author of gamehub)" -f DarkGray
   $cursosPos.y += 1
@@ -92,6 +110,7 @@ $host.ui.RawUI.windowtitle = "Snake. Edited to work with gamehub!  (Original gam
         }
     }
   }
+  $erroractionpreference = $old_erroractionpreference
   # start saveservice
   $script:gamehub_savefile = "snake_score.tmp"
   if ("$debug" -eq "$true") {

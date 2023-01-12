@@ -15,6 +15,8 @@ else:
         aliases = found["aliases"]
         description = found["description"]
         blockCommonParameters = found["blockCommonParameters"]
+        description = description.replace("§colon§",":")
+        description = description.replace("\\'","'")
         try:
             paramhelp = f"Params: {found['paramhelp']}"
         except:

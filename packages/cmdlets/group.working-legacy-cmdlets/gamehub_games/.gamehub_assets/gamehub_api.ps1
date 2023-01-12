@@ -55,7 +55,7 @@ function gamehub_gfile_hash {
 
 # Terms Of Use handler
 function gamehub_checkTos {
-  $tosfile = "$psscriptroot\..\..\..\..\assets\gamehub_api_tos.txt"
+  $tosfile = "$psscriptroot\..\..\..\..\..\assets\gamehub_api_tos.txt"
   $checkfile = "$psscriptroot\tosaccepted.txt"
   $exi = Test-Path $checkfile
   if (!$exi) {

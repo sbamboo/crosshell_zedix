@@ -1,9 +1,9 @@
 <#
   .SYNOPSIS
-  Command for running included third-party games.
+  Command for running included third-party games, add parameters by giving '-params' a string sepparated by semi colons with formatting <name>§colon§<value>
 #>
 
-param([alias("name")][string]$game,[switch]$list,[switch]$debug,[switch]$int)
+param([alias("name")][string]$game,[string]$params,[switch]$list,[switch]$debug,[switch]$int)
 
 #Settings
 $singlesave = $true
@@ -38,25 +38,49 @@ if ($game) {
           $data = gc .\$name
           if ("$debug" -eq "$true") {
             if ($data[0] -eq "#requires -version 2" -or $data[0] -eq "#requires -version 5.1") {
-              $gamerunner = Start-Process powershell "$pa$name -debug" -passthru
+              if ($params) {
+                $gamerunner = Start-Process powershell "$pa$name -debug -params '$params'" -passthru
+              } else {
+                $gamerunner = Start-Process powershell "$pa$name -debug" -passthru
+              }
             } else {
-              $gamerunner = Start-Process pwsh "$pa$name -debug" -passthru
+              if ($params) {
+                $gamerunner = Start-Process pwsh "$pa$name -debug -params '$params'" -passthru
+              } else {
+                $gamerunner = Start-Process pwsh "$pa$name -debug" -passthru
+              }
             }
           } elseif ("$int" -eq "$true") {
             if ($data[0] -eq "#requires -version 2" -or $data[0] -eq "#requires -version 5.1") {
-              powershell $pa$name
+              if ($params) {
+                powershell $pa$name -params "$params"
+              } else {
+                powershell $pa$name
+              }
               #powershell $pa$name
               #pause
             } else {
-              pwsh $pa$name
+              if ($params) {
+                pwsh $pa$name -params "$params"
+              } else {
+                pwsh $pa$name
+              }
             }
           } else {
             if ($data[0] -eq "#requires -version 2" -or $data[0] -eq "#requires -version 5.1") {
-              $gamerunner = Start-Process powershell $pa$name -passthru
+              if ($params) {
+                $gamerunner = Start-Process powershell "$pa$name -params '$params'" -passthru
+              } else {
+                $gamerunner = Start-Process powershell $pa$name -passthru
+              }
               #powershell $pa$name
               #pause
             } else {
-              $gamerunner = Start-Process pwsh $pa$name -passthru
+              if ($params) {
+                $gamerunner = Start-Process pwsh "$pa$name -params '$params'" -passthru
+              } else {
+                $gamerunner = Start-Process pwsh $pa$name -passthru
+              }
             }
           }
           try {

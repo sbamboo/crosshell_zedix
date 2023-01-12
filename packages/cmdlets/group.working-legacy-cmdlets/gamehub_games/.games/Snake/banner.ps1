@@ -12,7 +12,7 @@ $head = @"
 write-output $head
 write-output "`e[$color"
 write-host ""
-write-host " Original game made by: nikonthethird. (This version is made by: Simon Kalmi Claesson)" -f darkgreen
+write-host " Original game made by: nikonthethird. (This modified version is made by: Simon Kalmi Claesson)" -f darkgreen
 write-host " Logo by Simon Kalmi Claesson" -f darkgray
 write-host ""
 write-host ""
