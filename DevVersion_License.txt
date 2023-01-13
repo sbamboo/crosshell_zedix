@@ -1,0 +1,12 @@
+This version of crosshell is a development version given out for my friends as a tool for developing and starting development of cmdlets for crosshell.
+And as a development kit for developers of said cmdlets.
+
+Only people who have gotten my personal permission to use this software is allowed to do so.
+
+No one is allowed to redistribute this software, and you must accept to this license/agreement to be allowed to use it.
+
+Note! I retain al the rights to at any time without notice ask for you to update/upgrade or remove this software, if such situation would arrise you must comply.
+This is agreedapon downloading/installing this software.
+
+Please also note since this software is a development version I don't take responsebility for things caused by this software or parts of it (including apps for this software)
+I also don't take responsebility for files/things from this software kept/left on your computer after removal of this program.
