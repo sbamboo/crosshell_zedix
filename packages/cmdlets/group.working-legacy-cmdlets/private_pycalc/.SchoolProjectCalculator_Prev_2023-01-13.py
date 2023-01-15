@@ -85,7 +85,7 @@ def buildlists(expression,rebuild_operator):
     global numberList
     global operatorList
     # Set and split lists
-    oprpattern = r'§|@|\+|-|\*|\/'
+    oprpattern = r'&|@|\+|-|\*|\/'
     # first minus fix
     if (expression[0] == "-"):
         expression = expression.replace("-","#",1)
@@ -161,11 +161,11 @@ def evaluate(expr):
         return "Undefined"
     # Replace expressions with placeholders for effected operations.
     expression = expr
-    expression = expression.replace('**',"§")
-    expression = expression.replace('^',"§")
+    expression = expression.replace('**',"&")
+    expression = expression.replace('^',"&")
     expression = expression.replace('//',"@")
     # first minus fix
-    allowedOperatorsList = ["+","-","*","/","§","@"]
+    allowedOperatorsList = ["+","-","*","/","&","@"]
     firstChar = expression[0]
     if (firstChar in allowedOperatorsList):
         expression = "0" + expression
@@ -187,7 +187,7 @@ def evaluate(expr):
         print("\033[94;46mInput:           \033[92m" + str(operatorList) + " " + str(numberList) + " " + expression + "\033[0m")
 
     #Power off
-    expression = handleOperation("§","**",expression,dodebug)
+    expression = handleOperation("&","**",expression,dodebug)
 
     #Multiplication
     expression = handleOperation("*","*",expression,dodebug)
@@ -207,7 +207,9 @@ def evaluate(expr):
     #Fix final expression
     res = expression
     hasLetter = re.search('[a-zA-Z]', res)
-    if (hasLetter): return res
+    if (hasLetter):
+        res = res.replace("&","^")
+        return res
     else:
         return float(res)
 
@@ -224,7 +226,7 @@ while (True):
     print("\033[1A\033[0m")
     # Handle Exit
     if strinput == "exit":
-        exit()
+        break
     # Handle Cls
     if strinput == "cls":
         os.system("CLS")
