@@ -1,5 +1,5 @@
 Crosshell installing checklist:
  - Python and Pip must be installed and use the "pip3, python3" commands.
- - The "Pwsh" command must be in path to be able to use the powershell script support (no Failsafes are currently in place for this)
+ - The "Pwsh" command must be in path to be able to use the powershell script support (no Failsafes are currently in place for this) Test using os.system('pwsh')
  - Powershell legacy and core's ExecutionPolicy must be set to bypass or in allowense for scripts.
  - Running the install script in the ".install" folder (on windows only installs pip packages)

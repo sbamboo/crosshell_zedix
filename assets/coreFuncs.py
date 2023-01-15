@@ -3,6 +3,7 @@
 
 # [Imports]
 from assets.utils.utilFuncs import *
+from assets.utils.conUtils import *
 from assets.coreFuncs import *
 import assets.crossRunner as cse
 import os
@@ -130,6 +131,8 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     fending = str("." +''.join(path.split('.')[-1]))
     # CSScriptRoot
     CSScriptRoot = (f'{os.sep}'.join((path.split(os.sep))[:-1])).strip(os.sep)
+    if IsWindows() != True and CSScriptRoot[0] != "/":
+        CSScriptRoot = "/" + CSScriptRoot
     globalInput["CSScriptRoot"] = CSScriptRoot
     # Get file specific info
     if fending != ".exe":

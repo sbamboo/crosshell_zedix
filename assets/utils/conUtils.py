@@ -126,4 +126,3 @@ def IsMacOS():
         return False
     else:
         return False
-
