@@ -7,7 +7,7 @@ import argparse
 cparser = argparse.ArgumentParser(prog="HomeAssistant-Webhook")
 cparser.add_argument('-s','-shortsyntax', dest="shortsyntax", help="Supply a short syntax (<group>.<name>:<action>)")
 cparser.add_argument('-device', dest="device", help="Device to use (<group>.<name>)")
-cparser.add_argument('-action', dest="action", help="Action to do to device ('turn_on' or 'turn_off', brightness:<precentage>)")
+cparser.add_argument('-action', dest="action", help="Action to do to device ('turn_on' or 'turn_off', 'brightness:<precentage>', 'kelvin:<temprature.kelvin>')")
 cparser.add_argument('--list', dest="list", action="store_true", help="Lists out devices.")
 cparser.add_argument('--genid', dest="genid", action="store_true", help="Generate a id number to be used with webhooks")
 # Create main arguments object
@@ -63,6 +63,7 @@ else:
     if argus.shortsyntax:
         req = (':'.join(argus.shortsyntax.split(':')[1:])).strip(":")
         if "bright:" in req: req = req.replace("bright:","brightness:")
+        if "tempk:" in req: req = req.replace("tempk:","kelvin:")
         payload = f"Device={argus.shortsyntax.split(':')[0]},Requests={req}"
     else:
         payload = f"Device={argus.device},Requests={argus.action}"
