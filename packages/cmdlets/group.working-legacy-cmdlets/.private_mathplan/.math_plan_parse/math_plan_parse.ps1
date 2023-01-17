@@ -5,7 +5,7 @@ if (get-module PSExcel) {} else {Install-module PSExcel}
 import-module psexcel -force
 
 if ($file) {} else {echo "`e[31mNo filename given to the file param`e[0m"}
-$script:mathplan_file = "$psscriptroot\Planering M1 2022_nov-dec2.xlsx"
+$script:mathplan_file = "$psscriptroot\Matematik M2_2023.xlsx"
 
 $data = import-xlsx $script:mathplan_file
 

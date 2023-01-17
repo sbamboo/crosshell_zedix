@@ -1,66 +1,66 @@
 {
-  "lession_desc": [
-    "LOV",
-    "LOV",
-    "LOV",
-    "LOV",
-    "LOV"
-  ],
-  "days": [
-    "Måndag",
-    "Tisdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag"
-  ],
-  "ex_3": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
   "ex_2": [
     "§null§",
     "§null§",
     "§null§",
     "§null§",
+    "Negativa tal"
+  ],
+  "lession_desc": [
+    "§null§",
+    "Innehåll",
+    "Intro",
+    "Prioriteringsregler",
+    "Talmängder och Negativa tal"
+  ],
+  "ex_3": [
+    "§null§",
+    "Övrig info",
+    "§null§",
+    "kapitel 1",
     "§null§"
   ],
   "upg_st": [
+    "Uppgifter",
+    "Startuppg. för alla",
     "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
+    "1323, 1324, 1327, 1328ab, 1329, 1330abc, 1332, 1334",
+    "1101, 1105, 1107, 1108, 1110, 1116, 1121"
   ],
-  "ex_1": [
+  "days": [
     "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "upg_ca": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
-  ],
-  "upg_ec": [
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
+    "Dag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag"
   ],
   "book_page": [
     "§null§",
+    "sid i boken",
     "§null§",
-    "§null§",
-    "§null§",
-    "§null§"
+    "41-44",
+    "8-11"
   ],
-  "week": "1"
+  "upg_ca": [
+    "§null§",
+    "Högre nivå (~C-A)",
+    "§null§",
+    "1335, 1336, 1339",
+    "1118, 1122, 1123"
+  ],
+  "ex_1": [
+    "§null§",
+    "Hjälp på nätet (här hittar du en genomgång av dagens avsnitt)",
+    "§null§",
+    "Räkneordning",
+    "Talmängder"
+  ],
+  "week": "3",
+  "upg_ec": [
+    "§null§",
+    "Lägre nivå (~E-D)",
+    "§null§",
+    "1325ab, 1326",
+    "1102, 1103, 1104, 1106, 1109"
+  ]
 }

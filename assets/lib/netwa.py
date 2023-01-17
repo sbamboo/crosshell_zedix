@@ -2,13 +2,14 @@
 
 # [Imports]
 import traceback
+import requests
 
 # [Classes]
 class netwa:
 	# Function to check for an internet connection
 	def has_connection(override_url=None):
 		# If no url is given, default to google.
-		if override_url != None and override_url != "":
+		if override_url == None or override_url == "":
 			override_url = "https://google.com"
 		# Check/Validate the connection, catch exeptions and return boolean
 		try:
@@ -21,7 +22,7 @@ class netwa:
 	# Text response return alternative to has_connection
 	def t_has_connection(override_url=None):
 		# If no url is given, default to google.
-		if override_url != None and override_url != "":
+		if override_url == None or override_url == "":
 			override_url = "https://google.com"
 		# Check/Validate the connection, catch exeptions and return boolean
 		try:

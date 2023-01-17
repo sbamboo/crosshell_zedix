@@ -758,3 +758,228 @@
 
 # 2023-01-12 20:47:24.915621
 +gamehub snake -params Theme:darkmode-contrast
+
+# 2023-01-15 22:44:55.755395
++csdk_InstallDotnet
+
+# 2023-01-15 22:45:39.360544
++csdk_RunString System.Console.WriteLine("hello")
+
+# 2023-01-15 22:45:50.428065
++csdk_RunString 'System.Console.WriteLine("hello")'
+
+# 2023-01-15 22:45:56.819921
++csdk_RunString System.Console.WriteLine("hello")
+
+# 2023-01-15 22:46:01.515876
++openbdir
+
+# 2023-01-15 22:46:30.799059
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\Console.cs"
+
+# 2023-01-15 22:46:58.329988
++sysc dotnet-script
+
+# 2023-01-15 22:47:04.914701
++sysc dotnet script
+
+# 2023-01-15 22:47:23.050901
++sysc echo $path
+
+# 2023-01-15 22:47:28.483338
++sysc echo %path%
+
+# 2023-01-15 22:47:55.394571
++csdk_InstallDotnet
+
+# 2023-01-15 22:48:39.327372
++sysc dotnet tool list -g
+
+# 2023-01-15 22:48:46.696429
++sysc dotnet script
+
+# 2023-01-15 22:48:49.759421
++sysc dotnet script -h
+
+# 2023-01-15 22:49:00.199613
++sysc dotnet-script
+
+# 2023-01-15 22:49:01.834292
++exit
+
+# 2023-01-15 22:49:34.549903
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\Console.cs"
+
+# 2023-01-15 22:50:01.784028
++csdk_RunString System.Console.WriteLine("hello")
+
+# 2023-01-15 22:50:17.701301
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\Console.cs"
+
+# 2023-01-15 22:50:35.101146
++cls
+
+# 2023-01-15 22:50:38.444995
++exit
+
+# 2023-01-16 08:58:44.622050
++csdk_InstallDotnet
+
+# 2023-01-16 08:58:57.392033
++csdk_RunString System.Console.WriteLine("hello")
+
+# 2023-01-16 08:59:20.097410
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\Console.cs"
+
+# 2023-01-16 09:01:56.083698
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\ProgramClass.cs"
+
+# 2023-01-16 09:04:00.191967
++sysc dotnet init "C:\users\simonkalmi.claesson\documents\csharp\test1"
+
+# 2023-01-16 09:04:19.887961
++sysc dotnet -h
+
+# 2023-01-16 09:09:56.627357
++csdk_RunScript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\CSharpTests\ProgramClass.cs"
+
+# 2023-01-16 09:15:21.037866
++exit
+
+# 2023-01-16 09:15:57.232580
++sysc dotnet new "C:\users\simonkalmi.claesson\documents\csharp\test1"
+
+# 2023-01-16 09:16:18.652358
++cd documents\cssharp\
+
+# 2023-01-16 09:16:24.781548
++cd .\documents\cssharp\
+
+# 2023-01-16 09:16:28.815981
++cd documents
+
+# 2023-01-16 09:16:33.630802
++cd mkdir cssharp
+
+# 2023-01-16 09:16:42.616864
++mkdir cssharp || cd cssharp
+
+# 2023-01-16 09:16:51.618891
++mkdir test1 || cd test1
+
+# 2023-01-16 09:16:58.829638
++sysc dotnet new
+
+# 2023-01-16 09:17:08.267893
++sysc dotnet new console
+
+# 2023-01-16 09:17:23.000376
++sysc dotnet run
+
+# 2023-01-16 09:17:43.741044
++sysc explorer .
+
+# 2023-01-16 09:18:13.973170
++bat Program.cs
+
+# 2023-01-16 09:18:33.906727
++bat test1.csproj
+
+# 2023-01-16 09:25:59.569565
++sysc dotnet run
+
+# 2023-01-16 09:40:47.774693
++cls || mathplan
+
+# 2023-01-16 10:42:39.215940
++exit
+
+# 2023-01-16 10:50:32.750919
++csdk
+
+# 2023-01-16 11:29:10.134050
++csdk -runString System.Console.WriteLine("hello")
+
+# 2023-01-16 11:30:05.338545
++csdk -runString 'System.Console.WriteLine("hello")'
+
+# 2023-01-16 11:30:17.333284
++csdk -runstring 'System.Console.WriteLine("hello")'
+
+# 2023-01-16 11:33:01.793639
++csdk -runstring System.Console.WriteLine("hello")
+
+# 2023-01-16 11:42:45.584893
++csdk -runstring System.Console.WriteLine("hello")
+
+# 2023-01-16 11:44:02.444850
++exit
+
+# 2023-01-16 11:57:15.634577
++csdk -runscript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\.CSharpProjects\BuiltInTests\Console.cs"
+
+# 2023-01-16 11:57:37.450135
++cls || hhead
+
+# 2023-01-16 13:08:03.359438
++opendir
+
+# 2023-01-16 13:08:11.361976
++basedir
+
+# 2023-01-16 13:08:13.515082
++opendir
+
+# 2023-01-16 13:08:33.667538
++nettest
+
+# 2023-01-16 13:09:17.434337
++exit
+
+# 2023-01-16 13:09:21.949941
++nettest
+
+# 2023-01-16 13:09:47.238902
++nettest google.com
+
+# 2023-01-16 13:09:55.139254
++nettest "Https://google.com/"
+
+# 2023-01-16 13:34:40.126731
++nettest
+
+# 2023-01-16 13:36:53.844804
++exit
+
+# 2023-01-16 13:36:59.147729
++nettest
+
+# 2023-01-16 13:37:25.283800
++exit
+
+# 2023-01-16 13:37:28.962378
++nettest
+
+# 2023-01-16 13:38:15.451086
++portablemc launch 1.19.2
+
+# 2023-01-16 13:38:40.907547
++portablemc start 1.19.2
+
+# 2023-01-16 13:53:40.929553
++nettest
+
+# 2023-01-16 13:54:52.515264
++csdk -runscript "C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\simonkalmiclaesson.csharpdevkit.latest\.CSharpProjects\BuiltInTests\Console.cs"
+
+# 2023-01-16 13:59:12.381983
++csdk --new -name test
+
+# 2023-01-16 13:59:54.183643
++csdk --new -name test -type console
+
+# 2023-01-16 14:01:15.532792
++csdk --run -name test
+
+# 2023-01-16 14:04:11.426585
++exit

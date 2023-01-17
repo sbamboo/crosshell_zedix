@@ -1,0 +1,1 @@
+if IsWindows(): os.system("explorer .")
