@@ -13,8 +13,8 @@ sudo apt-get update
 # Install powershell
 sudo apt-get install -y powershell
 # Install python deps for crosshell
-pip3 install pyyaml
-pip3 insyall tqdm
-pip3 install requests
-pip3 install promt_toolkit
-pip3 install pygments
+python3 -m pip install pyyaml
+python3 -m pip insyall tqdm
+python3 -m pip install requests
+python3 -m pip install promt_toolkit
+python3 -m pip -m pip install pygments
