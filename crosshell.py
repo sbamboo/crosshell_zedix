@@ -47,8 +47,8 @@ from assets.lib.gitFolderDown import *
 # Python
 os.system("") # Enables ANSI escape sequences on Windows
 # Core
-csCmdletPath = os.path.realpath(f"{csbasedir}/packages/cmdlets"
 csbasedir = os.path.dirname(os.path.realpath(__file__))
+csCmdletPath = os.path.realpath(f"{csbasedir}/packages/cmdlets")
 cs_versionFile = os.path.realpath(f"{csbasedir}{os.sep}assets{os.sep}version.yaml")
 # Settings, Persistance files
 cs_settingsFile = os.path.realpath(f"{csbasedir}{os.sep}settings.yaml")
@@ -203,7 +203,7 @@ if args.debug_args == True: print(args)
 if args.debug_loadonly == True: crosshell_doLoop = False
 
 # Load pathables
-cspathables = cs_loadCmdlets(csCmdletPath),allowedFileTypes)
+cspathables = cs_loadCmdlets(csCmdletPath,allowedFileTypes)
 
 # [Main Loop]
 
@@ -351,7 +351,7 @@ while crosshell_doLoop == True:
             # Handle built in reload command
             if cmd == "reload":
                 # cs_loadCmdlets(<cmdlets-folder-path>,<allowedFileTypes>)
-                cspathables = cs_loadCmdlets(csCmdletPath),allowedFileTypes)
+                cspathables = cs_loadCmdlets(csCmdletPath,allowedFileTypes)
 
             # Handle built in restart command
             #elif cmd == "restart":
