@@ -29,7 +29,10 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
     for file in entries:
         fending = str("." +''.join(file.path.split('.')[-1]))
         valid = True
-        for elem in os.path.realpath(str(file.path)).split(os.sep):
+        completePath = os.path.realpath(str(file.path))
+        cmdletPath = completePath.replace(Path,"")
+        cmdletPath = cmdletPath.strip(os.sep)
+        for elem in cmdletPath.split(os.sep):
             if str(elem) != "":
                 if str(elem)[0] == ".":
                     valid = False
@@ -131,7 +134,7 @@ def cs_getPathablePath(pathables,inputs=str()):
                 found = True
         if found == True:
             path = cmdlet["path"]
-            if os.path.exists(path):
+            if not os.path.exists(path):
                 return f"\033[31mError: Path of cmdlet '{inputs}' not found!\033[0m"
             return path
     if found != True:
