@@ -222,8 +222,8 @@ while crosshell_doLoop == True:
             # Prepare highlight and tab/autocomplete
             items = defaultTabCompleteItems
             for cmdlet in cspathables:
-                aliases = ((''.join((cmdlet.split(";")[2]).split(":")[1:]).strip("[")).strip("]")).split(",")
-                name = (cmdlet.split(";")[0]).split(":")[1].strip('"')
+                aliases = ((''.join((cmdlet.split("%sc%")[2]).split("%c%")[1:]).strip("[")).strip("]")).split(",")
+                name = (cmdlet.split("%sc%")[0]).split("%c%")[1].strip('"')
                 for alias in aliases:
                     alias = str(alias).strip('"')
                     if str(alias) != "" and str(alias) != str() and str(alias) != None:
@@ -362,14 +362,14 @@ while crosshell_doLoop == True:
                 # Iterate through pathables
                 for i in cspathables:
                     # Parse out pathable data by semicolons for diffrent properties and colons for name/data of said property
-                    d = i.split(";")
-                    d[0] = d[0].replace(':"',': "')
+                    d = i.split("%sc%")
+                    d[0] = d[0].replace('%c%"',': "')
                     # Print Name
                     print(pt_format(cs_palette,f"\033[33m{d[0]}\033[0m"))
                     # iterate through data and print it out (check for [] as a list or " for strings)
                     for i in range(1,len(d)):
-                        d[i] = d[i].replace(':"',': "')
-                        d[i] = d[i].replace(':[',': [')
+                        d[i] = d[i].replace('%c%"',': "')
+                        d[i] = d[i].replace('%c%[',': [')
                         # Print data
                         print(pt_format(cs_palette,f"   \033[32m{d[i]}\033[0m"))
                     # Print empty line

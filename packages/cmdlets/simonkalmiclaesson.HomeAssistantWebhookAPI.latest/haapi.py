@@ -4,14 +4,17 @@ import requests
 import argparse
 
 # [Arguments]
-cparser = argparse.ArgumentParser(prog="HomeAssistant-Webhook")
+cparser = argparse.ArgumentParser(prog="HomeAssistant-Webhook",exit_on_error=False,add_help=False)
+cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
 cparser.add_argument('-s','-shortsyntax', dest="shortsyntax", help="Supply a short syntax (<group>.<name>:<action>)")
 cparser.add_argument('-device', dest="device", help="Device to use (<group>.<name>)")
 cparser.add_argument('-action', dest="action", help="Action to do to device ('turn_on' or 'turn_off', 'brightness:<precentage>', 'kelvin:<temprature.kelvin>')")
 cparser.add_argument('--list', dest="list", action="store_true", help="Lists out devices.")
 cparser.add_argument('--genid', dest="genid", action="store_true", help="Generate a id number to be used with webhooks")
 # Create main arguments object
-argus = cparser.parse_args(argv)
+try: argus = cparser.parse_args(argv)
+except: argus = cparser.parse_args()
+if argus.help: cparser.print_help()
 
 # [Setup]
 haapi_version = "1.0"
@@ -64,7 +67,8 @@ else:
         req = (':'.join(argus.shortsyntax.split(':')[1:])).strip(":")
         if "bright:" in req: req = req.replace("bright:","brightness:")
         if "tempk:" in req: req = req.replace("tempk:","kelvin:")
-        payload = f"Device={argus.shortsyntax.split(':')[0]},Requests={req}"
+        payload = f"ClientApiVersion={haapi_version},Device={argus.shortsyntax.split(':')[0]},Requests={req}"
     else:
-        payload = f"Device={argus.device},Requests={argus.action}"
+        payload = f"ClientApiVersion={haapi_version},Device={argus.device},Requests={argus.action}"
+    print(payload)
     requests = requests.post(api_access_url, data=payload)

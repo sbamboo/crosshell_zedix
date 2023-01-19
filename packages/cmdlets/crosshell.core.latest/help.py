@@ -77,6 +77,7 @@ print(pt_format(cs_palette,"\033[32m==========================================\0
 for index,cmdlet in enumerate(gottenData):
     name = cmdlet["name"]
     desc = cmdlet["description"]
+    desc = desc.replace("\\'","'")
     alis = cmdlet["aliases"]
     name = name + " "*(len(longest)-len(str(name)))
     path = cmdlet["path"]

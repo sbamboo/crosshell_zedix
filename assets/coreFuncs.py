@@ -12,6 +12,13 @@ from io import StringIO
 import yaml
 import json
 import traceback
+import argparse
+
+# Function to handle argumentParseErrors in argparse
+class SafeArgumentParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('error: %s\n' % message)
+        self.print_help()
 
 # Function to load cmdlets
 def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
@@ -77,33 +84,35 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                         except:
                             fdescription = o_fdesc
                 # Add to pathables
-            pathables.append(f'name:"{fname}";path:"{fpath}";aliases:{faliases};description:"{fdescription}";paramhelp:"{fparamhelp}";blockCommonParameters:"{fblockCommonparams}";synopsisDesc{fsynopsisDesc}')
+            pathables.append(f'name%c%"{fname}"%sc%path%c%"{fpath}"%sc%aliases%c%{faliases}%sc%description%c%"{fdescription}"%sc%paramhelp%c%"{fparamhelp}"%sc%blockCommonParameters%c%"{fblockCommonparams}"%sc%synopsisDesc%c%{fsynopsisDesc}')
             fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 
 # Function to get properties of a pathable
 def cs_getPathableProperties(pathData=str()):
-    splitData = list(pathData.split(';'))
+    splitData = list(pathData.split('%sc%'))
     pathData = dict()
-    pdiv = ":" + os.sep
+    #pdiv = ":" + os.sep
     for propertie in splitData:
-        propertie = propertie.replace("https://","§url_https_dividerr§")
-        propertie = propertie.replace("http://","§url_http_dividerr§")
-        propertie = propertie.replace(":\\","§pathDivider§")
-        splitProp = propertie.split(':')
+        #propertie = propertie.replace("https://","§url_https_dividerr§")
+        #propertie = propertie.replace("http://","§url_http_dividerr§")
+        #propertie = propertie.replace(":\\","§pathDivider§")
+        splitProp = propertie.split('%c%')
         prop_name = splitProp[0]
         prop_data = splitProp[1:]
-        #prop_data = ':'.join(splitProp[1:])
-        #prop_data = prop_data.strip(":")
-        prop_data = str(prop_data).replace("§pathDivider§",pdiv)
-        prop_data = str(prop_data).replace("§url_https_dividerr§","https://")
-        prop_data = str(prop_data).replace("§url_http_dividerr§","http://")
+        prop_data = '%c%'.join(splitProp[1:])
+        prop_data = prop_data.strip("%c%")
+        #prop_data = str(prop_data).replace("§pathDivider§",pdiv)
+        #prop_data = str(prop_data).replace("§url_https_dividerr§","https://")
+        #prop_data = str(prop_data).replace("§url_http_dividerr§","http://")
         prop_data = str(prop_data).replace("['","").replace("']","")
         prop_data = prop_data.replace(str(os.sep+os.sep),os.sep)
-        # String
-        if prop_data[0] == '"': pathData[prop_name] = str(prop_data).strip('"')
-        # List
-        if prop_data[0] == '[': pathData[prop_name] = str(prop_data).replace("[","").replace("]","").replace('"',"").split(',')
+        try:
+            # String
+            if prop_data[0] == '"': pathData[prop_name] = str(prop_data).strip('"')
+            # List
+            if prop_data[0] == '[': pathData[prop_name] = str(prop_data).replace("[","").replace("]","").replace('"',"").split(',')
+        except: pass
     #print("\033[31m" + str(pathData) + "\033[0m")
     return dict(pathData)
 
@@ -122,6 +131,8 @@ def cs_getPathablePath(pathables,inputs=str()):
                 found = True
         if found == True:
             path = cmdlet["path"]
+            if os.path.exists(path):
+                return f"\033[31mError: Path of cmdlet '{inputs}' not found!\033[0m"
             return path
     if found != True:
         return f"\033[31mError: Cmdlet '{inputs}' not found!\033[0m"
@@ -213,8 +224,11 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
         capturedOutput = cse.batCMD(path, params, captureOutput)
     # Executable (Win)
     elif fending == ".exe":
-        capturedOutput = cse.winEXE(path, params, captureOutput)
+        if IsWindows():
+            capturedOutput = cse.winEXE(path, params, captureOutput)
     # Return capturedOutput
+        else:
+            print("\033[31mError: Can't run windows executable on non windows systems!\033[0m")
     if captureOutput == True:
         return capturedOutput
 

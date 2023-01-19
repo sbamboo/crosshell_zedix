@@ -5,13 +5,16 @@ import requests
 import yaml
 import os
 
-cparser = argparse.ArgumentParser(prog="Packagehand")
+cparser = argparse.ArgumentParser(prog="Packagehand",exit_on_error=False,add_help=False)
+cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
 # Install
 cparser.add_argument('--install','--add','--a', dest="install", action='store_true', help="Install switch")
 # Package (Comsume al remaining arguments)
 cparser.add_argument('package', nargs='*', help="The package id")
 # Create main arguments object
-argus = cparser.parse_args(argv)
+try: argus = cparser.parse_args(argv)
+except: argus = cparser.parse_args()
+if argus.help: cparser.print_help()
 
 
 # Get repo

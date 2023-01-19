@@ -2,17 +2,17 @@
 import argparse
 
 # [Arguments]
-cparser = argparse.ArgumentParser(prog="sInput")
+cparser = argparse.ArgumentParser(prog="sInput",exit_on_error=False,add_help=False)
+cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
 # Arguments
 cparser.add_argument('--GetHistory', action='store_true', help="Get smart input history")
 cparser.add_argument('--ClearHistory', action='store_true', help="Clear History")
 # Options (Comsume al remaining arguments)
 cparser.add_argument('options', nargs='*')
 # Create main arguments object
-try:
-    argus = cparser.parse_args(argv)
-except:
-    argus = cparser.parse_args()
+try: argus = cparser.parse_args(argv)
+except: argus = cparser.parse_args()
+if argus.help: cparser.print_help()
 
 # [Get history]
 if argus.GetHistory == True:

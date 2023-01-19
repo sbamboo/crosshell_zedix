@@ -1,1 +1,1 @@
-@py %~dp0\..\crosshell.py %*
+@python3 %~dp0\..\crosshell.py %*
