@@ -48,7 +48,6 @@ from assets.lib.gitFolderDown import *
 os.system("") # Enables ANSI escape sequences on Windows
 # Core
 csbasedir = os.path.dirname(os.path.realpath(__file__))
-csCmdletPath = os.path.realpath(f"{csbasedir}/packages/cmdlets")
 cs_versionFile = os.path.realpath(f"{csbasedir}{os.sep}assets{os.sep}version.yaml")
 # Settings, Persistance files
 cs_settingsFile = os.path.realpath(f"{csbasedir}{os.sep}settings.yaml")
@@ -76,13 +75,13 @@ path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell.core.latest"
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
 if os.path.exists(path_cmdlet_zedix_core) != True:
-    if args.stripansi == True:
+    if args.stripansi != True:
         print("\033[32mDownloading core files...\033[0m")
     else:
         print("Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
     gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell_core",path_cmdlet_zedix_core)
-    if args.stripansi == True:
+    if args.stripansi != True:
         print("\033[32mDone!\033[0m")
     else:
         print("Done!")
@@ -203,7 +202,7 @@ if args.debug_args == True: print(args)
 if args.debug_loadonly == True: crosshell_doLoop = False
 
 # Load pathables
-cspathables = cs_loadCmdlets(csCmdletPath,allowedFileTypes)
+cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 
 # [Main Loop]
 
@@ -351,7 +350,7 @@ while crosshell_doLoop == True:
             # Handle built in reload command
             if cmd == "reload":
                 # cs_loadCmdlets(<cmdlets-folder-path>,<allowedFileTypes>)
-                cspathables = cs_loadCmdlets(csCmdletPath,allowedFileTypes)
+                cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 
             # Handle built in restart command
             #elif cmd == "restart":
