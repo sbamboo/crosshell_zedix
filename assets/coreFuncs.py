@@ -188,34 +188,34 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     if fending == ".py":
         globalInput["argv"] = params
         cmdlet = globalInput["cmd"]
+        # If capture out is true, redirect stdout
         if captureOutput == True:
             old_stdout = sys.stdout
             redirected_output = sys.stdout = StringIO()
-            if HandleCmdletError == True:
-                try:
-                    exec(open(path).read(), globalInput)
-                except Exception:
-                    if PrintCmdletDebug == True:
-                        print(f"\033[31m{ traceback.format_exc() }\033[0m")
-                    else:
-                        print(f"\033[33mCmdlet '{cmdlet}' didn't execute fully, might be an error in the cmdlet code!\033[0m")
-            else:
+        # Execute script
+        if HandleCmdletError == True:
+            try:
                 exec(open(path).read(), globalInput)
-
+            except Exception:
+                if PrintCmdletDebug == True:
+                    print(f"\033[31m{ traceback.format_exc() }\033[0m")
+                else:
+                    print(f"\033[33mCmdlet '{cmdlet}' didn't execute fully, might be an error in the cmdlet code!\033[0m")
+            # Exit catcher (currently just passing along)
+            except SystemExit as cs_cmdlet_exitcode:
+                if str(cs_cmdlet_exitcode) == "cs.exit": exit()
+                else: pass
+        else:
+            try:
+                exec(open(path).read(), globalInput)
+            # Exit catcher (currently just passing along)
+            except SystemExit as cs_cmdlet_exitcode:
+                if str(cs_cmdlet_exitcode) == "cs.exit": exit()
+                else: pass
+        # If capture output is true, restore stdout settings and save the captured output
+        if captureOutput == True:
             sys.stdout = old_stdout
             capturedOutput = redirected_output.getvalue()
-        else:
-            capturedOutput = False
-            if HandleCmdletError == True:
-                try:
-                    exec(open(path).read(), globalInput)
-                except Exception:
-                    if PrintCmdletDebug == True:
-                        print(f"\033[31m{ traceback.format_exc() }\033[0m")
-                    else:
-                        print(f"\033[33mCmdlet '{cmdlet}' didn't execute fully, might be an error in the cmdlet code!\033[0m")
-            else:
-                exec(open(path).read(), globalInput)
 
     # Powershell
     elif fending == ".ps1":
