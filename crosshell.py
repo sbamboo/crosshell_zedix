@@ -283,6 +283,8 @@ while crosshell_doLoop == True:
     # Check if splitting syntax is pressent and if so replace with newline_placeholder
     if " || " in str(inputs):
         inputs = inputs.replace(" || ","§cs.internal.placeholders.newline§")
+    if "; " in str(inputs):
+        inputs = inputs.replace("; ","§cs.internal.placeholders.newline§")
     # Split line by any newline
     inputs_lines = inputs.split("§cs.internal.placeholders.newline§")
     for inputs_line in inputs_lines:
