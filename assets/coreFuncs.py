@@ -27,7 +27,13 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
         allowedFileTypes = [".py"]
     entries = scantree(Path)
     for file in entries:
-        fending = str("." +''.join(file.path.split('.')[-1]))
+        try:
+            fending = str("." +''.join(file.path.split('.')[-1]))
+            if fending[0] == "." and os.sep in fending and file.name in str(fending.split(os.sep)[-1]) and IsExecutable(file.path):
+                fending = "platform-binary"
+        except:
+            fending = ""
+        print(fending,file.name,file.path)
         valid = True
         completePath = os.path.realpath(str(file.path))
         cmdletPath = completePath.replace(Path,"")
@@ -44,7 +50,10 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
             fname = file.name
             fname = fname.replace(fname.split('.')[-1],"").strip('.')
             # Handle other properties
-            fconfigfile =  fpath.replace(fending,".cfg")
+            if fending != "platform-binary":
+                fconfigfile =  fpath.replace(fending,".cfg")
+            else:
+                fconfigfile = fpath + ".cfg"
             faliases = "[]"
             # Non configfile defaults
             faliases = []
@@ -60,7 +69,12 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                     fpath = fpath.replace("{cmdletsFolder}",Path)
                     fpath = fpath.replace("\\",os.sep)
                     fpath = fpath.strip('"')
-                    fending = str("." +''.join(fpath.split('.')[-1]))
+                    try:
+                        fending = str("." +''.join(fpath.split('.')[-1]))
+                        if fending == None or fending == "":
+                            fending = "platform-binary"
+                    except:
+                        fending = "platform-binary"
                 if fconfig.get("nameoverwrite") != "" and fconfig.get("nameoverwrite") != '""':
                     fname = fconfig.get("nameoverwrite")
                     fname = fname.strip('"')
@@ -142,14 +156,19 @@ def cs_getPathablePath(pathables,inputs=str()):
 
 # Funtion to execute cmdlet
 def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdletError=False,PrintCmdletDebug=False):
-    fending = str("." +''.join(path.split('.')[-1]))
+    try:
+        fending = str("." +''.join(path.split('.')[-1]))
+        if fending == None or fending == "":
+            fending = "platform-binary"
+    except:
+        fending = "platform-binary"
     # CSScriptRoot
     CSScriptRoot = (f'{os.sep}'.join((path.split(os.sep))[:-1])).strip(os.sep)
     if IsWindows() != True and CSScriptRoot[0] != "/":
         CSScriptRoot = "/" + CSScriptRoot
     globalInput["CSScriptRoot"] = CSScriptRoot
     # Get file specific info
-    if fending != ".exe":
+    if fending != ".exe" and fending != "platform-binary":
         commentChar = "#"
         raw_content = open(path, 'r').read()
         headFound = False
@@ -232,6 +251,13 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     # Return capturedOutput
         else:
             print("\033[31mError: Can't run windows executable on non windows systems!\033[0m")
+    # Platform Executable
+    elif fending == "platform-executable":
+        if IsLinux() or IsMacOS():
+            capturedOutput = cse.platformExe(path, params, captureOutput)
+    # Return capturedOutput
+        else:
+            print("\033[31mError: Can't run non windows executable on windows systems!\033[0m")
     if captureOutput == True:
         return capturedOutput
 

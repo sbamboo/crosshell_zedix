@@ -986,3 +986,99 @@
 
 # 2023-01-19 20:16:45.857864
 +help
+
+# 2023-01-21 15:00:32.037982
++help
+
+# 2023-01-21 15:11:15.389377
++cls
+
+# 2023-01-21 15:11:17.073765
++help
+
+# 2023-01-21 15:11:19.870469
++haapi
+
+# 2023-01-21 15:12:07.566591
++reload
+
+# 2023-01-21 15:12:23.069773
++*binar* /help
+
+# 2023-01-21 15:12:31.713583
++*binar* /search
+
+# 2023-01-21 15:12:38.097912
++*test* /search
+
+# 2023-01-21 15:13:00.174298
++exit
+
+# 2023-01-21 15:18:05.908732
++bin* /search
+
+# 2023-01-21 15:18:18.526975
++exit
+
+# 2023-01-21 15:20:23.267251
++bin* /search
+
+# 2023-01-21 15:20:42.388294
++exit
+
+# 2023-01-21 19:10:45.481697
++cd /bin/gzexe
+
+# 2023-01-21 19:10:48.438567
++cd /bin
+
+# 2023-01-21 19:10:55.284280
++ls
+
+# 2023-01-21 19:11:03.238623
++cd cut
+
+# 2023-01-21 19:11:08.122709
++cd ./cut
+
+# 2023-01-21 19:11:55.013692
++reload
+
+# 2023-01-21 19:12:23.907500
++isexe /usr/bin/cat
+
+# 2023-01-21 19:12:39.533081
++isexe /usr/bin
+
+# 2023-01-21 19:12:41.026302
++isexe /usr/bin/
+
+# 2023-01-21 19:14:08.658077
++sysc cp /usr/bin/cat /mnt/c/users/simonkalmi.claesson/documents/github/crosshell_zedix/packages
+
+# 2023-01-21 19:14:26.860945
++reload
+
+# 2023-01-21 19:14:50.416881
++cat /search
+
+# 2023-01-21 19:14:52.403701
++exit
+
+# 2023-01-21 19:15:18.549323
++reload
+
+# 2023-01-21 19:15:20.711285
++exit
+
+# 2023-01-21 19:16:59.156295
++isexe C:\Users\simonkalmi.claesson\Documents\Github\crosshell_zedix\packages\cmdlets\group.working-legacy-cmdlets\qualculate\.qualculate\licenses\graphite2\LICENSE
+
+# 2023-01-21 19:18:29.334865
++isexe C:\users\simonkalmi.claesson\documents\github\crosshell_zedix\packages\cmdlets\crosshell.devTools.latest\binarytest
+
+# 2023-01-21 19:18:31.987317
++isexe C:\users\simonkalmi.claesson\documents\github\crosshell_zedix\packages\cmdlets\crosshell.devTools.latest\binarytes
+
+# 2023-01-21 19:18:33.513310
++isexe C:\users\simonkalmi.claesson\documents\github\crosshell_zedix\packages\cmdlets\crosshell.devTools.latest\binarytest

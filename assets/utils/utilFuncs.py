@@ -4,10 +4,13 @@
 # [Imports]
 
 from os.path import exists
+from os.path import isfile
 try:
     from os import scandir
 except ImportError:
     from scandir import scandir
+from os import access
+from os import X_OK
 
 # [Files & Folders]
 
@@ -54,6 +57,10 @@ def scantree(path):
         else:
             yield entry
 
+# Function to check if file is executable
+def IsExecutable(filepath):
+    return isfile(filepath) and access(filepath, X_OK)
+
 
 # [Readers]
 def readConfig(filepath):
@@ -66,3 +73,4 @@ def readConfig(filepath):
                 data = ''.join(line.split("=")[1:(len(line.split("=")))]).strip()
                 dataDict[name] = data
         return dataDict
+    

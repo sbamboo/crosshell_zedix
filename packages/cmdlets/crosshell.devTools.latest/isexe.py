@@ -1,0 +1,1 @@
+print( IsExecutable((' '.join(argv)).strip(" ")) )
