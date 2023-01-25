@@ -156,3 +156,15 @@ def winEXE(path,params,captureOutput=False):
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
         runShell(path,captureOutput,[*params])
         return False
+
+# Function to run platform executables / binaries
+def platformExe(path,params,captureOutput=False):
+    # If capture output is enabled, capture STDOUT and return it
+    if captureOutput == True:
+        # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
+        capturedOutput = runShell(path,captureOutput,[*params])
+        return capturedOutput
+    else:
+        # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
+        runShell(path,captureOutput,[*params])
+        return False

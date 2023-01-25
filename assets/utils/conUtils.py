@@ -71,7 +71,7 @@ def pause():
     platformv = platform.system()
     # Linux using resize
     if platformv == "Linux":
-        os.system(f"resize -s {height} {width}")
+        os.system(f"read -p ''")
     # Mac using resize
     elif platformv == "Darwin":
         return "\033[31mError: Platform Darwin not supported yet!\033[0m"

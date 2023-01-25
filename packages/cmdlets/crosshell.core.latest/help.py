@@ -81,7 +81,7 @@ for index,cmdlet in enumerate(gottenData):
     alis = cmdlet["aliases"]
     name = name + " "*(len(longest)-len(str(name)))
     path = cmdlet["path"]
-    fending = str("." +''.join(path.split('.')[-1]))
+    fending = cmdlet["fileEnding"]
     numpref = ""
     if shownums == True:
         numstr = " "*(len(str(len(gottenData))) - len(str(int(index+1)))) + str(int(index+1))
@@ -95,6 +95,8 @@ for index,cmdlet in enumerate(gottenData):
         fendingpref = "  (win)"
     elif fending == ".cmd" or fending == ".bat":
         fendingpref = "  (cmd)"
+    elif fending == "platform-binary":
+        fendingpref = "  (platform-binary)"
     if desc == "" and fendingpref != "":
         fendingpref = fendingpref.strip(" ")
     if str(alis) == "['']":

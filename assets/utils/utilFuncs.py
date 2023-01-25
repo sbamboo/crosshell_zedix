@@ -9,8 +9,8 @@ try:
     from os import scandir
 except ImportError:
     from scandir import scandir
-from os import access
-from os import X_OK
+import os
+from assets.utils.conUtils import *
 
 # [Files & Folders]
 
@@ -59,7 +59,26 @@ def scantree(path):
 
 # Function to check if file is executable
 def IsExecutable(filepath):
-    return isfile(filepath) and access(filepath, X_OK)
+    # Non Windows
+    if IsLinux() or IsMacOS():
+        try: import magic
+        except:
+            os.system("pip3 install file-magic")
+        detected = magic.detect_from_filename(filepath)
+        return "application" in str(detected.mime_type)
+    # Windows
+    if IsWindows():
+        fending = str("." +''.join(filepath.split('.')[-1]))
+        if fending == ".exe" or fending == ".cmd" or fending == ".com" or fending == ".py":
+            return True
+        else:
+            return False
+
+def internal_magic_mime(filepath):
+    import magic
+    detected = magic.detect_from_filename(filepath)
+    return detected.mime_type
+    
 
 
 # [Readers]
