@@ -5,6 +5,7 @@
 from assets.utils.utilFuncs import *
 from assets.utils.conUtils import *
 from assets.coreFuncs import *
+from assets.lib.simpleDownload import simpleDownload
 import assets.crossRunner as cse
 import os
 import sys
@@ -285,7 +286,13 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:
-                v = preset
+                try:
+                    simpleDownload("https://github.com/simonkalmiclaesson/crosshell_zedix/raw/main/settings.yaml",settings_file)
+                    with open(settings_file, "r") as yamli_file:
+                        settings = yaml.safe_load(yamli_file)
+                        v = settings
+                except:
+                    v = preset
         except:
             v = preset
         if v == preset:
@@ -318,7 +325,9 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
             v = dictionary.get(str(name))
         except:
             v = ""
-        return str(v)
+        if v == None: return ""
+        else: return str(v)
+        
     # Set
     if mode == "set":
         dictionary = cs_persistance_yaml("get",dict(),data_file)

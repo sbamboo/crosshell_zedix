@@ -80,7 +80,7 @@ if os.path.exists(path_cmdlet_zedix_core) != True:
     else:
         print("[Crosshell]: Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
-    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell_core",path_cmdlet_zedix_core)
+    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell.core.latest",path_cmdlet_zedix_core)
     if args.stripansi != True:
         print("\033[32m[Crosshell]: Done!\033[0m")
     else:
@@ -104,7 +104,6 @@ else:
     saveTitle(cssettings["Presets"]["Title"],cs_persistanceFile)
 # Load prefix from persistance otherwise from settings
 persprefix = cs_persistance("get","cs_prefix",cs_persistanceFile)
-defaultPrefix = cssettings["Presets"]["Prefix"]
 if persprefix != "" and persprefix != None:
     csshell_prefix = persprefix
 else:
@@ -270,7 +269,7 @@ while crosshell_doLoop == True:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = session.prompt(ANSI(pt_format(cs_palette,formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))))
+                inputs = session.prompt(ANSI(pt_format(cs_palette,formatPrefix(csshell_prefix,retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals()))))
             else:
                 inputs = session.prompt("")
         # Otherwise run the normal code
@@ -278,7 +277,7 @@ while crosshell_doLoop == True:
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
-                inputs = input(pt_format(cs_palette,formatPrefix(cs_persistance("get","cs_prefix",cs_persistanceFile),retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
+                inputs = input(pt_format(cs_palette,formatPrefix(csshell_prefix,retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
             else:
                 inputs = input("")
     # Check if line includes newlines if so replace with newline_placeholder

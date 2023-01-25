@@ -44,9 +44,10 @@ def cs_writeProfile(basedir,globalInput,cs_palette):
             for line in content.split("\n"):
                 line = pt_format(cs_palette,line)
                 eval(f"print('{line}')")
-    # If non of the above is found print out a message asking the user to add a file
+    # If non of the above is found create the file
     else:
-        print(pt_format(cs_palette,"\033[33mOBS! No profile file, please add: '/assets/profile.msg'\033[0m"))
+        outFile("",msgProfileFile)
+        #print(pt_format(cs_palette,"\033[33mOBS! No profile file, please add: '/assets/profile.msg'\033[0m"))
 
 # Function to write the header
 def cs_writeHead(versionData=dict(),basedir=str(),globalInput=dict(),cs_palette=dict()):
