@@ -12,3 +12,6 @@ except:
 
 def sInputs_bottom_toolbar():
   return ANSI("\033[32mWrite 'help' for help :)\033[0m")
+
+def sInputs_bottom_toolbar_color():
+  return "ansigreen"

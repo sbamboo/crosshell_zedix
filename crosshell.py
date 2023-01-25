@@ -76,15 +76,15 @@ if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
 if os.path.exists(path_cmdlet_zedix_core) != True:
     if args.stripansi != True:
-        print("\033[32mDownloading core files...\033[0m")
+        print("\033[32m[Crosshell]: Downloading core files...\033[0m")
     else:
-        print("Downloading core files...")
+        print("[Crosshell]: Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
     gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell_core",path_cmdlet_zedix_core)
     if args.stripansi != True:
-        print("\033[32mDone!\033[0m")
+        print("\033[32m[Crosshell]: Done!\033[0m")
     else:
-        print("Done!")
+        print("[Crosshell]: Done!")
 if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
 if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
 if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf-8")
@@ -162,6 +162,7 @@ if sInput_enabled == True:
     from prompt_toolkit.history import FileHistory
     from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
     from prompt_toolkit.cursor_shapes import CursorShape
+    from prompt_toolkit.styles import Style
     # Define a custom completer class
     items = []
     class CustomCompleter(Completer):
@@ -182,6 +183,9 @@ if sInput_enabled == True:
             # Store the given string in some source (e.g. a file or database)
             pass
     InputHistory = MyHistory()
+    InputStyling = Style.from_dict({
+        'bottom-toolbar': sInputs_bottom_toolbar_color(),
+    })
 
 # =========================================================[Main app code]========================================================= #
 
@@ -262,7 +266,7 @@ while crosshell_doLoop == True:
             if sInput_cursorChar != "" and sInput_cursorChar != None:
                 sInput_sessionArgs["cursor"] = eval("CursorShape." + sInput_cursorChar)
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
-            session = PromptSession(**sInput_sessionArgs)
+            session = PromptSession(**sInput_sessionArgs,style=InputStyling)
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
