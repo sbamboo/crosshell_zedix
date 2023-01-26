@@ -5,6 +5,7 @@ import argparse
 
 # [Arguments]
 cparser = argparse.ArgumentParser(prog="HomeAssistant-Webhook",exit_on_error=False,add_help=False)
+cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
 cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
 cparser.add_argument('-s','-shortsyntax', dest="shortsyntax", help="Supply a short syntax (<group>.<name>:<action>)")
 cparser.add_argument('-device', dest="device", help="Device to use (<group>.<name>)")
@@ -15,6 +16,7 @@ cparser.add_argument('--genid', dest="genid", action="store_true", help="Generat
 try: argus = cparser.parse_args(argv)
 except: argus = cparser.parse_args()
 if argus.help: cparser.print_help()
+if argus.exhelp: cparser.print_help(); exit()
 
 # [Setup]
 haapi_version = "1.0"

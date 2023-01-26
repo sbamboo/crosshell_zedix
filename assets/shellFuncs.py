@@ -49,8 +49,8 @@ def cs_writeProfile(basedir,globalInput,cs_palette):
         outFile("",msgProfileFile)
         #print(pt_format(cs_palette,"\033[33mOBS! No profile file, please add: '/assets/profile.msg'\033[0m"))
 
-# Function to write the header
-def cs_writeHead(versionData=dict(),basedir=str(),globalInput=dict(),cs_palette=dict()):
+# Function to write the welcome message
+def cs_writeWelcome(versionData=dict(),basedir=str(),globalInput=dict(),cs_palette=dict()):
     hasMoreLines = False
     # Channel Messages (Version Channel)
     channel = versionData.get("channel")

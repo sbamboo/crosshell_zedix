@@ -15,16 +15,16 @@ parser.add_argument('-c', dest="command", help='command to pass to crosshell')
 parser.add_argument('-startdir', dest="cli_startdir", help='a starting directory to use with crosshell')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
-parser.add_argument('--nohead', help='supress header', action='store_true')
+parser.add_argument('--nowelcome','--nowelc', help='supress welcome message', action='store_true')
 parser.add_argument('--noinfo', help='supresses startup info', action='store_true')
 parser.add_argument('--stripansi', help='Strips ansi in paletteText prints', action='store_true')
 parser.add_argument('--debug_args', help='Prints out arguments', action='store_true')
 parser.add_argument('--debug_loadonly', help='Only loads crosshell', action='store_true')
 # Create main arguments object
-args = parser.parse_args()
+cs_cliargs = parser.parse_args()
 
 # [Startup Message]
-if args.noinfo != True: print("[Crosshell]: Starting...")
+if cs_cliargs.noinfo != True: print("[Crosshell]: Starting...")
 
 # [Local imports]
 # Core
@@ -37,7 +37,7 @@ from assets.utils.conUtils import *
 from assets.utils.utilFuncs import *
 from assets.utils.formatter import *
 # libaries
-if args.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
+if cs_cliargs.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.lib.tqdm_ui import *
 from assets.lib.gitFolderDown import *
 
@@ -75,13 +75,13 @@ path_cmdlet_zedix_core = f"{path_cmdletsfolder}{os.sep}crosshell.core.latest"
 if os.path.exists(path_packagesfolder) != True: os.mkdir(path_packagesfolder)
 if os.path.exists(path_cmdletsfolder) != True: os.mkdir(path_cmdletsfolder)
 if os.path.exists(path_cmdlet_zedix_core) != True:
-    if args.stripansi != True:
+    if cs_cliargs.stripansi != True:
         print("\033[32m[Crosshell]: Downloading core files...\033[0m")
     else:
         print("[Crosshell]: Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
     gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell.core.latest",path_cmdlet_zedix_core)
-    if args.stripansi != True:
+    if cs_cliargs.stripansi != True:
         print("\033[32m[Crosshell]: Done!\033[0m")
     else:
         print("[Crosshell]: Done!")
@@ -95,7 +95,7 @@ cssettings_raw = cs_settings("load",cs_settingsFile,cssettings_raw)
 cssettings = cssettings_raw
 # Load palette
 cs_palette = cssettings["PaletteText_Palette"]
-cs_palette["_stripansi"] = args.stripansi
+cs_palette["_stripansi"] = cs_cliargs.stripansi
 # Load title from persistance otherwise from settings
 perstitle = cs_persistance("get","cs_title",cs_persistanceFile)
 if perstitle != "" and perstitle != None:
@@ -131,6 +131,7 @@ AutoClearConsole = retbool(cssettings["General"]["AutoClearConsole"])
 
 # [SmartInput Settings]
 sInput_enabled = retbool(cssettings["SmartInput"]["Enabled"])
+sInput_enhancedStyling = retbool(cssettings["SmartInput"]["EnhancedStyling"])
 sInput_tabCompletion = retbool(cssettings["SmartInput"]["TabCompletion"])
 sInput_history = retbool(cssettings["SmartInput"]["History"])
 sInput_historyType = cssettings["SmartInput"]["HistoryType"]
@@ -161,7 +162,8 @@ if sInput_enabled == True:
     from prompt_toolkit.history import FileHistory
     from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
     from prompt_toolkit.cursor_shapes import CursorShape
-    from prompt_toolkit.styles import Style
+    if sInput_enhancedStyling == True:
+        from prompt_toolkit.styles import Style
     # Define a custom completer class
     items = []
     class CustomCompleter(Completer):
@@ -182,41 +184,42 @@ if sInput_enabled == True:
             # Store the given string in some source (e.g. a file or database)
             pass
     InputHistory = MyHistory()
-    InputStyling = Style.from_dict({
-        'bottom-toolbar': sInputs_bottom_toolbar_color(),
-    })
+    if sInput_enhancedStyling == True:
+        InputStyling = Style.from_dict({
+            'bottom-toolbar': sInputs_bottom_toolbar_color(),
+        })
 
 # =========================================================[Main app code]========================================================= #
 
 # [Load and handle arguments]
 
 # Clear on start if enabled thru arguments
-if args.nocls == False: clear()
+if cs_cliargs.nocls == False: clear()
 
 # Change working directory if startdir argument is given
-argu_startdir = str(args.cli_startdir)
+argu_startdir = str(cs_cliargs.cli_startdir)
 if argu_startdir != "" and argu_startdir != None:
     if os.path.exists(argu_startdir) == True:
         os.chdir(argu_startdir)
         csworking_directory = os.getcwd()
 
 # Debug args
-if args.debug_args == True: print(args)
-if args.debug_loadonly == True: crosshell_doLoop = False
+if cs_cliargs.debug_args == True: print(cs_cliargs)
+if cs_cliargs.debug_loadonly == True: crosshell_doLoop = False
 
 # Load pathables
 cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 
 # [Main Loop]
 
-# Write header if enabled from settings
-if args.nohead == False: cs_writeHead(versionData,csbasedir,globals(),cs_palette)
+# Write welcome message if enabled from arguments
+if cs_cliargs.nowelcome == False: cs_writeWelcome(versionData,csbasedir,globals(),cs_palette)
 # Run Loop if the "crosshell_doLoop" is enabled
 while crosshell_doLoop == True:
     # Handle the command argument and if a command is given set it as the input
-    if args.command != "" and args.command != None:
+    if cs_cliargs.command != "" and cs_cliargs.command != None:
         paramCommand = True
-        inputs = str(args.command)
+        inputs = str(cs_cliargs.command)
     # If no command argument was given ask the user for input
     else:
         paramCommand = False
@@ -264,8 +267,11 @@ while crosshell_doLoop == True:
             # CursorChar
             if sInput_cursorChar != "" and sInput_cursorChar != None:
                 sInput_sessionArgs["cursor"] = eval("CursorShape." + sInput_cursorChar)
+            # EnhancedStyling
+            if sInput_enhancedStyling == True:
+                sInput_sessionArgs["style"] = InputStyling
             # Create a PromptSession object and pass it the custom completer and syntax highlighter
-            session = PromptSession(**sInput_sessionArgs,style=InputStyling)
+            session = PromptSession(**sInput_sessionArgs)
             # If prefix is enabled ask the user for input with prefix otherwise don't render the prefix
             if retbool(csprefix_enabled) == True:
                 # formatPrefix(<prefix-rawtext>,<prefix-dir-enabled>,<prefix-enabled><working-directory><globalVariables>,<fallBackPrefix>)
@@ -436,8 +442,8 @@ while crosshell_doLoop == True:
     # If a command argument is given check if the console should exit post command execution
     if paramCommand == True:
         # If the noexit argument is not given exit
-        if bool(args.noexit) == False:
+        if bool(cs_cliargs.noexit) == False:
             exit()
         # Else stay but reset the command argument so it dosen't loop the execution of it
         else:
-            args.command = ""
+            cs_cliargs.command = ""

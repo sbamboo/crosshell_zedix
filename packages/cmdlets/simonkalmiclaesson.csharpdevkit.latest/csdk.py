@@ -7,6 +7,7 @@ import subprocess
 
 cparser = argparse.ArgumentParser(prog="csdk", description="C-Sharp DevKit", epilog="To create a project use '--new -name <name> -type <type>' or to run a program, '--run -name <name>'",exit_on_error=False,add_help=False)
 cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
+cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
 # Options
 cparser.add_argument('--new', dest="new_project", action='store_true', help="Creates a new project")
 cparser.add_argument('--run', dest="run_project", action='store_true', help="Builds and runs a new project")
@@ -21,6 +22,7 @@ cparser.add_argument('options', nargs='*', help="Al other options (auto consume)
 try: argus = cparser.parse_args(argv)
 except: argus = cparser.parse_args()
 if argus.help: cparser.print_help()
+if argus.exhelp: cparser.print_help(); exit()
 
 # [Setup]
 LocalProjectPath = f"{CSScriptRoot}{os.sep}.CSharpProjects"

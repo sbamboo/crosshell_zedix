@@ -104,8 +104,10 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                                 fdescription = str(split_content[2]).strip()
                         except:
                             fdescription = o_fdesc
+                if fconfig.get("ArgparseHelp") != "" and fconfig.get("ArgparseHelp") != '""':
+                    fargparseHelp = fconfig.get("ArgparseHelp")
             # Add to pathables
-            pathables.append(f'name%c%"{fname}"%sc%path%c%"{fpath}"%sc%aliases%c%{faliases}%sc%description%c%"{fdescription}"%sc%paramhelp%c%"{fparamhelp}"%sc%blockCommonParameters%c%"{fblockCommonparams}"%sc%synopsisDesc%c%{fsynopsisDesc}%sc%fileEnding%c%"{fending}"')
+            pathables.append(f'name%c%"{fname}"%sc%path%c%"{fpath}"%sc%aliases%c%{faliases}%sc%description%c%"{fdescription}"%sc%paramhelp%c%"{fparamhelp}"%sc%blockCommonParameters%c%"{fblockCommonparams}"%sc%synopsisDesc%c%{fsynopsisDesc}%sc%fileEnding%c%"{fending}"%sc%ArgparseHelp%c%"{fargparseHelp}"')
             fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 
@@ -282,7 +284,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
+        preset = {"General":{"AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","EnhancedStyling":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:

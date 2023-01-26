@@ -8,6 +8,7 @@ General:
 
 SmartInput:
   Enabled: true
+  EnhancedStyling: false
   TabCompletion: false
   History: true
   HistoryType: "File" # 'File' or 'Memory'

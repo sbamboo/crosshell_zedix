@@ -7,6 +7,7 @@ import os
 
 cparser = argparse.ArgumentParser(prog="Packagehand",exit_on_error=False,add_help=False)
 cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
+cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
 # Install
 cparser.add_argument('--install','--add','--a', dest="install", action='store_true', help="Install switch")
 # Package (Comsume al remaining arguments)
@@ -15,6 +16,7 @@ cparser.add_argument('package', nargs='*', help="The package id")
 try: argus = cparser.parse_args(argv)
 except: argus = cparser.parse_args()
 if argus.help: cparser.print_help()
+if argus.exhelp: cparser.print_help(); exit()
 
 
 # Get repo

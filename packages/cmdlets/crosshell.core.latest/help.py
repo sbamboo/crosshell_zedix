@@ -1,22 +1,25 @@
-try:
-    opts = argv 
-except:
-    opts = []
+import argparse
 
-shownums = False
-searchTerm = ""
-if len(opts) != 0:
-    if "--shownumerals" in str(opts) or "--num" in str(opts):
-        shownums = True
-        for i,elem in enumerate(opts):
-            opts[i] = str(opts[i]).replace("--shownumerals", "")
-            opts[i] = str(opts[i]).replace("--num", "")
-            if opts[i] == "":
-                opts.pop(i)
-    try:
-        searchTerm = str(opts[0])
-    except:
-        searchTerm = ""
+cparser = argparse.ArgumentParser(prog="Help",exit_on_error=False,add_help=False)
+cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
+cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
+# Options
+cparser.add_argument('--shownumerals','--num', dest="shownumerals", action='store_true', help="Show numbers.")
+cparser.add_argument('--matchaliases','--ma', dest="matchaliases", action='store_true', help="Match for aliases.")
+# Searchterm (Comsume al remaining arguments)
+cparser.add_argument('searchterm', nargs='*', help="The cmdlet/searchterm to match to.")
+# Create main arguments object
+try: argus = cparser.parse_args(argv)
+except: argus = cparser.parse_args()
+if argus.help: cparser.print_help()
+if argus.exhelp: cparser.print_help(); exit()
+
+shownums = argus.shownumerals
+opts = argus.searchterm
+try:
+    searchTerm = opts[0]
+except:
+    searchTerm = ""
 
 gottenData = []
 for pathable in cspathables:
@@ -35,18 +38,23 @@ if searchTerm != "":
     filteredData = []
     for cmdlet in gottenData:
         name = str(cmdlet["name"])
+        aliases = cmdlet["aliases"]
         match = False
         if mode == "exact":
-            if name == searchTerm:
+            if name == searchTerm or searchTerm in aliases:
                 match = True
         elif mode == "start":
             name2 = name.removeprefix(searchTerm)
             if name != name2:
                 match = True
+            else:
+                if argus.matchaliases:
+                    for alias in aliases:
+                        alias2 = searchTerm + str(alias).removeprefix(searchTerm)
+                        if alias2 == alias:
+                            match = True
         elif mode == "end":
-            print(name,mode,searchTerm)
             name2 = name.removesuffix(searchTerm)
-            print(name2)
             if name != name2:
                 match = True
         elif mode == "any":
@@ -66,6 +74,9 @@ for cmdlet in gottenData:
         longest = str(cmdlet["name"])
 
 amntCmdlets = len(gottenData)
+
+# Sort gottenData    (x is the pathable-dictionary in the list then sort by the name key in lowercase since gottenData is a list of dictionaries)
+gottenData = sorted(gottenData, key=lambda x: (x["name"].lower()))
 
 print("")
 if searchTerm == "":
