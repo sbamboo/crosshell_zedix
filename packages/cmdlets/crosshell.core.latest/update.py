@@ -55,6 +55,7 @@ else:
         if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
             CopyFolder(f"{root}{Folder}",f"{temporaryFolder}{os.sep}{Folder}")
     print("Done!")
+    print("Removing current data (Not the backup)...")
     # Remove current version of data
     for File in FilesToBackup:
         if os.path.exists(f"{temporaryFolder}{os.sep}{File}") and os.path.exists(f"{root}{File}"):
@@ -74,12 +75,29 @@ else:
         for file in entries:
             try: os.rmdir(file.path)
             except: pass
+    print("Done!")
 
     # Download new assets
+    print("Downloading assets...")
     try:
-        gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets")
+        gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets",debug="raw")
         simpleDownload("https://github.com/simonkalmiclaesson/crosshell_zedix/raw/main/crosshell.py",f"{root}crosshell.py")
+        print("Done!")
+        print("Moving back user files...")
+        # Copy back user data
+        if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
+        print("Done!")
+        print("Cleaning up, removing backuped data...")
+        # Remove backups
+        shutil.rmtree(temporaryFolder)
+        print("Done!")
     except:
+        print("Download failed, reverting changes...")
+        print("Revering: Removing downloaded data...")
         # Remove things from folders
         for Folder in FoldersToBackup:
             folderpath = f"{root}{Folder}"
@@ -98,17 +116,16 @@ else:
         for File in FilesToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
                 CopyFile(f"{temporaryFolder}{os.sep}{File}",f"{root}{File}")
+        print("Reverting: Done removing data!")
+        print("Reverting: Copy back user data...")
+        # Copy back user data
+        if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
         # UnBackup Folders
         for Folder in FoldersToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
                 CopyFolder(f"{temporaryFolder}{os.sep}{Folder}",f"{root}{Folder}")
-
-    # Copy back user data
-    if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
-    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
-    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
-    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
-    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
-
-    # Remove backups
-    shutil.rmtree(temporaryFolder)
+        print("Done reverting!")
