@@ -40,7 +40,6 @@ elif localVersionid > onlineVersionid and argus.force != True:
     print(pt_format(cs_palette,"Update canceled: The current version of crosshell is newer then the latest avaliable online. To update anyway use the '--force' parameter.\033[0m"))
 # Update
 else:
-<<<<<<< HEAD
     if argus.legacy == True:
         # Make temporary folder
         if not os.path.exists(temporaryFolder):
@@ -65,7 +64,6 @@ else:
             if os.path.exists(f"{temporaryFolder}{os.sep}{File}") and os.path.exists(f"{root}{File}"):
                 os.remove(f"{root}{File}")
                 pass
-=======
     # Make temporary folder
     if not os.path.exists(temporaryFolder):
         os.mkdir(temporaryFolder)
@@ -126,7 +124,6 @@ else:
     except:
         print("Download failed, reverting changes...")
         print("Revering: Removing downloaded data...")
->>>>>>> 59eb3b0498dc249349e950ac5557f3f105eb48c8
         # Remove things from folders
         for Folder in FoldersToBackup:
             folderpath = f"{root}{Folder}"
@@ -178,7 +175,6 @@ else:
         # Backup files
         for File in FilesToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
-<<<<<<< HEAD
                 CopyFile(f"{root}{File}",f"{temporaryFolder}{os.sep}{File}")
         # Backup Folders
         for Folder in FoldersToBackup:
@@ -261,7 +257,6 @@ else:
             print("Done reverting!")
             print("Traceback:")
             print(f"\033[31m{ traceback.format_exc() }\033[0m")
-=======
                 CopyFile(f"{temporaryFolder}{os.sep}{File}",f"{root}{File}")
         print("Reverting: Done removing data!")
         print("Reverting: Copy back user data...")
@@ -276,4 +271,3 @@ else:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
                 CopyFolder(f"{temporaryFolder}{os.sep}{Folder}",f"{root}{Folder}")
         print("Done reverting!")
->>>>>>> 59eb3b0498dc249349e950ac5557f3f105eb48c8
