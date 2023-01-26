@@ -2,5 +2,7 @@
 *.localcfg
 .vscode
 assets/.history
-crosshell_zedix_PrivateDistribution.zip
-assets/.history
+assets/gamehub_api_tos.txt
+assets/hasshownguide.state
+assets/persistance.yaml
+assets/profile.msg
