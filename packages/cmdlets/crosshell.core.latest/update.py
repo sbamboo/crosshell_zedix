@@ -77,7 +77,7 @@ else:
 
     # Download new assets
     try:
-        gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",f"{root}assets")
+        gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets")
         simpleDownload("https://github.com/simonkalmiclaesson/crosshell_zedix/raw/main/crosshell.py",f"{root}crosshell.py")
     except:
         # Remove things from folders
@@ -111,4 +111,4 @@ else:
     if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
 
     # Remove backups
-    shutil.rmtree({temporaryFolder})
+    shutil.rmtree(temporaryFolder)

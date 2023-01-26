@@ -24,3 +24,58 @@ def gitFolderDown(url=str(),resultDir=str()):
         path = f"{resultDir}{os.sep}{name}"
         with open(path, "wb") as f:
             f.write(file_response.content)
+
+
+def gitFolderDownRecurse(url=str(),resultDir=str(),debug=False,Authorization=None):
+    if Authorization != None:
+        headers = {'Authorization': Authorization}
+    # Recursive search
+    spliturl = url.split("/")
+    spliturl.pop(-1)
+    baseurl = ('/'.join(spliturl)).strip('/')
+    # Send requests to baseurl
+    responsejson = requests.get(url=baseurl,headers=headers).json()
+    match = False
+    for obj in responsejson:
+        selflink = obj["_links"]["self"]
+        if selflink.split("?")[0] == url:
+            match = obj["git_url"]
+    # Request recusive tree
+    if match != False:
+        responsejson = requests.get(url=f"{match}?recursive=1",headers=headers).json()
+        # Download files
+        for obj in responsejson["tree"]:
+            # Filter files
+            if obj["type"] == "blob":
+                blob_url = obj["url"]
+                obj_path = obj["path"]
+                # Send requests for content
+                responsejson2 = requests.get(url=blob_url,headers=headers).json()
+                content = responsejson2["content"]
+                encoding = responsejson2["encoding"]
+                if encoding == "base64":
+                    # Import format
+                    import base64
+                    # Decode content
+                    decoded_content = base64.b64decode(content)
+                    # Write the decoded content to the destination file
+                    obj_path = obj_path.replace("/",os.sep)
+                    # Create missing subfolders
+                    if str(os.sep) in str(obj_path):
+                        splitDir = obj_path.split(os.sep)
+                        splitDir.pop(-1)
+                        # Save old dir
+                        olddir = os.getcwd()
+                        # Go to destination dir
+                        os.chdir(resultDir)
+                        # Create folders
+                        for folder in splitDir:
+                            if not os.path.exists(folder): os.mkdir(folder)
+                            os.chdir(folder)
+                        # Go back to old dir
+                        os.chdir(olddir)
+                    # Write files
+                    destinationpath = f"{resultDir}{os.sep}{obj_path}"
+                    with open(destinationpath, "wb") as f:
+                        f.write(decoded_content)
+                if debug == True: print(encoding,content)
