@@ -1,6 +1,7 @@
 # Imports
 import yaml
 import argparse
+from assets.lib.simpleDownload import simpleDownload
 from assets.lib.copylib import *
 
 # Setup
@@ -59,7 +60,7 @@ else:
         if os.path.exists(f"{temporaryFolder}{os.sep}{File}") and os.path.exists(f"{root}{File}"):
             os.remove(f"{root}{File}")
             pass
-    # List files and folders
+    # Remove things from folders
     for Folder in FoldersToBackup:
         folderpath = f"{root}{Folder}"
         entries = scantree(folderpath)
@@ -73,3 +74,41 @@ else:
         for file in entries:
             try: os.rmdir(file.path)
             except: pass
+
+    # Download new assets
+    try:
+        gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",f"{root}assets")
+        simpleDownload("https://github.com/simonkalmiclaesson/crosshell_zedix/raw/main/crosshell.py",f"{root}crosshell.py")
+    except:
+        # Remove things from folders
+        for Folder in FoldersToBackup:
+            folderpath = f"{root}{Folder}"
+            entries = scantree(folderpath)
+            for file in entries:
+                if "__pycache__" not in file.path:
+                    if os.path.isfile(file.path):
+                        os.remove(file.path)
+                    else:
+                        os.rmdir(file.path)
+            entries = scantree(folderpath)
+            for file in entries:
+                try: os.rmdir(file.path)
+                except: pass
+        # UnBackup files
+        for File in FilesToBackup:
+            if not os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
+                CopyFile(f"{temporaryFolder}{os.sep}{File}",f"{root}{File}")
+        # UnBackup Folders
+        for Folder in FoldersToBackup:
+            if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
+                CopyFolder(f"{temporaryFolder}{os.sep}{Folder}",f"{root}{Folder}")
+
+    # Copy back user data
+    if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+    if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
+
+    # Remove backups
+    shutil.rmtree({temporaryFolder})
