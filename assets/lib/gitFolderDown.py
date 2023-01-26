@@ -34,7 +34,9 @@ def gitFolderDownRecurse(url=str(),resultDir=str(),debug=False,Authorization=Non
     spliturl.pop(-1)
     baseurl = ('/'.join(spliturl)).strip('/')
     # Send requests to baseurl
-    responsejson = requests.get(url=baseurl,headers=headers).json()
+    if Authorization != None: responsejson = requests.get(url=baseurl,headers=headers).json()
+    else: responsejson = requests.get(url=baseurl).json()
+    if debug == "raw": print("[Raw.BaseURLreq]: ",responsejson,"\n\n","[Raw.BaseUrl]: ",baseurl,"\n\n")
     match = False
     for obj in responsejson:
         selflink = obj["_links"]["self"]
@@ -42,7 +44,9 @@ def gitFolderDownRecurse(url=str(),resultDir=str(),debug=False,Authorization=Non
             match = obj["git_url"]
     # Request recusive tree
     if match != False:
-        responsejson = requests.get(url=f"{match}?recursive=1",headers=headers).json()
+        if Authorization != None: responsejson = requests.get(url=f"{match}?recursive=1",headers=headers).json()
+        else: responsejson = requests.get(url=f"{match}?recursive=1").json()
+        if debug == "raw": print("[Raw.TreeURLreq]: ",responsejson,"\n\n","[Raw.TreeUrl]: ",f"{match}?recursive=1","\n\n")
         # Download files
         for obj in responsejson["tree"]:
             # Filter files
@@ -50,7 +54,9 @@ def gitFolderDownRecurse(url=str(),resultDir=str(),debug=False,Authorization=Non
                 blob_url = obj["url"]
                 obj_path = obj["path"]
                 # Send requests for content
-                responsejson2 = requests.get(url=blob_url,headers=headers).json()
+                if Authorization != None: responsejson2 = requests.get(url=blob_url,headers=headers).json()
+                else: responsejson2 = requests.get(url=blob_url).json()
+                if debug == "raw": print("[Raw.BlobURLreq]: ",responsejson2,"\n\n","[Raw.BlobUrl]: ",blob_url,"\n\n")
                 content = responsejson2["content"]
                 encoding = responsejson2["encoding"]
                 if encoding == "base64":
@@ -78,4 +84,4 @@ def gitFolderDownRecurse(url=str(),resultDir=str(),debug=False,Authorization=Non
                     destinationpath = f"{resultDir}{os.sep}{obj_path}"
                     with open(destinationpath, "wb") as f:
                         f.write(decoded_content)
-                if debug == True: print(encoding,content)
+                if debug != False: print("[FileData]: ",encoding,content)
