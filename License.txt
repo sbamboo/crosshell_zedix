@@ -7,10 +7,9 @@ The word "we" and "me" and "I" points to the author of this license and since th
 The word "you" and "user" points to the person/legal entity reading this license or using the content this license protects.
 By using we mean looking at or reading through this repository as well as of course downloading any files/assets/software/software-parts or running or installing said parts.
 
-For a licensor to be allowed to license under this license the licenser must comply to the agreements bellow:
+For a licensor to be allowed to license under this license the licensor must comply to the agreements bellow:
 
- - The licensor/I may not include copyrighted or licensed content inside content bellow this license without specifying said parts/content and their original source.
-For a licensee or user of content the below agreements apply:
+ - The licensor/I may not include copyrighted or diffrently-licensed content bellow this license without specifying said parts/content and their original source.
 
 For a licensee to be allowed to use content under this license they must comply to the agreements bellow:
 
@@ -20,19 +19,19 @@ For a licensee to be allowed to use content under this license they must comply 
  
  - You the licensee may use this project in its full inside your projects if it is a released piece of software that is unchanged and like stated above you have my personal permissions.
  
- - You may use my code as an inspirational source for open-source projects. (Note only open-source ones) However if so, you are obligated to include a link to this repository stating that you have taken inspiration from it. You are however not obligated to specify which part of this project, or your project is inspired. Also note that you may not copy or plagiarize any content under this license, upon using content as an inspirational source you would have to rewrite assets/code and likewise.
+ - You may use my code as an inspirational source for open-source projects. (Note only open-source ones) However if so, you are obligated to include a link to this repository stating that you have taken inspiration from it. You are however not obligated to specify which part of this project, or which part of your project is inspired. Also note that you may not copy or plagiarize any content under this license, upon using content as an inspirational source you would have to rewrite assets/code and likewise.
 You may get extra and/or modified rights to this software from me personally since I remain in a situation where I may change/modify the license to this software at any time without notice.
 
 As stated above I remain the rights to modify/change/remove/relicense any part of this project without further notice to anyone.
 However, changes in license will only apply to content made after the change.
 This means if you download or snapshot or install parts covered by this license said parts are licensed by the current license at point of download and not any other licenses later added, modified, or removed.
 
-Since the nature of this project specific parts may be licensed separately. This means that libraries used/included may be from third parties with other licenses. They also may be from me and allowed to be licensed separately. Also, cmdlets are allowed to have their own license. However, parts not installed by the user and that are official to this project (originally included then reinstalled) are automatically covered under this license. Any parts may be added to be covered by this license by stating so in a license file or property of the part.
+Since the nature of this project specific parts may be licensed separately as long as I state which parts that is. This means that libraries used/included may be from third parties with other licenses. They also may be from me and allowed to be licensed separately. Also, cmdlets are allowed to have their own license. However, parts not installed by the user and that are official to this project or originally included then reinstalled are automatically covered under this license. Any parts may be added to be covered by this license by stating so in a license file or property of the part.
 
 ============================================================================
 
-This license was written 2023-01-12 for the Crosshell-Zedix project and is property by Simon Kalmi Claesson.
-This license is version 1.1 and I remain in full ability to update this license however I like.
+This license was written 2023-01-29 for the Crosshell-Zedix project and is property by Simon Kalmi Claesson.
+This license is version 1.2 and I remain in full ability to update this license however I like.
 
 By using this software or any assets/parts of it you are automatically agreeing to this license.
 
