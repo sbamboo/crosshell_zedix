@@ -40,6 +40,8 @@ elif localVersionid > onlineVersionid and argus.force != True:
     print(pt_format(cs_palette,"Update canceled: The current version of crosshell is newer then the latest avaliable online. To update anyway use the '--force' parameter.\033[0m"))
 # Update
 else:
+    print(pt_format(cs_palette,"\033[31mNote! The update system is still in development so errors may arise, please always manualy backup your data/install before updating."))
+    _ = input("Press any button to continue...")
     if argus.legacy == True:
         # Make temporary folder
         if not os.path.exists(temporaryFolder):
@@ -195,3 +197,5 @@ else:
             print("Done reverting!")
             print("Traceback:")
             print(f"\033[31m{ traceback.format_exc() }\033[0m")
+            if input("The /.temp folder still exists and contains the backup data incase reverting didn't work, do you want to remove it? [Y/N] ").lower() == "Y":
+                shutil.rmtree(temporaryFolder)
