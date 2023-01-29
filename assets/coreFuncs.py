@@ -21,6 +21,17 @@ class SafeArgumentParser(argparse.ArgumentParser):
         sys.stderr.write('error: %s\n' % message)
         self.print_help()
 
+# Functions to prep globals to send to cmdlets
+def cs_prepGlobals(GlobalInput=dict(),varsToSendAdd=None,funcsToSendAdd=None):
+    varsToSend = []
+    funcToSend = []
+    varsToSend.update(*varsToSendAdd)
+    funcsToSend.update(*funcsToSendAdd)
+    newDict = {}
+    for var in varsToSend: newDict[var] = GlobalInput[var]
+    for func in funcsToSend: newDict[func] = GlobalInput[func]
+    return newDict
+
 # Function to get file endings
 def cs_getFending(filepath):
     filename = os.path.basename(filepath)
