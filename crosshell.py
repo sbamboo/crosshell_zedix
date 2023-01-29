@@ -12,6 +12,7 @@ parser = argparse.ArgumentParser(
 )
 # Add in arguments
 parser.add_argument('-c', dest="command", help='command to pass to crosshell')
+parser.add_argument('-fc', dest="fastcommand", help='same as command but enables --nowelc, --nocls and --nocls')
 parser.add_argument('-startdir', dest="cli_startdir", help='a starting directory to use with crosshell')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
@@ -22,6 +23,13 @@ parser.add_argument('--debug_args', help='Prints out arguments', action='store_t
 parser.add_argument('--debug_loadonly', help='Only loads crosshell', action='store_true')
 # Create main arguments object
 cs_cliargs = parser.parse_args()
+
+# Handle FastCommand
+if cs_cliargs.fastcommand:
+    cs_cliargs.command = cs_cliargs.fastcommand
+    cs_cliargs.nocls = True
+    cs_cliargs.nowelcome = True
+    cs_cliargs.noinfo = True
 
 # [Startup Message]
 if cs_cliargs.noinfo != True: print("[Crosshell]: Starting...")
