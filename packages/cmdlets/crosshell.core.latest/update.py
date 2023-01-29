@@ -14,9 +14,10 @@ onlineVersionUrl = "https://github.com/simonkalmiclaesson/crosshell_zedix/raw/ma
 cparser = argparse.ArgumentParser(prog="Update",exit_on_error=False,add_help=False)
 cparser.add_argument('-h', '--help', action='store_true', default=False, help='Shows help menu.')
 cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
-# Force
+# Params
 cparser.add_argument('--force','--f', dest="force", action='store_true', help="Forces update to install an update.")
 cparser.add_argument('--legacy','--l', dest="legacy", action='store_true', help="Uses legacy update system.")
+cparser.add_argument('-gittoken', dest="AuthGitToken", help="A github token to use for authentication. (allowes more then one update per hour)")
 # Create main arguments object
 try: argus = cparser.parse_args(argv)
 except: argus = cparser.parse_args()
@@ -146,7 +147,8 @@ else:
         # Download new assets
         print("Downloading assets...")
         try:
-            gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets")
+            if argus.AuthGitToken: gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets",Authorization=str(argus.AuthGitToken))
+            else:                  gitFolderDownRecurse("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/assets",resultDir=f"{root}assets")
             simpleDownload("https://github.com/simonkalmiclaesson/crosshell_zedix/raw/main/crosshell.py",f"{root}crosshell.py")
             print("Done!")
             print("Moving back user files...")
