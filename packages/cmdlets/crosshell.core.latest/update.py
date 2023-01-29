@@ -199,5 +199,4 @@ else:
             print("Done reverting!")
             print("Traceback:")
             print(f"\033[31m{ traceback.format_exc() }\033[0m")
-            if input("The /.temp folder still exists and contains the backup data incase reverting didn't work, do you want to remove it? [Y/N] ").lower() == "Y":
-                shutil.rmtree(temporaryFolder)
+            if input("The /.temp folder still exists and contains the backup data incase reverting didn't work, do you want to remove it? [Y/N] ").lower() == "Y": shutil.rmtree(temporaryFolder)
