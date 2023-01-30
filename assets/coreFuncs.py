@@ -23,13 +23,75 @@ class SafeArgumentParser(argparse.ArgumentParser):
 
 # Functions to prep globals to send to cmdlets
 def cs_prepGlobals(GlobalInput=dict(),varsToSendAdd=None,funcsToSendAdd=None):
-    varsToSend = []
-    funcToSend = []
+    varsToSend = [
+        # Crosshell
+        "csbasedir",
+        "cs_palette",
+        "cspathables",
+        "cs_cliargs",
+        "cs_versionFile",
+        "cs_settingsFile",
+        "cs_persistanceFile",
+        "csworking_directory",
+        "allowedFileTypes",
+        "path_packagesfolder",
+        "path_cmdletsfolder",
+        "path_cmdlet_zedix_core",
+        "cssettings",
+        "csversionData",
+        "cs_prepGlobals",
+        # Commands
+        "pipeSTDOUT",
+        "argv",
+        "cmd",
+        "params",
+        # Palette Text
+        "paletteText_standardPalette"
+    ]
+    funcsToSend = [
+        # Crosshell
+        "pt_format",
+        "retbool",
+        "cs_getPathablePath",
+        "cs_execInput",
+        "cs_writeProfile",
+        "cs_writeWelcome",
+        "saveTitle",
+        "cs_getFending",
+        # Crosshell ADV
+        "cs_settings",
+        "cs_exec",
+        "cs_getPathablePath",
+        "cs_getPathableProperties"
+        # Utils
+        "setConSize",
+        "setConTitle",
+        "clear",
+        "pause",
+        "boo",
+        "dummy",
+        "IsWindows",
+        "IsLinux",
+        "IsMacOS",
+        "formatPrefix",
+        # UtilFunctions
+        "testPath",
+        "getContent",
+        "outFile",
+        "touchFile",
+        "scantree",
+        "IsExecutable",
+        "readConfig"
+    ]
     varsToSend.update(*varsToSendAdd)
     funcsToSend.update(*funcsToSendAdd)
     newDict = {}
-    for var in varsToSend: newDict[var] = GlobalInput[var]
-    for func in funcsToSend: newDict[func] = GlobalInput[func]
+    try:
+        for var in varsToSend: newDict[var] = GlobalInput[var]
+    except: pass
+    try:
+        for func in funcsToSend: newDict[func] = GlobalInput[func]
+    except: pass
     return newDict
 
 # Function to get file endings

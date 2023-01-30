@@ -153,9 +153,9 @@ sInput_cursorChar = cssettings["SmartInput"]["CursorChar"]
 
 # Get version data
 try:
-    versionData = cs_persistance_yaml("get",dict(),cs_versionFile)
+    csversionData = cs_persistance_yaml("get",dict(),cs_versionFile)
 except:
-    versionData = {}
+    csversionData = {}
 
 # [Smart Input]
 if sInput_enabled == True:
@@ -221,7 +221,7 @@ cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 # [Main Loop]
 
 # Write welcome message if enabled from arguments
-if cs_cliargs.nowelcome == False: cs_writeWelcome(versionData,csbasedir,globals(),cs_palette)
+if cs_cliargs.nowelcome == False: cs_writeWelcome(csversionData,csbasedir,globals(),cs_palette)
 # Run Loop if the "crosshell_doLoop" is enabled
 while crosshell_doLoop == True:
     # Handle the command argument and if a command is given set it as the input
