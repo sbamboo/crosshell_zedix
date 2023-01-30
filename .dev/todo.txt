@@ -24,6 +24,9 @@ Fix HEX full color broken on sertain computers (Probabably crosshell.bat turning
 Only send some variables and functions to cmdlets, then have a global variable called "cs_ExportVariables" where a cmdlet gives variable-names to include in globals sent in the session to other cmdlets.
 Add initgitfolder
 Add per package cmdlet properies in json/yaml (prob yaml)
+Add some dev tools like a road map/todo
+		aswell as a automation for creating minimal packages, and testing there size.
+Make update use theese minimal packages
 
 SPANG:
 language build up of id's and rowNums similar to basic:
