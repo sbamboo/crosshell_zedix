@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument('-c', dest="command", help='command to pass to crosshell')
 parser.add_argument('-fc', dest="fastcommand", help='same as command but enables --nowelc, --nocls and --nocls')
 parser.add_argument('-startdir', dest="cli_startdir", help='a starting directory to use with crosshell')
+parser.add_argument('-startprefix', dest="cli_startprefix", help='a prefix used at startup.')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
 parser.add_argument('--nocls', help='supress clearscreens', action='store_true')
 parser.add_argument('--nowelcome','--nowelc', help='supress welcome message', action='store_true')
@@ -47,7 +48,7 @@ from assets.utils.formatter import *
 # libaries
 if cs_cliargs.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
 from assets.lib.tqdm_ui import *
-from assets.lib.gitFolderDown import *
+from assets.lib.gitAPI import *
 
 # ==========================================================[Setup code]========================================================== #
 
@@ -116,6 +117,10 @@ if persprefix != "" and persprefix != None:
     csshell_prefix = persprefix
 else:
     csshell_prefix = cssettings["Presets"]["Prefix"]
+# Overwrite the prefix with the startup prefix if it exists
+if cs_cliargs.cli_startprefix:
+    csshell_prefix = cs_cliargs.cli_startprefix
+    cs_cliargs.cli_startprefix = None
 # Load prefix_enabled from persistance otherwise from settings
 persprefix_enabled = cs_persistance("get","cs_prefix_enabled",cs_persistanceFile)
 if persprefix_enabled != "" and persprefix_enabled != None and persprefix_enabled != str() and persprefix_enabled != "None":

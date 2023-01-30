@@ -1,4 +1,4 @@
-# C-Side "Crosshell-Scripting (simle) IDE"
+# C-Side: "Crosshell-Scripting (simle) IDE"
 # Made by: Simon Kalmi Claesson
 #
 

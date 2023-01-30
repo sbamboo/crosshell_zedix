@@ -1,0 +1,6 @@
+This license automatically apply to al libraries that exitst in crosshell's librarie folder. (/assets/lib)
+
+The bellow agreements apply to the libraries:
+
+ - You the user of the software covered under this license, are not allowed to use any files convered outside of crosshell, cmdlets are allowed to use it and any software using crosshell, or using the file through croshell without the author of the content's permission.
+ - You the user of the software covered under this license, are not allowed to redistribute any covered content without the author of the content's permission.

@@ -4,6 +4,7 @@ import argparse
 import traceback
 from assets.lib.simpleDownload import simpleDownload
 from assets.lib.copylib import *
+from assets.lib.gitAPI import *
 
 # Setup
 temporaryFolder = f"{csbasedir}{os.sep}.temp"

@@ -1,3 +1,6 @@
+# TQDM_UI: Tui library using the tqdm module.
+# Made by: Simon Kalmi Claesson
+
 # [Imports]
 import os
 try:

@@ -1,3 +1,7 @@
+# Copylib: Library utilising the shutil library.
+# Made by: Simon Kalmi Claesson
+
+# Imports
 import shutil
 from assets.utils.utilFuncs import *
 

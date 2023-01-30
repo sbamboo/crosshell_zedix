@@ -1,13 +1,13 @@
+# GitAPI: Library to work with github api.
+# Made by: Simon Kalmi Claesson
+
 # [Imports]
 import os
 import requests
 
 # Function to download a directory from a github repository
 def gitFolderDown(url=str(),resultDir=str()):
-    # Replace GITHUB_USERNAME with the username of the GitHub account
-    # Replace REPOSITORY_NAME with the name of the repository
-    # Replace DIRECTORY_NAME with the name of the directory you want to download
-    # url = f"https://api.github.com/repos/GITHUB_USERNAME/REPOSITORY_NAME/contents/DIRECTORY_NAME"
+    # Example URL: https://api.github.com/repos/GITHUB_USERNAME/REPOSITORY_NAME/contents/DIRECTORY_NAME
 
     # Make a GET request to the GitHub API to get the contents of the directory
     response = requests.get(url)

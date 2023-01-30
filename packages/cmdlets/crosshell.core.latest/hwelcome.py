@@ -1,1 +1,1 @@
-cs_writeWelcome(versionData,csbasedir,globals(),cs_palette)
+cs_writeWelcome(csversionData,csbasedir,globals(),cs_palette)

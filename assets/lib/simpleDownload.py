@@ -1,4 +1,7 @@
-# Simple downloading lib by Simon Kalmi Claesson
+# SimpleDownload: Simple download library
+# Made by: Simon Kalmi Claesson
+
+# Imports
 import requests
 
 def simpleDownload(url=str(),file=str()):
