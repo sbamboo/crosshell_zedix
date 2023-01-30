@@ -16,7 +16,7 @@ cparser.add_argument('-h', '--help', action='store_true', default=False, help='S
 cparser.add_argument('--exhelp', action='store_true', default=False, help='Shows help then exits.')
 # Params
 cparser.add_argument('--force','--f', dest="force", action='store_true', help="Forces update to install an update.")
-cparser.add_argument('--legacy','--l', dest="legacy", action='store_true', help="Uses legacy update system.")
+cparser.add_argument('--gitapi','--g', dest="gitapi", action='store_true', help="Uses gitapi update system.")
 cparser.add_argument('-gittoken', dest="AuthGitToken", help="A github token to use for authentication. (allowes more then one update per hour)")
 # Create main arguments object
 try: argus = cparser.parse_args(argv)
@@ -43,7 +43,7 @@ elif localVersionid > onlineVersionid and argus.force != True:
 else:
     print(pt_format(cs_palette,"\033[33mNote! The update system is still in development so errors may arise, please always manualy backup your data/install before updating.\033[0m"))
     _ = input("Press any button to continue...")
-    if argus.legacy == True:
+    if argus.gitapi != True:
         # Make temporary folder
         if not os.path.exists(temporaryFolder):
             os.mkdir(temporaryFolder)
