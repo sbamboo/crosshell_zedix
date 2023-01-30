@@ -17,8 +17,9 @@ if not os.path.exists(onlinePackagesGroup):
     os.mkdir(onlinePackagesGroup)
 
 # Setup file path
-ZipFilePath = f"{onlinePackagesGroup}{os.sep}{stringInput.split('/')[0]}"
-ZipFilePath_folder = ('.'.join(ZipFilePath.split(".")[1:])).strip(".")
+filename = stringInput.split('/')[-1]
+ZipFilePath = f"{onlinePackagesGroup}{os.sep}{filename}"
+ZipFilePath_folder = f"{onlinePackagesGroup}{os.sep}{filename.rstrip('.zip')}"
 
 # Goto group
 OldPath = os.getcwd()
@@ -28,6 +29,11 @@ os.chdir(onlinePackagesGroup)
 formatting = "{desc}: {percentage:3.0f}% |{color}{bar}{reset}| {n_fmt}/{total_fmt}  {rate_fmt}{postfix}  [Elap: {elapsed} | ETA: {remaining}]"
 chars = " " + chr(9592) + chr(9473)
 downloadBar(stringInput,formatting,chars)
+
+# Handle package file
+if filename.split(".")[-1] == "package":
+    ZipFilePath_new = filename.replace(".package", ".zip")
+    os.rename(ZipFilePath, ZipFilePath_new)
 
 # Expand archive
 with zipfile.ZipFile(ZipFilePath,"r") as zip_ref:
@@ -41,5 +47,8 @@ if os.path.exists(ZipFilePath_folder):
     for pathable in packagePathables:
         cspathables.append(pathable)
     
+    # Remove zip file
+    os.remove(ZipFilePath)
+
 else:
     print(pt_format(cs_palette,"\033[31mError! Failed import download, file not found post download.\033[0m"))

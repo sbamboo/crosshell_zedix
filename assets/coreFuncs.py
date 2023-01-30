@@ -142,6 +142,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
             fparamhelp = ""
             fblockCommonparams = ""
             fsynopsisDesc = ""
+            fargparseHelp = ""
             if os.path.exists(fconfigfile):
                 fconfig = readConfig(fconfigfile)
                 # config
