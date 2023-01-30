@@ -34,6 +34,8 @@ downloadBar(stringInput,formatting,chars)
 if filename.split(".")[-1] == "package":
     ZipFilePath_new = filename.replace(".package", ".zip")
     os.rename(ZipFilePath, ZipFilePath_new)
+    ZipFilePath = ZipFilePath_new
+    ZipFilePath_folder = f"{onlinePackagesGroup}{os.sep}{filename.rstrip('.zip')}"
 
 # Expand archive
 with zipfile.ZipFile(ZipFilePath,"r") as zip_ref:

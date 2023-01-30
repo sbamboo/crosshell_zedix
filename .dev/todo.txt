@@ -22,6 +22,8 @@ allow the use of ";" and "||" to allow for multiple lines of commands in the con
 InitCodeBlock (Init a codeblock as a cmdlet)
 Fix HEX full color broken on sertain computers (Probabably crosshell.bat turning off full rgb ansi color 255)
 Only send some variables and functions to cmdlets, then have a global variable called "cs_ExportVariables" where a cmdlet gives variable-names to include in globals sent in the session to other cmdlets.
+Add initgitfolder
+Add per package cmdlet properies in json/yaml (prob yaml)
 
 SPANG:
 language build up of id's and rowNums similar to basic:
