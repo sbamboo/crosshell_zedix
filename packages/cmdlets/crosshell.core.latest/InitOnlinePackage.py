@@ -12,7 +12,7 @@ stringInput = (' '.join(argv)).strip(" ")
 stringInput = stringInput.strip('"')
 
 # Handle Online packages group
-onlinePackagesGroup = f"{csCmdletPath}{os.sep}{group.onlinePackages}"
+onlinePackagesGroup = f"{path_cmdletsfolder}{os.sep}group.onlinePackages"
 if not os.path.exists(onlinePackagesGroup):
     os.mkdir(onlinePackagesGroup)
 
