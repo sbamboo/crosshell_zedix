@@ -299,6 +299,8 @@ while crosshell_doLoop == True:
                 inputs = input(pt_format(cs_palette,formatPrefix(csshell_prefix,retbool(csprefix_dir),retbool(csprefix_enabled),csworking_directory,globals())))
             else:
                 inputs = input("")
+    # Check for spaceOnlys
+    if inputs.strip() == "": inputs = ""
     # Check if line includes newlines if so replace with newline_placeholder
     if "\n" in str(inputs):
         inputs = inputs.replace("\n","§cs.internal.placeholders.newline§")
