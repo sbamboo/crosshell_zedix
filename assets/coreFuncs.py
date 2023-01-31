@@ -41,6 +41,7 @@ def cs_prepGlobals(GlobalInput=dict(),varsToSendAdd=None,funcsToSendAdd=None):
         "csversionData",
         "cs_prepGlobals",
         # Commands
+        "CSScriptRoot",
         "pipeSTDOUT",
         "argv",
         "cmd",

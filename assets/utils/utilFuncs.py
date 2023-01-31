@@ -23,7 +23,10 @@ def testPath(path):
 
 # Function to get file content using open().read()
 def getContent(filepath):
-    return open(filepath, 'r').read()
+    f = open(filepath, 'r')
+    content = f.read()
+    f.close()
+    return content
 
 # Function to write a string to a file using open().write()
 def outFile(inputs=str(),filepath=str(),append=False,encoding=None):

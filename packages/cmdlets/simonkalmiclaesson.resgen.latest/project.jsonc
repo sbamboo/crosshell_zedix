@@ -1,0 +1,10 @@
+// Projman Generated Json file
+
+{"Resgen":{
+    "Version":"1.0",
+    "Fullname":"Resgen",
+    "Idnum":"00111001",
+    "Deps":[
+        "Base"
+    ]
+}}

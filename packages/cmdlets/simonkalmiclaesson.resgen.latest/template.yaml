@@ -1,0 +1,29 @@
+# Project-YAML template for resgen replace anything inside <> with your own. Ex replace <name> with your name.
+
+ResGenProject:
+
+  Metadata:
+    Name: <project.name> # Same as this file. (Not strictly needed but good to have)
+    ProjectVersion: <project.version> # The projects version
+    Format: 1.0 # Format of the resgen project. (Don't change unless changing resgen version)
+
+  ResourcepackData:
+    Name: "<name>" # Resourcepack name (Leave blank and only citation marks to use the project name instead)
+    Description: "<description>" # Description to be used in the pack.meta file.
+    PackFormat: 12 # Reference to https://minecraft.fandom.com/wiki/Pack_format
+
+  Cit:
+    <cit.name>: # The name of the cit
+      Type: Item # 'Item' or 'Armor'
+      Item: <item> # The name of the item (The match item)
+      Nbt.Name: "<item.matchname>" # the match name # the match name (Include optifine match types like 'iregex:' and 'ipattern:')
+      Texture: "<item.texture>" # Path to texture, bellow project folder (<path_to_texture>\<textureFile>) This is only bellow the folder named as the project name.
+
+    <cit.name>: # The name of the cit
+      Type: Armor # Same as above example
+      Item: <item> # The name of the item (The match item)
+      Nbt.Name: "<item.matchname>" # the match name # the match name (Include optifine match types like 'iregex:' and 'ipattern:')
+      Texture: "<item.texture>" # Same as above example # the match name (Include optifine match types like 'iregex:' and 'ipattern:')
+      Layer:
+        Id: "" # The Id of the layer (Ex: gold_layer_1)
+        Texture: "<armor.layer>" # Same as the item texture but goes to the armor layer texture file.
