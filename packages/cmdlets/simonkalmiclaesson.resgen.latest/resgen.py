@@ -9,7 +9,7 @@ import json
 app_project_formatVersion = 1.0
 projects_directory = CSScriptRoot + os.sep + "projects"
 templateYAML_file = CSScriptRoot + os.sep + "template.yaml"
-if not os.path.exists: os.mkdir(projects_directory)
+if not os.path.exists(projects_directory): os.mkdir(projects_directory)
 templateYAML = getContent(templateYAML_file)
 
 # region [Arguments]

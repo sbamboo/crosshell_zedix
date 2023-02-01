@@ -29,14 +29,14 @@ paletteText_standardPalette = {
     "46": "b#00FFFF",  # Cyan
     "47": "b#FFFFFF",  # White
     # Background colors (bright intensity)
-    "100": "f#555555",  # Black
-    "101": "f#FF5555",  # Red
-    "102": "f#55FF55",  # Green
-    "103": "f#FFFF55",  # Yellow
-    "104": "f#5555FF",  # Blue
-    "105": "f#FF55FF",  # Magenta
-    "106": "f#55FFFF",  # Cyan
-    "107": "f#FFFFFF",  # White
+    "100": "b#555555",  # Black
+    "101": "b#FF5555",  # Red
+    "102": "b#55FF55",  # Green
+    "103": "b#FFFF55",  # Yellow
+    "104": "b#5555FF",  # Blue
+    "105": "b#FF55FF",  # Magenta
+    "106": "b#55FFFF",  # Cyan
+    "107": "b#FFFFFF",  # White
 }
 
 
