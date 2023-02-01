@@ -3,12 +3,12 @@ import os
 import random
 import math
 import sys
-from pygame.locals import *
 try:
     import pygame
 except:
     os.system("python3 -m pip install pygame")
     import pygame
+from pygame.locals import *
 
 # [Code]
 os.environ["SDL_VIDEO_CENTERED"] = "1"
@@ -17,6 +17,7 @@ screen = pygame.display.set_mode((600, 600))
 pygame.display.set_caption("LEVEL 2 = Find the Correct Square!")
 
 clock = pygame.time.Clock()
+
 
 class Player(object):
     def __init__(self):
