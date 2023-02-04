@@ -1,3 +1,5 @@
+import os
+
 # Get argv as string
 stringInput = (' '.join(argv)).strip(" ")
 

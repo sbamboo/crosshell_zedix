@@ -2,10 +2,10 @@
 # Author: Simon Kalmi Claesson
 
 # [Imports]
-from assets.utils.utilFuncs import *
-from assets.utils.conUtils import *
-from assets.coreFuncs import *
-from assets.lib.simpleDownload import simpleDownload
+from assets.lib.filesys import filesys as fs
+from assets.lib.conUtils import *
+from assets.lib.netwa import simpleDownload
+from assets.lib.configlib import *
 import assets.crossRunner as cse
 import os
 import sys
@@ -112,7 +112,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
     pathables = []
     if allowedFileTypes == []:
         allowedFileTypes = [".py"]
-    entries = scantree(Path)
+    entries = fs.scantree(Path)
     for file in entries:
         fending = cs_getFending(file.path)
         valid = True
@@ -341,25 +341,13 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     if captureOutput == True:
         return capturedOutput
 
-# Function to handle settings json
-def cs_settings_json(mode=str(),settings_file=str(),settings=dict()):
-    # Load
-    if mode == "load":
-        with open(settings_file) as json_file:
-            data = json.load(json_file)
-        return data
-    # Set
-    if mode == "set":
-        with open(settings_file, "w") as outfile:
-            json.dump(settings, outfile)
-
 # Function to handle settings
 def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     # Load
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","EnhancedStyling":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
+        preset = {"General":{"AllowRestart":"false","AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","EnhancedStyling":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:
@@ -381,23 +369,11 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
         with open(settings_file, "w") as outfile:
             yaml.dump(settings, outfile)
 
-# Function to handle persistance yaml
-def cs_persistance_yaml(mode=str(),dictionary=dict(),yaml_file=str()):
-    if mode == "get":
-        with open(yaml_file, "r") as yamli_file:
-            dictionary = yaml.safe_load(yamli_file)
-            if dictionary == "" or dictionary == {} or dictionary == None:
-                dictionary = {}
-        return dictionary
-    if mode == "set":
-        with open(yaml_file, "w") as outfile:
-            yaml.dump(dictionary, outfile)
-
 # Function to handle persistance
 def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
     # Get
     if mode == "get":
-        dictionary = cs_persistance_yaml("get",dict(),data_file)
+        dictionary = useYaml("get",data_file,dict())
         try:
             v = dictionary.get(str(name))
         except:
@@ -407,14 +383,14 @@ def cs_persistance(mode=str(),name=None,data_file=str(),content=None):
         
     # Set
     if mode == "set":
-        dictionary = cs_persistance_yaml("get",dict(),data_file)
+        dictionary = useYaml("get",data_file,dict())
         dictionary[str(name)] = str(content)
-        cs_persistance_yaml("set",dictionary,data_file)
+        useYaml("set",data_file,dictionary)
     # Remove / Unregister
     if mode == "remove":
-        dictionary = cs_persistance_yaml("get",dict(),data_file)
+        dictionary = useYaml("get",data_file,dict())
         dictionary.remove(str(name))
-        cs_persistance_yaml("set",dictionary,data_file)
+        useYaml("set",data_file,dictionary)
 
 # Function to check if a string value is boolean true or false
 def retbool(value):

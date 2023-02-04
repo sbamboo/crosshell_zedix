@@ -6,7 +6,7 @@ import os
 import re
 
 # [Local imports]
-from assets.utils.conUtils import *
+from assets.lib.conUtils import *
 from assets.coreFuncs import *
 from assets.paletteText import *
 

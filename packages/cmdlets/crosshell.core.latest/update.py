@@ -1,9 +1,10 @@
 # Imports
+import os
 import yaml
 import argparse
 import traceback
-from assets.lib.simpleDownload import simpleDownload
-from assets.lib.copylib import *
+from assets.lib.netwa import simpleDownload
+from assets.lib.filesys import filesys as fs
 from assets.lib.gitAPI import *
 
 # Setup
@@ -56,11 +57,11 @@ else:
         # Backup files
         for File in FilesToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
-                CopyFile(f"{root}{File}",f"{temporaryFolder}{os.sep}{File}")
+                fs.copyFile(f"{root}{File}",f"{temporaryFolder}{os.sep}{File}")
         # Backup Folders
         for Folder in FoldersToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
-                CopyFolder2(f"{root}{Folder}",f"{temporaryFolder}{os.sep}{Folder}")
+                fs.copyFolder2(f"{root}{Folder}",f"{temporaryFolder}{os.sep}{Folder}")
         print("Done!")
         print("Removing current data (Not the backup)...")
         # Remove current version of data
@@ -71,14 +72,14 @@ else:
         # Remove things from folders
         for Folder in FoldersToBackup:
             folderpath = f"{root}{Folder}"
-            entries = scantree(folderpath)
+            entries = fs.scantree(folderpath)
             for file in entries:
                 if "__pycache__" not in file.path:
                     if os.path.isfile(file.path):
                         os.remove(file.path)
                     else:
                         os.rmdir(file.path)
-            entries = scantree(folderpath)
+            entries = fs.scantree(folderpath)
             for file in entries:
                 try: os.rmdir(file.path)
                 except: pass
@@ -90,16 +91,16 @@ else:
         if not os.path.exists(f"{temporaryFolder}{os.sep}update_temp"): os.mkdir(f"{temporaryFolder}{os.sep}update_temp")
         with ZipFile(f"{temporaryFolder}{os.sep}update_temp.zip", 'r') as zObject:
             zObject.extractall(path=f"{temporaryFolder}{os.sep}update_temp")
-        CopyFolder2(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}assets",f"{temporaryFolder}{os.sep}assets")
-        CopyFile(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}crosshell.py",f"{root}crosshell.py")
+        fs.copyFolder2(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}assets",f"{temporaryFolder}{os.sep}assets")
+        fs.copyFile(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}crosshell.py",f"{root}crosshell.py")
         print("Done!")
         print("Moving back user files...")
         # Copy back user data
-        if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
-        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
-        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
-        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
-        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
+        if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+        if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
         print("Done!")
         print("Cleaning up, removing backuped data...")
         # Remove backups
@@ -117,11 +118,11 @@ else:
         # Backup files
         for File in FilesToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
-                CopyFile(f"{root}{File}",f"{temporaryFolder}{os.sep}{File}")
+                fs.copyFile(f"{root}{File}",f"{temporaryFolder}{os.sep}{File}")
         # Backup Folders
         for Folder in FoldersToBackup:
             if not os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
-                CopyFolder2(f"{root}{Folder}",f"{temporaryFolder}{os.sep}{Folder}")
+                fs.copyFolder2(f"{root}{Folder}",f"{temporaryFolder}{os.sep}{Folder}")
         print("Done!")
         print("Removing current data (Not the backup)...")
         # Remove current version of data
@@ -132,14 +133,14 @@ else:
         # Remove things from folders
         for Folder in FoldersToBackup:
             folderpath = f"{root}{Folder}"
-            entries = scantree(folderpath)
+            entries = fs.scantree(folderpath)
             for file in entries:
                 if "__pycache__" not in file.path:
                     if os.path.isfile(file.path):
                         os.remove(file.path)
                     else:
                         os.rmdir(file.path)
-            entries = scantree(folderpath)
+            entries = fs.scantree(folderpath)
             for file in entries:
                 try: os.rmdir(file.path)
                 except: pass
@@ -154,11 +155,11 @@ else:
             print("Done!")
             print("Moving back user files...")
             # Copy back user data
-            if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
+            if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
             print("Done!")
             print("Cleaning up, removing backuped data...")
             # Remove backups
@@ -170,33 +171,33 @@ else:
             # Remove things from folders
             for Folder in FoldersToBackup:
                 folderpath = f"{root}{Folder}"
-                entries = scantree(folderpath)
+                entries = fs.scantree(folderpath)
                 for file in entries:
                     if "__pycache__" not in file.path:
                         if os.path.isfile(file.path):
                             os.remove(file.path)
                         else:
                             os.rmdir(file.path)
-                entries = scantree(folderpath)
+                entries = fs.scantree(folderpath)
                 for file in entries:
                     try: os.rmdir(file.path)
                     except: pass
             # UnBackup files
             for File in FilesToBackup:
                 if os.path.exists(f"{temporaryFolder}{os.sep}{File}"):
-                    CopyFile(f"{temporaryFolder}{os.sep}{File}",f"{root}{File}")
+                    fs.copyFile(f"{temporaryFolder}{os.sep}{File}",f"{root}{File}")
             print("Reverting: Done removing data!")
             print("Reverting: Copy back user data...")
             # Copy back user data
-            if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): CopyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
-            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): CopyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
+            if os.path.exists(f"{temporaryFolder}{os.sep}settings.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}settings.yaml",f"{root}settings.yaml")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}persistance.yaml",f"{root}assets{os.sep}persistance.yaml")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.msg",f"{root}assets{os.sep}profile.msg")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}profile.py",f"{root}assets{os.sep}profile.py")
+            if os.path.exists(f"{temporaryFolder}{os.sep}assets{os.sep}.history"): fs.copyFile(f"{temporaryFolder}{os.sep}assets{os.sep}.history",f"{root}assets{os.sep}.history")
             # UnBackup Folders
             for Folder in FoldersToBackup:
                 if os.path.exists(f"{temporaryFolder}{os.sep}{Folder}"):
-                    CopyFolder2(f"{temporaryFolder}{os.sep}{Folder}",f"{root}{Folder}")
+                    fs.copyFolder2(f"{temporaryFolder}{os.sep}{Folder}",f"{root}{Folder}")
             print("Done reverting!")
             print("Traceback:")
             print(f"\033[31m{ traceback.format_exc() }\033[0m")

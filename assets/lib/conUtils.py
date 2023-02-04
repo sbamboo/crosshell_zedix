@@ -1,5 +1,5 @@
-# Utility module by Simon Kalmi Claesson
-# OBS! xterm needed on linux
+# ConUtils: Console utility functions for python, Obs! xterm needed on linux 
+# Made by: Simon Kalmi Claesson
 
 # [Imports]
 import os

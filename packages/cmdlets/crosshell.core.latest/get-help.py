@@ -16,7 +16,7 @@ else:
         description = found["description"]
         blockCommonParameters = found["blockCommonParameters"]
         argparseHelp = found["ArgparseHelp"]
-        fending = cmdlet["fileEnding"]
+        fending = found["fileEnding"]
         # Argparse help
         if argparseHelp == True or argparseHelp == "True" and fending == ".py": 
             int_old_stdout = sys.stdout

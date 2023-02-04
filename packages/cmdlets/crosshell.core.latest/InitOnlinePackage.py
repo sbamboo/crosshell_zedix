@@ -1,3 +1,4 @@
+import os
 from assets.lib.tqdm_ui import *
 try:
     import zipfile

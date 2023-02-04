@@ -1,3 +1,4 @@
+import os
 try:
     dirIn = str(argv[0])
 except:

@@ -1,4 +1,5 @@
 # [Imports]
+import os
 from assets.lib.simpleDownload import *
 import argparse
 

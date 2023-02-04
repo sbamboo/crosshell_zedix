@@ -1,4 +1,5 @@
 filename = str(' '.join(argv))
+import os
 try:
   import climage
 except:

@@ -1,4 +1,5 @@
-# Formatter by Simon Kalmi Claesson
+# StringFormat: Smal library to handle some nice string formatting, currently only crosshell's prefix system.abs(
+# Made by: Simon Kalmi Claesson
 #
 
 # [Imports]

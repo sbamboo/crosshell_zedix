@@ -1,3 +1,4 @@
+import os
 try:
 	import pandas as pd
 except:

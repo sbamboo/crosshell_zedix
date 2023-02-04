@@ -1,2 +1,2 @@
-from assets.lib.copylib import *
-CopyFolder2(argv[0],argv[1],True)
+from assets.lib.filesys import filesys as fs
+fs.copyFolder2(argv[0],argv[1],True)

@@ -1,3 +1,4 @@
+import os
 gdir = csbasedir
 
 csworking_directory = gdir

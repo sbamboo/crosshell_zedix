@@ -1,6 +1,6 @@
 # NetwaLib: Simple network library.
 # Made by: Simon Kalmi Claesson
-# 2023-01-02
+# 2023-02-04
 
 # [Imports]
 import traceback
@@ -33,3 +33,11 @@ class netwa:
 			print( f"\033[32m[cs.lib.Netwa]: Connected: {req.ok}" )
 		except Exception:
 			return f"\033[31m[cs.lib.Netwa]: { traceback.format_exc() }\033[0m"
+
+
+# [Functions]
+def simpleDownload(url=str(),file=str()):
+    r = requests.get(url, allow_redirects=True)
+    if file == "":
+        return r.content
+    open(file, 'wb').write(r.content)

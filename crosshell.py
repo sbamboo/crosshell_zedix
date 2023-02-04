@@ -41,14 +41,14 @@ from assets.evaluate import *
 from assets.coreFuncs import *
 from assets.shellFuncs import *
 from assets.paletteText import *
-# Utils
-from assets.utils.conUtils import *
-from assets.utils.utilFuncs import *
-from assets.utils.formatter import *
 # libaries
-if cs_cliargs.noinfo != True: print("[Crosshell.uilib.tqdm_ui]: Importing modules...")
+if cs_cliargs.noinfo != True: print("[Crosshell]: Importing libraries...")
+from assets.lib.conUtils import *
+from assets.lib.stringFormat import *
 from assets.lib.tqdm_ui import *
 from assets.lib.gitAPI import *
+from assets.lib.filesys import filesys as fs
+from assets.lib.configlib import *
 
 # ==========================================================[Setup code]========================================================== #
 
@@ -94,9 +94,9 @@ if os.path.exists(path_cmdlet_zedix_core) != True:
         print("\033[32m[Crosshell]: Done!\033[0m")
     else:
         print("[Crosshell]: Done!")
-if os.path.exists(cs_settingsFile) != True: touchFile(cs_settingsFile,"utf-8")
-if os.path.exists(cs_versionFile) != True: touchFile(cs_versionFile,"utf-8")
-if os.path.exists(cs_persistanceFile) != True: touchFile(cs_persistanceFile,"utf-8")
+if os.path.exists(cs_settingsFile) != True: fs.createFile(cs_settingsFile,encoding="utf-8")
+if os.path.exists(cs_versionFile) != True: fs.createFile(cs_versionFile,encoding="utf-8")
+if os.path.exists(cs_persistanceFile) != True: fs.createFile(cs_persistanceFile,encoding="utf-8")
 
 # [Settings]
 # Get and set settings
@@ -141,6 +141,8 @@ PrintCmdletDebug = retbool(cssettings["General"]["PrintCmdletDebug"])
 PrintComments = retbool(cssettings["General"]["PrintComments"])
 # Autoclear setting
 AutoClearConsole = retbool(cssettings["General"]["AutoClearConsole"])
+# AllowRestart setting
+AllowRestart = retbool(cssettings["General"]["AllowRestart"])
 
 # [SmartInput Settings]
 sInput_enabled = retbool(cssettings["SmartInput"]["Enabled"])
@@ -158,7 +160,7 @@ sInput_cursorChar = cssettings["SmartInput"]["CursorChar"]
 
 # Get version data
 try:
-    csversionData = cs_persistance_yaml("get",dict(),cs_versionFile)
+    csversionData = useYaml("get",cs_versionFile,dict())
 except:
     csversionData = {}
 
@@ -379,9 +381,11 @@ while crosshell_doLoop == True:
                 cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 
             # Handle built in restart command
-            #elif cmd == "restart":
-            #    path = csbasedir + os.sep + "zedix.py"
-            #    exec(open(path).read(), globals())
+            elif cmd == "restart" and AllowRestart == True:
+                path = csbasedir + os.sep + "crosshell.py"
+                with open(path, 'rb') as file:
+                    code = compile(file.read(), sys.argv[0], 'exec')
+                    exec(code, globals())
 
             # Handle built in cs.getPathables Command wich shows and parses the pathables dictionary/list
             elif cmd == "cs.getPathables":

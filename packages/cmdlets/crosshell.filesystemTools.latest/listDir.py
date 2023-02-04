@@ -1,3 +1,4 @@
+import os
 fullMode = False
 try:
     dirIn = str(argv[0])

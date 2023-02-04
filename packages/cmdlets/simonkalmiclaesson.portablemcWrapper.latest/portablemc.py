@@ -1,4 +1,5 @@
 # [Imports]
+import os
 hasinstalledState = f"{CSScriptRoot}{os.sep}hasinstalled.empty"
 if not os.path.exists(hasinstalledState):
     print("Installing portablemc...")

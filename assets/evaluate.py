@@ -1,6 +1,6 @@
 # [Imports]
 import os
-from assets.utils.conUtils import *
+from assets.lib.conUtils import *
 
 
 # [Code]

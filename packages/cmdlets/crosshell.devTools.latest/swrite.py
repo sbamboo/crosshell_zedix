@@ -1,4 +1,5 @@
 # region: Imports
+import os
 try:
     import pynput
 except:

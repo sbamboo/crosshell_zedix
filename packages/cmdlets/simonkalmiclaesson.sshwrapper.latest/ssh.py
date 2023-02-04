@@ -1,3 +1,4 @@
+import os
 try:
     os.system(f"ssh {(' '.join(argv)).strip(' ')}")
 except:
