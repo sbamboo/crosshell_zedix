@@ -13,6 +13,7 @@ parser = argparse.ArgumentParser(
 # Add in arguments
 parser.add_argument('-c', dest="command", help='command to pass to crosshell')
 parser.add_argument('-fc', dest="fastcommand", help='same as command but enables --nowelc, --nocls and --nocls')
+parser.add_argument('-a', dest="action", help='Runs an action, use "-a list" to list them. (Sepparated by semicolons)')
 parser.add_argument('-startdir', dest="cli_startdir", help='a starting directory to use with crosshell')
 parser.add_argument('-startprefix', dest="cli_startprefix", help='a prefix used at startup.')
 parser.add_argument('--noexit', help='Starts crosshell after running a command', action='store_true')
@@ -28,12 +29,18 @@ cs_cliargs = parser.parse_args()
 # Handle FastCommand
 if cs_cliargs.fastcommand:
     cs_cliargs.command = cs_cliargs.fastcommand
+if cs_cliargs.fastcommand or cs_cliargs.action:
     cs_cliargs.nocls = True
     cs_cliargs.nowelcome = True
     cs_cliargs.noinfo = True
 
 # [Startup Message]
 if cs_cliargs.noinfo != True: print("[Crosshell]: Starting...")
+
+# [Actions]
+# Actions
+from assets.actionHandler import *
+cs_RunActions(cs_cliargs.action,basedir=os.path.dirname(os.path.realpath(__file__)))
 
 # [Local imports]
 # Core

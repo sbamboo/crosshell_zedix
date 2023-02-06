@@ -4,6 +4,7 @@
 # Imports
 import os
 import shutil
+import platform
 try:
     from os import scandir
 except ImportError:
@@ -382,9 +383,9 @@ class filesys():
             os.system("python3 -m pip install distro")
             import distro
         # Launch manager
-        if IsWindows(): os.system(f"explorer {path}")
-        elif IsMacOS(): os.system(f"open {path}")
-        elif IsLinux():
+        if altConUtils.IsWindows(): os.system(f"explorer {path}")
+        elif altConUtils.IsMacOS(): os.system(f"open {path}")
+        elif altConUtils.IsLinux():
             #Rassberry pi
             if distro.id() == "raspbian": os.system(f"pcmanfm {path}")
 
