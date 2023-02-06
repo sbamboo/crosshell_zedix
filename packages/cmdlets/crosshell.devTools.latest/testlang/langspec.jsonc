@@ -1,0 +1,11 @@
+{"language":{
+    "keywords":[ // Keywords that should be matched/Lexed out of the string
+        {"Number": "re:[0-9]"}, // Regex pattern has a 're:' prefix. Folowing the colon is the pattern
+        {"Exit": "exit"} // Keywords, exact matches
+    ],
+
+    "Specifications":[ // Contains al the formating and actions for a lexed piece.
+        {"Number": {"Action":"", "Format":"\u001B[33{w}\u001B[0m"}}, // action is if python code should be evaluated if empty don't run any code yet. Format is a python formatted string for ansi formatting, {w} should be replaced with the lexed string.
+        {"Exit": {"Action":"exit()", "Format":"\u001B[31{w}\u001B[0m"}}
+    ]
+}}
