@@ -68,7 +68,8 @@ class filesys():
           - createFile: Creates a file. (Taking "filepath=<str>", "overwrite=<bool>" and "encoding=<encoding>")
           - createDir: Creates a directory. (Taking "folderpath=<str>")
           - deleteFile: Deletes a file. (Taking "filepath=<str>")
-          - deleteDir: Deletes a directory. (Taking "folderpath=<str>")
+          - deleteDir: Deletes an empty directory. (Taking "folderpath=<str>")
+          - deleteDirNE: Deletes a non empty directory, wrapping shutil.rmtree. (Taking "folderpath=<str>")
           - writeToFile: Writes to a file. (Taking "inputs=<str>", "filepath=<str>", "append=<bool>" and "encoding=<encoding>")
           - readFromFile: Gets the content of a file. (Taking "filepath=<str>" and "encoding=<encoding>")
           - getWorkingDir: Gets the current working directory.
@@ -180,6 +181,17 @@ class filesys():
         # Delete directory
         if valid == True:
             try: os.rmdir(folderpath)
+            except: print("\033[31mAn error occurred!\033[0m")
+        else:
+            print(valid); exit()
+
+    # Function to delete directory NON EMPTY
+    def deleteDirNE(folderpath=str()):
+        # Validate
+        valid = filesys.errorHandler("dir",folderpath)
+        # Delete directory
+        if valid == True:
+            try: shutil.rmtree(folderpath)
             except: print("\033[31mAn error occurred!\033[0m")
         else:
             print(valid); exit()

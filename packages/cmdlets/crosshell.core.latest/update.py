@@ -91,7 +91,7 @@ else:
         if not os.path.exists(f"{temporaryFolder}{os.sep}update_temp"): os.mkdir(f"{temporaryFolder}{os.sep}update_temp")
         with ZipFile(f"{temporaryFolder}{os.sep}update_temp.zip", 'r') as zObject:
             zObject.extractall(path=f"{temporaryFolder}{os.sep}update_temp")
-        fs.copyFolder2(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}assets",f"{temporaryFolder}{os.sep}assets")
+        fs.copyFolder2(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}assets",f"{root}assets")
         fs.copyFile(f"{temporaryFolder}{os.sep}update_temp{os.sep}crosshell_zedix-main{os.sep}crosshell.py",f"{root}crosshell.py")
         print("Done!")
         print("Moving back user files...")
@@ -104,7 +104,7 @@ else:
         print("Done!")
         print("Cleaning up, removing backuped data...")
         # Remove backups
-        shutil.rmtree(temporaryFolder)
+        fs.deleteDirNE(temporaryFolder)
         print("Done!")
     else:
         # Make temporary folder

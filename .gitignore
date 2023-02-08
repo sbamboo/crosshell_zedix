@@ -1,5 +1,6 @@
 *.pyc
 *.localcfg
+*.lcfg
 .vscode
 assets/.history
 assets/gamehub_api_tos.txt
