@@ -72,6 +72,7 @@ else:
 #     return next(islice(matches, n-1, n), None)
 def nth_index(iterable, value, n):
     indexes = [index for index, char in enumerate(iterable) if char == value]
+    #<result_list> = [<thing_to_return> <loop> <condition>]
     return indexes[n-1]
 
 # Scope function variables

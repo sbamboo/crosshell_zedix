@@ -1,6 +1,7 @@
 # [Imports]
 import os
-from assets.lib.simpleDownload import *
+from assets.lib.netwa import simpleDownload
+from assets.lib.filesys import pwshStyled as ps
 import argparse
 
 # [Arguments]
@@ -20,7 +21,7 @@ if argus.exhelp: cparser.print_help(); exit()
 
 # get presets
 if os.path.exists(f"{CSScriptRoot}\presets.list") == True:
-    presents_content_local = getContent(f"{CSScriptRoot}\presets.list")
+    presents_content_local = ps.getContent(f"{CSScriptRoot}\presets.list")
 presets_content_online = simpleDownload("https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/repository/cmdlet/_private/private_richprefix/presets.list","")
 if "# format" in (presets_content_online.decode()).split("\n")[0]:
     presets_content = (presets_content_online.decode()).split("\n")
