@@ -1,1 +1,0 @@
-print("Hello world! [pkgs/crosshell.packagehandtest.latest/helo.py")

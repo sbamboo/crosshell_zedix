@@ -1,6 +1,6 @@
 # NetwaLib: Simple network library.
 # Made by: Simon Kalmi Claesson
-# 2023-02-04
+# 2023-02-09
 
 # [Imports]
 import traceback
