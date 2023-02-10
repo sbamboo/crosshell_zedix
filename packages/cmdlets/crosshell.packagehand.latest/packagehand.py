@@ -31,6 +31,7 @@ if argus.exhelp: cparser.print_help(); exit()
 
 
 # [Setup/Declarations]
+ph_ProtectedPackages = cs_protectedPacages
 ph_LocalFormatVersion = 1 # The format version this version of packagehand expects
 ph_repoURL = "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc"
 ph_idefURL = "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.idef"
@@ -65,3 +66,5 @@ else:
 # [Get package details]
 if argus.package:
     ph_repodata = 
+    # Note package version is included as argument or as .<version> in package name
+    # Function to handle dependencies

@@ -80,6 +80,8 @@ allowedFileTypes = [".py",".ps1",".cmd",".bat",".exe","platform-binary"]
 defaultTabCompleteItems = ["reload","exit","cls","/help","/search","/webi","/calc"]
 HandleCmdletError = False
 PrintCmdletDebug = False
+# Packages
+cs_protectedPacages = ["crosshell.core"]
 
 
 # [Create folders]

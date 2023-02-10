@@ -123,3 +123,8 @@ def updateRepositoryFile(repoFile=str(),idefFile=None,repoURL=None,idefURL=None)
 def matchPackage(mainRepo,repoFolder,version):
     # Version if the version of the package to match for if not found use latest and inform user
     # check through mainrepo then get al data from al repoFolders note theese should get updated :( then match for al occurences of package name and collect list of al version avaliable throughout al repos. If multiple latest versions are given then ask the user to choose one, showing the url to the repo.
+    pass
+
+# Function to handle depedencies
+def handleDependencies(deps=dict()):
+    pass
