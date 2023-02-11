@@ -2,6 +2,7 @@
 import uuid
 import requests
 import argparse
+from assets.lib.filesys import filesys as fs
 
 # [Arguments]
 cparser = argparse.ArgumentParser(prog="HomeAssistant-Webhook",exit_on_error=False,add_help=False)
@@ -27,7 +28,7 @@ if os.path.exists(webhook_url_file):
     api_access_url = open(webhook_url_file).read()
 else:
     api_access_url = input("No url config file found please write webhook url to save: ")
-    outFile(api_access_url,webhook_url_file)
+    fs.writeToFile(api_access_url,webhook_url_file,autocreate=True)
 localcopy_devices = {
     "balkongen.socket1": "switch.balkongen_socket_1",
     "sovrum.fonsterlampa": "switch.fonster_lampan",

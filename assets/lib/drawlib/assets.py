@@ -1,4 +1,5 @@
-from internal import *
+import re
+from assets.lib.drawlib.internal import *
 
 # De tokenising function (Variables in string)
 def deTokenize(string):

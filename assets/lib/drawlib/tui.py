@@ -1,4 +1,4 @@
-from asset import *
+from assets.lib.drawlib.assets import getANSI,deTokenize
 
 def inputAtCords (posX, posY, text=None, color=None, offsetX=None, offsetY=None):
 	if offsetX != None: posX = posX + offsetX
@@ -6,7 +6,11 @@ def inputAtCords (posX, posY, text=None, color=None, offsetX=None, offsetY=None)
 	# Save cursorPos
 	print("\033[s")
 	# Get color code
-	colorcode = getANSI(color)
+	if "ansi:" in color:
+		color = color.replace("ansi:","")
+		colorcode = color
+	else:
+		colorcode = getANSI(color)
 	# Print texture
 	# Replace tokens in line
 	text = deTokenize(text)
