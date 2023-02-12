@@ -5,6 +5,7 @@
 assets/.history
 assets/gamehub_api_tos.txt
 assets/hasshownguide.state
+assets/hasverified.state
 assets/persistance.yaml
 assets/profile.msg
 assets/profile.py
