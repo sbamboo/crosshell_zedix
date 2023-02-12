@@ -4,10 +4,21 @@ import subprocess
 import os
 import ast
 from assets.evaluate import *
+from assets.longPATHhandler import string_allowed
 
 # [Setup Functions]
+# Function to autodecode cp437
+def handle_cp437(bytestring):
+    try:
+        decoded_string = bytestring.decode('cp437')
+    except UnicodeDecodeError:
+        decoded_string = string
+    return decoded_string
+
 # Function to start a shell with or without STDOUT capturing
 def runShell(main=str(),captureOutput=False,params=list(),cmd=list()):
+    if string_allowed(' '.join([main, *cmd, *params])) == False:
+        return "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG"
     # Check captureOutput and if disabled just execute a subprocess
     if captureOutput == False:
         subprocess.run([f'{main}', *cmd, *params], stderr=sys.stderr, stdout=sys.stdout)
@@ -16,6 +27,7 @@ def runShell(main=str(),captureOutput=False,params=list(),cmd=list()):
         # 1: Execute the shell and it's paramaters, 2: Get the communicateObject at index 1 for the STDOUT and return the out with the upper function.
         proc = subprocess.Popen([f'{main}', *cmd, *params], stderr=sys.stderr, stdout=subprocess.PIPE)
         out = proc.communicate()[0]
+        out = handle_cp437(out)
         return out.upper()
 
 # [Runners]
@@ -45,7 +57,7 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
             capturedOutput = runShell("pwsh",captureOutput,[inputs, *params])
         else:
             # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
-            runShell("pwsh",captureOutput,[inputs, *params])
+            capturedOutput = runShell("pwsh",captureOutput,[inputs, *params])
     # If the script should send variables do the following:
     else:
         # Handle variable Dictionary
@@ -77,7 +89,7 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
         # Otherwise just run the runtime script
         else:
             # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
-            runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}",f"{allowFuncCalls}"])
+            capturedOutput = runShell("pwsh",captureOutput,params,[runtime,f"{inputs}",f'{vars}',f'{passBackVars}',f"{legacyNames}",f"{allowFuncCalls}"])
         # Check if the function should wait for the runtime to send back variables
         if passBackVars == True:
             # While loop to wait for a passbackfile
@@ -128,6 +140,7 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
     if os.path.exists(f"{fp2}{os.sep}exit.empty"):
         os.remove(f"{fp2}{os.sep}exit.empty")
     # If input has been captured return it othervise just return the new variables
+    if "error.runshellExeception" in str(capturedOutput): return varDict,capturedOutput
     if captureOutput == True:
         return varDict,capturedOutput
     else:
@@ -142,7 +155,8 @@ def batCMD(path,params,captureOutput=False):
         return capturedOutput
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
-        runShell("cmd",captureOutput,["/c", path, *params])
+        capturedOutput = runShell("cmd",captureOutput,["/c", path, *params])
+        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
         return False
 
 # Function to run exe files
@@ -154,7 +168,8 @@ def winEXE(path,params,captureOutput=False):
         return capturedOutput
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
-        runShell(path,captureOutput,[*params])
+        capturedOutput = runShell(path,captureOutput,[*params])
+        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
         return False
 
 # Function to run platform executables / binaries
@@ -166,5 +181,6 @@ def platformExe(path,params,captureOutput=False):
         return capturedOutput
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
-        runShell(path,captureOutput,[*params])
+        capturedOutput = runShell(path,captureOutput,[*params])
+        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
         return False

@@ -29,6 +29,9 @@ cs_cliargs = parser.parse_args()
 # Handle FastCommand
 if cs_cliargs.fastcommand:
     cs_cliargs.command = cs_cliargs.fastcommand
+    if "!" in cs_cliargs.command or "!!" in cs_cliargs.command:
+        cs_cliargs.command = cs_cliargs.command.replace("!!","||")
+        cs_cliargs.command = cs_cliargs.command.replace("!","|")
 if cs_cliargs.fastcommand or cs_cliargs.action:
     cs_cliargs.nocls = True
     cs_cliargs.nowelcome = True
@@ -434,7 +437,8 @@ while crosshell_doLoop == True:
                             # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
                             try:
                                 # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                                cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)   
+                                out = cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)   
+                                if out == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": print("\033[31mError: Command execeded limit! (Filepath or length of pipe content exceeded 32767)\033[0m")
                             except KeyboardInterrupt:
                                 #call a dummy function
                                 dummy()
@@ -456,6 +460,10 @@ while crosshell_doLoop == True:
                                 try:
                                     # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
                                     pipeSTDOUT = cs_exec(path,params,globals(),True,HandleCmdletError,PrintCmdletDebug)
+                                    if pipeSTDOUT == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG":
+                                        print("\033[31mError: Command execeded limit! (Filepath or length of pipe content exceeded 32767)\033[0m")
+                                        pipeSTDOUT = None
+                                        pipeIndex = (len(pipeParts)-1)
                                 except KeyboardInterrupt:
                                     #call a dummy function
                                     dummy()
@@ -463,7 +471,8 @@ while crosshell_doLoop == True:
                             else:
                                 try:
                                     # cs_exec(<path-to-cmdlet>,<parameter>,<globalVariables>,<passSTDOUT>,<printCmdletDebug>)
-                                    cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)   
+                                    out = cs_exec(path,params,globals(),False,HandleCmdletError,PrintCmdletDebug)
+                                    if out == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": print("\033[31mError: Command execeded limit! (Filepath or length of pipe content exceeded 32767)\033[0m")
                                 except KeyboardInterrupt:
                                     #call a dummy function
                                     dummy()

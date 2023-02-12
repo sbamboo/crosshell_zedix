@@ -237,6 +237,7 @@ def cs_getPathablePath(pathables,inputs=str()):
 
 # Funtion to execute cmdlet
 def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdletError=False,PrintCmdletDebug=False):
+    capturedOutput = None
     # F(ile)eding
     fending = cs_getFending(path)
     # CSScriptRoot
@@ -338,7 +339,7 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     # Fallback
     else:
         print(f"\033[31mError: File ending/type '{fending}' is not supported by this crosshell version!\033[0m")
-    if captureOutput == True:
+    if capturedOutput:
         return capturedOutput
 
 # Function to handle settings

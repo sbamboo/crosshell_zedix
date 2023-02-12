@@ -1,4 +1,5 @@
-command = ''.join(argv)
+command = (' '.join(argv)).strip(" ")
+command = command.strip('"')
 import os
 
 # get path
@@ -32,6 +33,7 @@ if valid == False:
     shellpath = f"{path}{os.sep}shell.ps1"
 
 # Load
-command = str(shellpath) + " -command " + str(command)
+command = str(shellpath) + " -command " + f'"{command}"'
+command = command.replace("\|","|")
 os.system(f"pwsh -file {command}")
 
