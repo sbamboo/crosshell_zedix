@@ -17,7 +17,7 @@ from assets.lib.netwa import netwa
 
 # [Prepare]
 KRYPTOKEY = GenerateKey("CROSSHELL VERIFIER TOOLKIT jja18aj1a SIGNED IT BIT")
-PANTRYKEY = 'c96b7120-d350-4ac1-af69-1bee5f3554d3'
+PANTRYKEY = encdec(key=KRYPTOKEY,inputs='gAAAAABj6NhGrfM2Uo-HoNWiUjUOwEDNb0vNbsabEGKnsCINJw6yMeMTp2jiSeHVMa1tZHuQs0Ri7IYxSbA0gK7HpveNAfaRwzzLFpN8Hj1ufVGThXqH88NXUzHrRVCgSsFyvBhqQ8fd',mode='dec')
 has_verified_file = f"{os.path.dirname(__file__)}{os.sep}assets{os.sep}hasverified.state"
 HelpText = [
             "This information is collected to allow the author -",
@@ -64,7 +64,7 @@ try:
 except:
     # Check if user is verified
     if not os.path.exists(has_verified_file):
-        print("\033[31mError: No internet connection, please connect to internet and continue!\033[0m")
+        print("\033[31mError: No internet connection, please connect to internet to verify your install!\033[0m")
         exit()
 try:
     UsersSaved_Dict = json.loads(requestAnsw.content.decode())
