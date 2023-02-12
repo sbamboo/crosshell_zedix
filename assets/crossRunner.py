@@ -140,7 +140,7 @@ def Powershell(inputs,params,sendVars=False,varDict=None,passBackVars=False,lega
     if os.path.exists(f"{fp2}{os.sep}exit.empty"):
         os.remove(f"{fp2}{os.sep}exit.empty")
     # If input has been captured return it othervise just return the new variables
-    if "error.runshellExeception" in str(capturedOutput): return varDict,capturedOutput
+    if capturedOutput == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": return varDict,capturedOutput
     if captureOutput == True:
         return varDict,capturedOutput
     else:
@@ -156,7 +156,7 @@ def batCMD(path,params,captureOutput=False):
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
         capturedOutput = runShell("cmd",captureOutput,["/c", path, *params])
-        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
+        if capturedOutput == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": return capturedOutput
         return False
 
 # Function to run exe files
@@ -169,7 +169,7 @@ def winEXE(path,params,captureOutput=False):
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
         capturedOutput = runShell(path,captureOutput,[*params])
-        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
+        if capturedOutput == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": return capturedOutput
         return False
 
 # Function to run platform executables / binaries
@@ -182,5 +182,5 @@ def platformExe(path,params,captureOutput=False):
     else:
         # runShell(<shell>,<captureOutput-bool>,<list-of-inputs-and-other-parameters>)
         capturedOutput = runShell(path,captureOutput,[*params])
-        if "error.runshellExeception" in str(capturedOutput): return capturedOutput
+        if capturedOutput == "error.runshellExeception.WINLONGPATHDISABLED_COMMANDTOLONG": return capturedOutput
         return False
