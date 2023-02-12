@@ -17,7 +17,6 @@ class netwa:
 		try:
 			req = requests.get(override_url)
 			req.raise_for_status()
-			print( req.ok )
 		except:
 			return False
 

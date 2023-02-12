@@ -83,6 +83,8 @@ PrintCmdletDebug = False
 # Packages
 cs_protectedPacages = ["crosshell.core"]
 
+# [Verify]
+exec(open(f"{csbasedir}{os.sep}assets{os.sep}verifyTool.py",encoding='utf-8').read())
 
 # [Create folders]
 # Setup filepaths
