@@ -3,6 +3,14 @@
 version = 1.0
 #
 
+# [Internet check]
+from assets.lib.netwa import netwa
+if netwa.has_connection() == False:
+    # Check if user is verified
+    if not os.path.exists(has_verified_file):
+        print("\033[31mError: No internet connection, please connect to internet to verify your install!\033[0m")
+        exit()
+
 
 # [Imports]
 import os
@@ -13,7 +21,6 @@ from assets.lib.drawlib.linedraw import draw_point,fill_terminal
 from assets.lib.conUtils import *
 from assets.lib.pantryapi import pantryapireq
 from assets.lib.crypto import *
-from assets.lib.netwa import netwa
 
 # [Prepare]
 KRYPTOKEY = GenerateKey("CROSSHELL VERIFIER TOOLKIT jja18aj1a SIGNED IT BIT")
@@ -59,13 +66,7 @@ columns, rows = os.get_terminal_size()
 computer = socket.gethostname()
 
 # [Check if user has been saved]
-try:
-    requestAnsw = pantryapireq(key=PANTRYKEY,mode='get',basket='CrosshellVerifierNameList')
-except:
-    # Check if user is verified
-    if not os.path.exists(has_verified_file):
-        print("\033[31mError: No internet connection, please connect to internet to verify your install!\033[0m")
-        exit()
+requestAnsw = pantryapireq(key=PANTRYKEY,mode='get',basket='CrosshellVerifierNameList')
 try:
     UsersSaved_Dict = json.loads(requestAnsw.content.decode())
     UsersSaved = encdec_dict(key=KRYPTOKEY, dictionary=UsersSaved_Dict,mode='dec')

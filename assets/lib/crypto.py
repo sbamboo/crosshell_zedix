@@ -1,5 +1,6 @@
 import base64
 import hashlib
+import os
 try:
     from cryptography.fernet import Fernet
 except:
