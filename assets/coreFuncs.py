@@ -144,6 +144,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
             fblockCommonparams = ""
             fsynopsisDesc = ""
             fargparseHelp = ""
+            fencoding = ""
             if os.path.exists(fconfigfile):
                 fconfig = readConfig(fconfigfile)
                 # config
@@ -167,6 +168,8 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                     fparamhelp = str(fparamhelp).strip('"')
                 if fconfig.get("blockCommonparams") != "" and fconfig.get("blockCommonparams") != '""':
                     fblockCommonparams = fconfig.get("blockCommonparams")
+                if fconfig.get("encoding") != "" and fconfig.get("encoding") != '""':
+                    fencoding = fconfig.get("encoding")
                 if fconfig.get("synopsisDesc") != "" and fconfig.get("synopsisDesc") != '""':
                     fsynopsisDesc = fconfig.get("synopsisDesc")
                 if fsynopsisDesc == "True":
@@ -182,7 +185,7 @@ def cs_loadCmdlets(Path=str(),allowedFileTypes=list()):
                 if fconfig.get("ArgparseHelp") != "" and fconfig.get("ArgparseHelp") != '""':
                     fargparseHelp = fconfig.get("ArgparseHelp")
             # Add to pathables
-            pathables.append(f'name%c%"{fname}"%sc%path%c%"{fpath}"%sc%aliases%c%{faliases}%sc%description%c%"{fdescription}"%sc%paramhelp%c%"{fparamhelp}"%sc%blockCommonParameters%c%"{fblockCommonparams}"%sc%synopsisDesc%c%{fsynopsisDesc}%sc%fileEnding%c%"{fending}"%sc%ArgparseHelp%c%"{fargparseHelp}"')
+            pathables.append(f'name%c%"{fname}"%sc%path%c%"{fpath}"%sc%aliases%c%{faliases}%sc%description%c%"{fdescription}"%sc%paramhelp%c%"{fparamhelp}"%sc%blockCommonParameters%c%"{fblockCommonparams}"%sc%synopsisDesc%c%{fsynopsisDesc}%sc%fileEnding%c%"{fending}"%sc%ArgparseHelp%c%"{fargparseHelp}"%sc%encoding%c%"{fencoding}"')
             fname,fpath,faliases,fdescription,fparamhelp = str(),str(),str('[]'),str(),str()
     return pathables
 
@@ -285,6 +288,15 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     if fending == ".py":
         globalInput["argv"] = params
         cmdlet = globalInput["cmd"]
+        # Get format
+        int_pathables = globalInput["cspathables"]
+        exec_encoding = globalInput["cssettings"]["General"]["DefaultEncoding"]
+        for pathable in globalInput["cspathables"]: # PLEASE I BEG FIND A BETTER WAY THEN THIS FOR LOOP!!!
+            data = cs_getPathableProperties(pathable)
+            if path == data["path"]:
+                if data["encoding"] != "" and data["encoding"] != None and data["encoding"] != "None":
+                    exec_encoding = data["encoding"]
+                break
         # If capture out is true, redirect stdout
         if captureOutput == True:
             old_stdout = sys.stdout
@@ -292,7 +304,7 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
         # Execute script
         if HandleCmdletError == True:
             try:
-                exec(open(path).read(), globalInput)
+                exec(open(path,encoding=exec_encoding).read(), globalInput)
             except Exception:
                 if PrintCmdletDebug == True:
                     print(f"\033[31m{ traceback.format_exc() }\033[0m")
@@ -304,7 +316,7 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
                 else: pass
         else:
             try:
-                exec(open(path).read(), globalInput)
+                exec(open(path,encoding=exec_encoding).read(), globalInput)
             # Exit catcher (currently just passing along)
             except SystemExit as cs_cmdlet_exitcode:
                 if str(cs_cmdlet_exitcode) == "cs.exit": exit()
@@ -348,7 +360,7 @@ def cs_settings(mode=str(),settings_file=str(),settings=dict()):
     if mode == "load":
         with open(settings_file, "r") as yamli_file:
             settings = yaml.safe_load(yamli_file)
-        preset = {"General":{"AllowRestart":"false","AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false"},"SmartInput":{"Enabled":"true","EnhancedStyling":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
+        preset = {"General":{"AllowRestart":"false","AutoClearConsole":"false","Prefix_Dir_Enabled":"true","Prefix_Enabled":"true","HandleCmdletError":"true","PrintCmdletDebug":"false","PrintComments":"false","DefaultEncoding":"utf-8"},"SmartInput":{"Enabled":"true","EnhancedStyling":"true","TabCompletion":"true","History":"true","HistoryType":"Memory","HistorySuggest":"true","Highlight":"false","ShowToolBar":"true","MultiLine":"false","MouseSupport":"false","LineWrap":"true","CursorChar":"BLINKING_BEAM"},"Presets":{"Prefix":"> ","Title":"Crosshell (Zedix)"},"PaletteText_Palette":{}}
         try:
             v = settings
             if settings == "" or settings == {} or settings == None:

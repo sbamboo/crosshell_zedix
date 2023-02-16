@@ -3,6 +3,9 @@
 version = 1.0
 #
 
+# [Imports]
+import os
+
 # [Internet check]
 has_verified_file = f"{os.path.dirname(__file__)}{os.sep}assets{os.sep}hasverified.state"
 from assets.lib.netwa import netwa

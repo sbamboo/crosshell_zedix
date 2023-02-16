@@ -6,6 +6,7 @@ General:
   HandleCmdletError: true
   PrintCmdletDebug: true
   PrintComments: false
+  DefaultEncoding: "utf-8"
 
 SmartInput:
   Enabled: true

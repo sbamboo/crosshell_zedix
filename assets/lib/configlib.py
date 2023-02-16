@@ -36,7 +36,7 @@ def useJson(mode=str(),jsonFile=str(),dictionary=dict()):
             json.dump(dictionary, outfile)
 
 # Function to get/set a yaml file
-def useYaml(mode=str(),yamlFile=dict(),dictionary=str()):
+def useYaml(mode=str(),yamlFile=str(),dictionary=dict()):
     if mode == "get":
         with open(yamlFile, "r") as yamli_file:
             dictionary = yaml.safe_load(yamli_file)
