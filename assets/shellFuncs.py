@@ -9,6 +9,7 @@ import re
 from assets.lib.conUtils import *
 from assets.coreFuncs import *
 from assets.paletteText import *
+from assets.lib.filesys.pwshStyled import *
 
 
 # [Function defines]
