@@ -9,7 +9,7 @@ import re
 from assets.lib.conUtils import *
 from assets.coreFuncs import *
 from assets.paletteText import *
-from assets.lib.filesys.pwshStyled import *
+from assets.lib.filesys import pwshStyled as ps
 
 
 # [Function defines]
@@ -47,7 +47,7 @@ def cs_writeProfile(basedir,globalInput,cs_palette):
                 eval(f"print('{line}')")
     # If non of the above is found create the file
     else:
-        outFile("",msgProfileFile)
+        ps.outFile("",msgProfileFile)
         #print(pt_format(cs_palette,"\033[33mOBS! No profile file, please add: '/assets/profile.msg'\033[0m"))
 
 # Function to write the welcome message
