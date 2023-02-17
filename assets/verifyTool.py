@@ -26,11 +26,11 @@ if shouldcheck == True:
     from assets.lib.drawlib.linedraw import draw_point,fill_terminal
     from assets.lib.conUtils import *
     from assets.lib.pantryapi import pantryapireq
-    from assets.lib.crypto import *
+    from assets.lib.crypto.aes import *
 
     # [Prepare]
     KRYPTOKEY = GenerateKey("CROSSHELL VERIFIER TOOLKIT jja18aj1a SIGNED IT BIT")
-    PANTRYKEY = encdec(key=KRYPTOKEY,inputs='gAAAAABj6NhGrfM2Uo-HoNWiUjUOwEDNb0vNbsabEGKnsCINJw6yMeMTp2jiSeHVMa1tZHuQs0Ri7IYxSbA0gK7HpveNAfaRwzzLFpN8Hj1ufVGThXqH88NXUzHrRVCgSsFyvBhqQ8fd',mode='dec')
+    PANTRYKEY = encdec(key=KRYPTOKEY,inputs='ONlpmhS/ckE0q/yZxkXLy2NBFxeSsQjiNiwhliRH8StGbJ5f',mode='dec')
     HelpText = [
                 "This information is collected to allow the author -",
                 " to have a list of people using the app,",
