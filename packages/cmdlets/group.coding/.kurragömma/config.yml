@@ -1,0 +1,77 @@
+# Attributes and their modifer for players and seekers
+attribute_modifiers:
+  distance:
+    seeker_modifier: 1
+    hider_modifier:  1
+  ingenuity:
+    seeker_modifier: -1
+    hider_modifier:  -2
+  insidiousness:
+    seeker_modifier: 3
+    hider_modifier:  2
+  position:
+    seeker_modifier: 4
+    hider_modifier:  1
+  sound:
+    seeker_modifier: 2
+    hider_modifier:  -3
+  smell:
+    seeker_modifier: 2
+    hider_modifier:  1
+
+missing_attribute_default: 1 # The value used when the attribute number is missing from a player
+
+seekerfactor_default: 1 # The default seeker factor
+
+randomiser_parameters: # Settings to offset the random number given from min/max of playerindexes
+  offset_min: 1 
+  offset_max: 10
+  offset_type: ""  # "+" or "-" or ""
+
+# Players and their type and attributes
+players:
+  stina:
+    type: "" # Leave empty to randomise ingame, if set must be "hider" or "seeker"
+    attributes:
+      distance:      5
+      ingenuity:     5
+      insidiousness: 5
+      position:      5
+      sound:         5
+      smell:         5
+  orvar:
+    type: ""
+    attributes:      
+      distance:      3
+      ingenuity:     10
+      insidiousness: 9
+      position:      9
+      sound:         10
+      smell:         3
+  per:
+    type: ""
+    attributes:
+      distance:      1
+      ingenuity:     1
+      insidiousness: 1
+      position:      1
+      sound:         1
+      smell:         9
+  olle:
+    type: ""
+    attributes:
+      distance:      9
+      ingenuity:     1
+      insidiousness: 1
+      position:      1
+      sound:         1
+      smell:         1
+  pernilla:
+    type: ""
+    attributes:
+      distance:      2
+      ingenuity:     3
+      insidiousness: 5
+      position:      6
+      sound:         8
+      smell:         9

@@ -1,4 +1,4 @@
-# StringFormat: Smal library to handle some nice string formatting, currently only crosshell's prefix system.abs(
+# StringFormat: Smal library to handle some nice string formatting, currently only crosshell's prefix
 # Made by: Simon Kalmi Claesson
 #
 
