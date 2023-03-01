@@ -2,6 +2,7 @@
 import os
 import yaml
 import random
+from tabledraw import drawTable
 
 # [Functions]
 def readConfig(filename=str()) -> dict:
@@ -78,14 +79,46 @@ for player in players:
     if players[player]["type"] == "hider":
         players[player]["time"] = players[player]["index"] * total_seekerFactor
 
-# Print out times
-printString = list()
-longest = 0
+# Sort dictionary based on time
+tobesorted = dict()
+excluded = dict()
 for player in players:
-    string = player + ": " + str(players[player]["time"])
-    printString.append(string)
-    if len(string) > longest: longest = len(string)
-print("╭" + "─"*longest + "╮")
-for line in printString:
-    print("│" + line + " "*(longest-len(line))  + "│")
-print("╰" + "─"*longest + "╯")
+    if str(players[player]["time"]).lower() != "seeker":
+        tobesorted[player] = players[player]
+    else:
+        excluded[player] = players[player]
+tobesorted = dict(sorted(tobesorted.items(), key=lambda item: item[1]["time"], reverse=True))
+players = tobesorted.copy()
+for player in excluded:
+    players[player] = excluded[player]
+
+# Print out times
+#printString = list()
+#longest = 0
+#for player in players:
+#    string = player + ": " + str(players[player]["time"])
+#    printString.append(string)
+#    if len(string) > longest: longest = len(string)
+#print("╭" + "─"*longest + "╮")
+#for line in printString:
+#    print("│" + line + " "*(longest-len(line))  + "│")
+#print("╰" + "─"*longest + "╯")
+
+
+# Print out dictionary
+table = dict()
+table["Players"] = list()
+table["Type"] = list()
+table["Time"] = list()
+table["Index"] = list()
+for attribute in attributes:
+    table[attribute] = list()
+for player in players:
+    table["Players"].append(player)
+    table["Type"].append(players[player]["type"])
+    table["Time"].append(players[player]["time"])
+    for attribute in attributes:
+        table[attribute].append(str(players[player]["attributes"][attribute]))
+    table["Index"].append(players[player]["index"])
+
+drawTable(table)
