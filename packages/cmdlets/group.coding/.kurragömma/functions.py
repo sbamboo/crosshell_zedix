@@ -118,32 +118,41 @@ def border() -> None:
     # Return the write head to the original position
     print("\033[u", end="")
 
-# [Keyboard handling]
+# =======================================[Keyboard handling]=======================================
 key_pressed_global = None
+# Define what happens when someone presses a key
 def on_press(key):
-    global key_pressed_global
+    global key_pressed_global # Global import (last key pressed)
+    # Get either char or name of key pressed
     try:
         key_pressed = key.char
     except AttributeError:
         key_pressed = key.name
-    key_pressed_global = key_pressed
+    key_pressed_global = key_pressed # Update last key pressed
+# Define a keyboard listener taking allowedkeys that are the only ones to break the functio (and if not passed just accept any key)
 def listen_for_key(allowedKeys=None):
-    global key_pressed_global
+    global key_pressed_global # Global import (last key pressed)
+    # Start listener
     listener = pykeyb.Listener(on_press=on_press)
     listener.start()
+    # Check for keys in a loop
     while True:
         if key_pressed_global is not None:
+            # Get last key pressed
             key_pressed = key_pressed_global
             key_pressed_global = None
+            # If in allowedkeys stop the listener and return the pressed key
             if allowedKeys is None or key_pressed in allowedKeys:
                 listener.stop()
-                clear_buffer()
+                clear_buffer() # Clear keyboard buffer to stop keys from showing up in input() statements later.
                 return key_pressed
 
 
 # ===================================[KeyboardException Handler]===================================
+# Function to handle Keyboard Interupts
 def HandleKeybExcept():
-    global callback
+    global callback # Get the last run function (The callback variable will be set by each function as a referce to where the user was last)
+    # Print menu
     clear()
     border()
     print("\033[10;40H\033[33mDo you want to exit?\033[0m")
@@ -154,6 +163,7 @@ def HandleKeybExcept():
     key_pressed = listen_for_key(allowedKeys)
     # Config menu if asked
     if key_pressed == "n":
+        # Try running the callback if an error occure inform the user and close the app (Closing is the best solution since the code is a bit buggy with calling functions from inside a except statement)
         try: callback()
         except:
             clear()
@@ -164,45 +174,58 @@ def HandleKeybExcept():
         exit()
 
 # [UI Functions]
+# Function to show the UI and handle the creation of a player
 def addPlayer():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set last run
     global callback
     callback = addPlayer
+    # Get the config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
-    players = [p for p in list(config["players"].keys())]
+    players = [p for p in list(config["players"].keys())] # List of players in the games config
     playerString = " ".join(players)
-    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())]
+    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())] # Al attributes that exist in the game's config
     existing_atttributes_string = " ".join(existing_atttributes)
     print(f'\033[9;40H\033[34mPlayers: \033[32m{playerString}\033[0m')
     print(f'\033[10;40H\033[34mAttributes: \033[32m{existing_atttributes_string}\033[0m')
     name = input("\033[12;40H\033[33mThe name of the player to add?\033[0m ")
     name = name.lower()
+    # If playername is empty or already exist go back to the previous menu
     if name == "": handlePlayers()
     if name in players:
         pause(f"\033[13;40H\033[31mPlayer {name} already exists! (Press any key to continue...)")
         handlePlayers()
+    # Otherwise add a player
     else:
+        # Create keys in dictionarie if they dont exist
         if config["players"].get(name) == None: config["players"][name] = dict()
         if config["players"][name].get("attributes") == None: config["players"][name]["attributes"] = dict()
+        # Ask the user for attributes to add
         print(f"\033[13;40H\033[33mAdd attributes to {name} (Write them as <attributeName>:<attributeValue>)")
         attributeRaw = "temporaryValue"
         while attributeRaw != "":
-            try:
-                currentAttributes = [p for p in list(config["players"][name]["attributes"].keys())]
+            try: # Try incase errors with wrong input
+                # Show info and ask for attribute input
+                currentAttributes = [p for p in list(config["players"][name]["attributes"].keys())] #Get a list of al attributes the player currently have
                 currentAttributes_string = " ".join(currentAttributes)
                 print(f'\033[11;40H\033[34mCurrent attributes: \033[32m{currentAttributes_string}\033[0m')
                 attributeRaw = input("\033[14;40H\033[33mAttribute data:\033[0m \033[34m(Press enter to stop adding attributes) \033[35m")
                 attributeRaw = attributeRaw.lower()
+                # if empty break
                 if attributeRaw == "": break
+                # Get size
                 columns, rows = os.get_terminal_size()
-                print(f"\033[14;40H{' '*columns}")
+                print(f"\033[14;40H{' '*columns}") # clear line
                 attributeName = ((attributeRaw.split(":")[0]).strip(" ")).lower()
                 attributeData = (attributeRaw.split(":")[1]).strip(" ")
+                # Apply attribute to the player
                 config["players"][name]["attributes"][attributeName] = float(attributeData)
             except: pass
+        # ask for type? and apply it if passed
         ptype = input(f"\033[15;40H\033[33mWhat type is {name}? (Just press enter to have type random when playing) ")
         ptype = ptype.lower()
         config["players"][name]["type"] = ptype
@@ -211,24 +234,30 @@ def addPlayer():
         handlePlayers()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to remove a player
 def removePlayer():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set last run
     global callback
     callback = removePlayer
+    # Get the config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
-    players = [p for p in list(config["players"].keys())]
+    players = [p for p in list(config["players"].keys())] # List of players in the games config
     playerString = " ".join(players)
-    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())]
+    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())] # Al attributes that exist in the game's config
     existing_atttributes_string = " ".join(existing_atttributes)
     print(f'\033[9;40H\033[34mPlayers: \033[32m{playerString}\033[0m')
     name = input("\033[10;40H\033[33mThe name of the player to remove?\033[0m ")
     name = name.lower()
+    # If playername is empty or does not exist go back to the previous menu
     if name not in players:
         pause(f"\033[11;40H\033[31mPlayer {name} dosen't exist! (Press any key to continue...)")
         handlePlayers()
+    # remove players
     else:
         config["players"].pop(name)
         # Save changes
@@ -237,90 +266,105 @@ def removePlayer():
   except KeyboardInterrupt: HandleKeybExcept()
 
 def modifyPlayer():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set last run
     global callback
     callback = modifyPlayer
+    # Get size
     columns, rows = os.get_terminal_size()
+    # Get the config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
-    players = [p for p in list(config["players"].keys())]
+    players = [p for p in list(config["players"].keys())] # List of players in the games config
     playerString = " ".join(players)
-    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())]
+    existing_atttributes = [p for p in list(config["attribute_modifiers"].keys())] # Al attributes that exist in the game's config
     existing_atttributes_string = " ".join(existing_atttributes)
     print(f'\033[9;40H\033[34mPlayers: \033[32m{playerString}\033[0m')
     print(f'\033[10;40H\033[34mAttributes: \033[32m{existing_atttributes_string}\033[0m')
     name = input("\033[12;40H\033[33mThe name of the player to Modify?\033[0m ")
     name = name.lower()
+    # If playername is empty or does not exist go back to the previous menu
     if name not in players:
         pause(f"\033[13;40H\033[31mPlayer {name} dosen't exist! (Press any key to continue...)")
         handlePlayers()
+    # Ask what to do to the players attributes
     else:
+        # Create keys incase they are missing
         if config["players"].get(name) == None: config["players"][name] = dict()
         if config["players"][name].get("attributes") == None: config["players"][name]["attributes"] = dict()
         action = input(f"\033[13;40H\033[33mWhat to do to {name}'s attributes \033[0m([\033[35mR\033[0m] to remove, [\033[35mA\033[0m]: add, [\033[35mM\033[0m]: modify)")
         print(f"\033[13;40H{' '*columns}")
         # Add attribute
         if action.lower() == "a":
-            if config["players"].get(name) == None: config["players"][name] = dict()
-            if config["players"][name].get("attributes") == None: config["players"][name]["attributes"] = dict()
             print(f"\033[13;40H\033[33mAdd attributes to {name} (Write them as <attributeName>:<attributeValue>)")
             attributeRaw = "temporaryValue"
+            # Ask the player for attributes
             while attributeRaw != "":
-                try:
+                try: # Try incase errors with wrong input
+                    # Print attributes
                     stringBuild = '\033[11;40H\033[34mCurrent attributes: '
                     for atrb in list(config["players"][name]["attributes"].keys()):
                         stringBuild += f'\033[32m{atrb}: {config["players"][name]["attributes"][atrb]}, '
                     print((stringBuild.strip(" ")).strip(","))
+                    # ask user
                     attributeRaw = input("\033[14;40H\033[33mAttribute data:\033[0m \033[34m(Press enter to stop adding attributes) \033[35m")
                     attributeRaw = attributeRaw.lower()
                     if attributeRaw == "": break
+                    # Get size
                     columns, rows = os.get_terminal_size()
-                    print(f"\033[14;40H{' '*columns}")
+                    print(f"\033[14;40H{' '*columns}") # Clear question line
                     attributeName = ((attributeRaw.split(":")[0]).strip(" ")).lower()
                     attributeData = (attributeRaw.split(":")[1]).strip(" ")
+                    # Apply changes
                     config["players"][name]["attributes"][attributeName] = float(attributeData)
                 except: pass
-        # Add attribute
+        # remove attribute
         elif action.lower() == "r":
-            if config["players"].get(name) == None: config["players"][name] = dict()
-            if config["players"][name].get("attributes") == None: config["players"][name]["attributes"] = dict()
             print(f"\033[13;40H\033[33mRemove attributes from {name} (Write them as <attributeName>)")
             attributeRaw = "temporaryValue"
+            # Ask the player for attributes
             while attributeRaw != "":
-                try:
-                    currentAttributes = [p for p in list(config["players"][name]["attributes"].keys())]
+                try: # Try incase errors with wrong input
+                    currentAttributes = [p for p in list(config["players"][name]["attributes"].keys())] # Get a list of the players attributes (current)
                     currentAttributes_string = " ".join(currentAttributes)
                     print(f'\033[11;40H\033[34mCurrent attributes: \033[32m{currentAttributes_string}\033[0m')
+                    # ask user
                     attributeRaw = input("\033[14;40H\033[33mAttribute name:\033[0m \033[34m(Press enter to stop removing attributes) \033[35m")
                     attributeRaw = attributeRaw.lower()
                     if attributeRaw == "": break
+                    # Get size
                     columns, rows = os.get_terminal_size()
-                    print(f"\033[14;40H{' '*columns}")
+                    print(f"\033[14;40H{' '*columns}") # Clear question line
                     attributeName = (attributeRaw).lower()
                     config["players"][name]["attributes"].pop(attributeName)
+                    # Apply changes
                     print(f"\033[11;40H{' '*columns}")
                 except: pass
         # Modify attribute
         elif action.lower() == "m":
-            if config["players"].get(name) == None: config["players"][name] = dict()
-            if config["players"][name].get("attributes") == None: config["players"][name]["attributes"] = dict()
             print(f"\033[13;40H\033[33mModify attributes of {name} (Write them as <attributeName>:<attributeValue>)")
             attributeRaw = "temporaryValue"
+            # Ask the player for attributes
             while attributeRaw != "":
-                try:
+                try: # Try incase errors with wrong input
+                    # Print attributes
                     stringBuild = '\033[11;40H\033[34mCurrent attributes: '
                     for atrb in list(config["players"][name]["attributes"].keys()):
                         stringBuild += f'\033[32m{atrb}: {config["players"][name]["attributes"][atrb]}, '
                     print((stringBuild.strip(" ")).strip(","))
+                    # ask user
                     attributeRaw = input("\033[14;40H\033[33mAttribute data:\033[0m \033[34m(Press enter to stop modifying attributes) \033[35m")
                     attributeRaw = attributeRaw.lower()
                     if attributeRaw == "": break
+                    # Get size
                     columns, rows = os.get_terminal_size()
-                    print(f"\033[14;40H{' '*columns}")
+                    print(f"\033[14;40H{' '*columns}") # Clear question line
                     attributeName = ((attributeRaw.split(":")[0]).strip(" ")).lower()
                     attributeData = (attributeRaw.split(":")[1]).strip(" ")
+                    # Apply changes
                     config["players"][name]["attributes"][attributeName] = float(attributeData)
                 except: pass
         # Save changes
@@ -328,10 +372,13 @@ def modifyPlayer():
         handlePlayers()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to show menu regarding the handling of players
 def handlePlayers():
-  try:
-    global callback
+  try: # Try/Except to catch keyboardInterputs
+    # Set lastrun
+    global callback 
     callback = handlePlayers
+    # Show menu
     clear()
     border()
     print("\033[10;40H\033[33mWhat do you want to do?\033[0m")
@@ -342,7 +389,7 @@ def handlePlayers():
     # Wait for key
     allowedKeys = ["a","r","m","b"]
     key_pressed = listen_for_key(allowedKeys)
-    # keys
+    # Run actions based on keys
     if key_pressed == "a":
         addPlayer()
     elif key_pressed == "r":
@@ -353,38 +400,51 @@ def handlePlayers():
         showConfig()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to add an attribute
 def addAttributes():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set lastrun
     global callback
     callback = addAttributes
+    # Get config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
+    # Show al atributes and their modifiers that are pressent in the config
     stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
     for atrb in list(config["attribute_modifiers"].keys()):
         hider = config["attribute_modifiers"][atrb]["hider_modifier"]
         seeker = config["attribute_modifiers"][atrb]["seeker_modifier"]
         stringBuild += f"\033[33m{atrb}\033[0m:(\033[34mH:\033[35m{hider}\033[34m,S:\033[35m{seeker}\033[0m) "
     print(stringBuild)
+    # Ask user for input in loop
     print(f"\033[13;40H\033[33mAdd attributes (Write them as <attributeName>:<hiderModifier>,<seekerModifier>)")
     attributeRaw = "temporaryValue"
     while attributeRaw != "":
-        try:
+        try: # Try incase errors with wrong input
+            # Get input
             attributeRaw = input("\033[14;40H\033[33mAttribute data:\033[0m \033[34m(Press enter to stop creating attributes) \033[35m")
             attributeRaw = attributeRaw.lower()
+            # If empty break
             if attributeRaw == "": break
+            # Get size
             columns, rows = os.get_terminal_size()
-            print(f"\033[14;40H{' '*columns}")
+            print(f"\033[14;40H{' '*columns}") # Clear line
+            # parse input
             attributeName = ((attributeRaw.split(":")[0]).strip(" ")).lower()
             attribute_hiderMod = ((attributeRaw.split(":")[1]).strip(" ")).split(",")[0]
             attribute_seekerMod = ((attributeRaw.split(":")[1]).strip(" ")).split(",")[1]
+            # create missing keys and apply changes
             if config["attribute_modifiers"].get(attributeName) == None: config["attribute_modifiers"][attributeName] = dict()
             config["attribute_modifiers"][attributeName]["hider_modifier"] = float(attribute_hiderMod)
             config["attribute_modifiers"][attributeName]["seeker_modifier"] = float(attribute_seekerMod)
+            # Redraw menu to clean up, then print out current attributes in the config            
             clear()
             border()
             stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
+            # print attributes
             for atrb in list(config["attribute_modifiers"].keys()):
                 hider = config["attribute_modifiers"][atrb].get("hider_modifier")
                 seeker = config["attribute_modifiers"][atrb].get("seeker_modifier")
@@ -397,34 +457,45 @@ def addAttributes():
     handleAttributes()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to remove an attribute
 def removeAttributes():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set lastrun
     global callback
     callback = modifyAttributes
+    # Get config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
     stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
+    # print out attributes that are in config
     for atrb in list(config["attribute_modifiers"].keys()):
         hider = config["attribute_modifiers"][atrb]["hider_modifier"]
         seeker = config["attribute_modifiers"][atrb]["seeker_modifier"]
         stringBuild += f"\033[33m{atrb}\033[0m:(\033[34mH:\033[35m{hider}\033[34m,S:\033[35m{seeker}\033[0m) "
     print(stringBuild)
+    # Ask user for input
     print(f"\033[13;40H\033[33mRemove attributes (Write them as <attributeName>)")
     attributeRaw = "temporaryValue"
     while attributeRaw != "":
-        try:
+        try: # Try incase errors with wrong input
             attributeRaw = input("\033[14;40H\033[33mAttribute name:\033[0m \033[34m(Press enter to stop removing attributes) \033[35m")
             attributeRaw = attributeRaw.lower()
+            # if empty break
             if attributeRaw == "": break
+            # Get size
             columns, rows = os.get_terminal_size()
-            print(f"\033[14;40H{' '*columns}")
+            print(f"\033[14;40H{' '*columns}") # clear line
+            # apply changes (remove atrb)
             attributeName = attributeRaw.strip(" ")
             config["attribute_modifiers"].pop(attributeName)
+            # Redraw to stay clean
             clear()
             border()
             stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
+            # print current attribute (redraw)
             for atrb in list(config["attribute_modifiers"].keys()):
                 hider = config["attribute_modifiers"][atrb].get("hider_modifier")
                 seeker = config["attribute_modifiers"][atrb].get("seeker_modifier")
@@ -437,45 +508,62 @@ def removeAttributes():
     handleAttributes()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to modify an attributes values
 def modifyAttributes():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # Set lastrun
     global callback
     callback = modifyAttributes
+    # Get config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     border()
     stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
+    # print attributes and their values for both seeker and hider
     for atrb in list(config["attribute_modifiers"].keys()):
         hider = config["attribute_modifiers"][atrb]["hider_modifier"]
         seeker = config["attribute_modifiers"][atrb]["seeker_modifier"]
         stringBuild += f"\033[33m{atrb}\033[0m:(\033[34mH:\033[35m{hider}\033[34m,S:\033[35m{seeker}\033[0m) "
     print(stringBuild)
+    # ask input in loop
     print(f"\033[13;40H\033[33mModify attributes (Write them as <attributeName>)")
     attributeRaw = "temporaryValue"
     while attributeRaw != "":
-        try:
+        try: # Try incase errors with wrong input
+            # Show info and ask for attribute input
             attributeRaw = input("\033[14;40H\033[33mAttribute name:\033[0m \033[34m(Press enter to stop modifying attributes) \033[35m")
             attributeRaw = attributeRaw.lower()
-            if attributeRaw == "": break
-            columns, rows = os.get_terminal_size()
-            print(f"\033[14;40H{' '*columns}")
+            if attributeRaw == "": break # if empty close
+            columns, rows = os.get_terminal_size() # get size
+            print(f"\033[14;40H{' '*columns}") # clear line
             attributeName = attributeRaw.strip(" ")
+            # create keys if missing
             if config["attribute_modifiers"].get(attributeName) == None: config["attribute_modifiers"][attributeName] = dict()
+            # ask for input regarding what to do with an attribute
             action = input(f"\033[14;40H\033[33mWhat do you want to do to {attributeName}? \033[0m([\033[35mH\033[0m] Change hiderMod, [\033[35mS\033[0m]: Change seekerMod)")
+            # Change hider value if h was given as input
             if action.lower() == "h":
-                print(f"\033[14;40H{' '*columns}")
+                print(f"\033[14;40H{' '*columns}") # clear question line
+                # ask for input
                 hiderVal = input(f"\033[14;40H\033[33Hider modifier for {attributeName}: ")
                 hiderVal = hiderVal.lower()
+                # apply input
                 config["attribute_modifiers"][attributeName]["hider_modifier"] = float(hiderVal)
+            # Change seeker value if s was given as input
             elif action.lower() == "s":
-                print(f"\033[14;40H{' '*columns}")
+                print(f"\033[14;40H{' '*columns}") # clear question line
+                # ask for input
                 seekerVal = input(f"\033[14;40H\033[33Seeker modifier for {attributeName}: ")
                 seekerVal = seekerVal.lower()
+                # apply input
                 config["attribute_modifiers"][attributeName]["seeker_modifier"] = float(seekerVal)
+            # Redraw for cleenes and reprint attributes to update them
             clear()
             border()
             stringBuild = "\033[10;40H\033[32mAttributes: \033[0m\033[11;5H"
+            # print attributes
             for atrb in list(config["attribute_modifiers"].keys()):
                 hider = config["attribute_modifiers"][atrb].get("hider_modifier")
                 seeker = config["attribute_modifiers"][atrb].get("seeker_modifier")
@@ -488,10 +576,13 @@ def modifyAttributes():
     handleAttributes()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to show a menu asking how to handle attributes
 def handleAttributes():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # set lastset
     global callback
     callback = handleAttributes
+    # Show menu
     clear()
     border()
     print("\033[10;40H\033[33mWhat do you want to do?\033[0m")
@@ -502,7 +593,7 @@ def handleAttributes():
     # Wait for key
     allowedKeys = ["a","r","m","b"]
     key_pressed = listen_for_key(allowedKeys)
-    # keys
+    # Run actions based on keys pressed
     if key_pressed == "a":
         addAttributes()
     elif key_pressed == "r":
@@ -513,10 +604,13 @@ def handleAttributes():
         showConfig()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to show a menu asking the user what to configure
 def showConfig():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # set lastset
     global callback
-    callback = showConfig
+    callback = handleAttributes
+    # Show menu
     clear()
     border()
     print("\033[10;40H\033[33mWhat do you want to do?\033[0m")
@@ -526,7 +620,7 @@ def showConfig():
     # Wait for key
     allowedKeys = ["p","a","b"]
     key_pressed = listen_for_key(allowedKeys)
-    # keys
+    # call functions based on input
     if key_pressed == "p":
         handlePlayers()
     elif key_pressed == "a":
@@ -535,30 +629,41 @@ def showConfig():
         showUI()
   except KeyboardInterrupt: HandleKeybExcept()
 
+# Function to show a list of al data in the config (print out yaml equiv...)
 def listData():
-  try:
+  try: # Try/Except to catch keyboardInterputs
+    # set lastset
     global callback
-    callback = listData
+    callback = handleAttributes
+    # get config
     global g_configFile
     config = readConfig(g_configFile)
+    # Show menu
     clear()
     print("\033[33m"+yaml.dump(config)+"\033[0m")
+    # press any key to go back
     print("\033[32mPress any key to go back...\033[0m")
     pause()
     showUI()
   except KeyboardInterrupt: HandleKeybExcept()
 
-# GLOBALS
+# GLOBALS (Define global variables)
 g_borderChar, g_borderFormatting, g_configFile = None,None,None
-callback = dummy
+callback = dummy # dummy is a dummy function passed as default callback
 
+# main ui function asking what the user wants to do, takes arguments if given and sets global variables accordingly
 def showUI(args=None) -> None:
+    # Set lastrun
     global callback
     callback = showUI
-    try:
+    # Show menu
+    try: # Try/Except to catch keyboardInterputs
+        # Get global variables
         global g_borderChar, g_borderFormatting, g_configFile
+        # If no arguments passed are not None, then set global variables to correct values
         if args != None:
             g_borderChar, g_borderFormatting, g_configFile = args["borderChar"], args["borderFormatting"], args["configFile"]
+        # Show menu asking what to do
         clear()
         border()
         print("\033[10;40H\033[33mWhat do you want to do?\033[0m")
@@ -572,11 +677,14 @@ def showUI(args=None) -> None:
         # Config menu if asked
         if key_pressed == "c":
             showConfig()
+        # List data if asked
         elif key_pressed == "l":
             listData()
+        # exit if asked
         elif key_pressed == "e":
             clear()
             exit()
+        # play if asked
         elif key_pressed == "p":
             print("\033[1;1H\033[0m.")
             clear()
