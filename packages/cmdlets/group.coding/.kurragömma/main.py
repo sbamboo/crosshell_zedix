@@ -300,3 +300,6 @@ if nostat == False: # Dont show the table if nostat is enabled
 
 # Save changes from newconfig dictionary
 writeConfig(configFile,newconfig)
+
+# Pause
+pause("\033[34mPress any key to exit...\033[0m")
