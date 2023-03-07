@@ -1,77 +1,71 @@
-# Attributes and their modifer for players and seekers
 attribute_modifiers:
   distance:
+    hider_modifier: 1
     seeker_modifier: 1
-    hider_modifier:  1
   ingenuity:
+    hider_modifier: -2
     seeker_modifier: -1
-    hider_modifier:  -2
   insidiousness:
+    hider_modifier: 2
     seeker_modifier: 3
-    hider_modifier:  2
   position:
+    hider_modifier: 1
     seeker_modifier: 4
-    hider_modifier:  1
-  sound:
-    seeker_modifier: 2
-    hider_modifier:  -3
   smell:
+    hider_modifier: 1
     seeker_modifier: 2
-    hider_modifier:  1
-
-missing_attribute_default: 1 # The value used when the attribute number is missing from a player
-
-seekerfactor_default: 1 # The default seeker factor
-
-randomiser_parameters: # Settings to offset the random number given from min/max of playerindexes
-  offset_min: 1 
-  offset_max: 10
-  offset_type: ""  # "+" or "-" or ""
-
-# Players and their type and attributes
+  sound:
+    hider_modifier: -3
+    seeker_modifier: 2
+missing_attribute_default: 1
 players:
-  stina:
-    type: "" # Leave empty to randomise ingame, if set must be "hider" or "seeker"
-    attributes:
-      distance:      5
-      ingenuity:     5
-      insidiousness: 5
-      position:      5
-      sound:         5
-      smell:         5
-  orvar:
-    type: ""
-    attributes:      
-      distance:      3
-      ingenuity:     10
-      insidiousness: 9
-      position:      9
-      sound:         10
-      smell:         3
-  per:
-    type: ""
-    attributes:
-      distance:      1
-      ingenuity:     1
-      insidiousness: 1
-      position:      1
-      sound:         1
-      smell:         9
   olle:
-    type: ""
     attributes:
-      distance:      9
-      ingenuity:     1
+      distance: 8.3
+      ingenuity: 1
       insidiousness: 1
-      position:      1
-      sound:         1
-      smell:         1
-  pernilla:
-    type: ""
+      position: 1
+      smell: 1
+      sound: 1
+    type: ''
+  orvar:
     attributes:
-      distance:      2
-      ingenuity:     3
+      distance: 3
+      ingenuity: 10
+      insidiousness: 8.5
+      position: 9
+      smell: 3
+      sound: 10
+    type: ''
+  per:
+    attributes:
+      distance: 1
+      ingenuity: 1.6
+      insidiousness: 1
+      position: 1
+      smell: 9
+      sound: 1
+    type: ''
+  pernilla:
+    attributes:
+      distance: 2
+      ingenuity: 3
       insidiousness: 5
-      position:      6
-      sound:         8
-      smell:         9
+      position: 6
+      smell: 9
+      sound: 7.0
+    type: ''
+  stina:
+    attributes:
+      distance: 5
+      ingenuity: 4.2
+      insidiousness: 5
+      position: 5
+      smell: 5
+      sound: 5
+    type: ''
+randomiser_parameters:
+  offset_max: 10
+  offset_min: 1
+  offset_type: ''
+seekerfactor_default: 1
