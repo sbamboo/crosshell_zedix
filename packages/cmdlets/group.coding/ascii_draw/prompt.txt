@@ -1,0 +1,28 @@
+I would like a python terminal app something like this '''
+╭──────────────────────────────────────────────╮
+│ ╔═════════════════════════════════╗ ╭──────╮ │
+│ ║                                 ║ │ .  ! │ │
+│ ║                                 ║ │ :  ? │ │
+│ ║                                 ║ │ ;  = │ │
+│ ║                                 ║ │ "  | │ │
+│ ║                                 ║ │ ¤  \ │ │
+│ ║                                 ║ │ #  / │ │
+│ ║                                 ║ │ @  ( │ │
+│ ║                                 ║ │ ░  ) │ │
+│ ║                                 ║ │ ▒  { │ │
+│ ║                                 ║ │ ▓  } │ │
+│ ║                                 ║ │ █  % │ │ 
+│ ║                                 ║ ╰──────╯ │
+│ ║                                 ║          │
+│ ║                                 ║  Cur: .  │
+│ ╚═════════════════════════════════╝          │ 
+╰──────────────────────────────────────────────╯
+'''
+- The outer box is a static border
+- The box made with ║ are the drawing area
+- The box made with │ is the character selector
+- The text bellow the character selector shows "cur: " followed by the current character
+
+The app should take mouse input in the terminal and allow the user to click on a character in the character selector and set said character as current
+The the user should be able to click anywhere inside the drawing area to place one of the current character there
+Each time user draws the program should append text to a file in the following format '<char> <posx> <posy>' where char is the current character at place time and posx and posy is where the user clicked inside the drawing area
