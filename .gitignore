@@ -10,7 +10,5 @@ assets/persistance.yaml
 assets/profile.msg
 assets/profile.py
 packages/cmdlets/simonkalmiclaesson.resgen.latest/projects/*
-packages/cmdlets/group.school/*
-packages/cmdlets/group.games/*
-packages/cmdlets/group.coding/*
 packages/cmdlets/group.synced/*
+packages/cmdlets/group.*
