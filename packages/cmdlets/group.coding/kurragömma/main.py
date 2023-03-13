@@ -10,8 +10,22 @@
 import os
 import random
 import sys
-from tabledraw import drawTable
-from functions import *
+# Fix import if running in croshell
+try:
+    from tabledraw import drawTable
+    from functions import *
+except:
+    from assets.lib.importa import fromPath
+    _tabledraw = fromPath(f"{CSScriptRoot}{os.sep}tabledraw.py")
+    _functions = fromPath(f"{CSScriptRoot}{os.sep}functions.py")
+    # Import all functions from tabledraw
+    for name in dir(_tabledraw):
+        if callable(getattr(_tabledraw, name)):
+            globals()[name] = getattr(_tabledraw, name)
+    # Import all functions from the functions
+    for name in dir(_functions):
+        if callable(getattr(_functions, name)):
+            globals()[name] = getattr(_functions, name)
 
 # ===========================================[Arguments]===========================================
 try: arguments = argv # Crosshell compatibility since crosshell sends arguments through 'argv' instead of 'sys.argv'
