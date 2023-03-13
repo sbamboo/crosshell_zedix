@@ -10,3 +10,4 @@ assets/persistance.yaml
 assets/profile.msg
 assets/profile.py
 packages/cmdlets/simonkalmiclaesson.resgen.latest/projects/*
+pacakges/cmdlets/group.*
