@@ -36,7 +36,11 @@ class netwa:
 
 # [Functions]
 def simpleDownload(url=str(),file=str()):
-    r = requests.get(url, allow_redirects=True)
+    try:
+        r = requests.get(url, allow_redirects=True)
+    except:
+	    print("\033[31mConnection could not be initated, please check your internet connection!\033[0m")
+	    exit()
     if file == "":
         return r.content
     open(file, 'wb').write(r.content)

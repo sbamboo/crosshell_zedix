@@ -42,6 +42,7 @@ def cs_prepGlobals(GlobalInput=dict(),varsToSendAdd=None,funcsToSendAdd=None):
         "cs_prepGlobals",
         # Commands
         "CSScriptRoot",
+        "CSPackDir",
         "pipeSTDOUT",
         "argv",
         "cmd",
@@ -248,6 +249,13 @@ def cs_exec(path,params=list(),globalInput=None,captureOutput=False,HandleCmdlet
     if IsWindows() != True and CSScriptRoot[0] != "/":
         CSScriptRoot = "/" + CSScriptRoot
     globalInput["CSScriptRoot"] = CSScriptRoot
+    # CSPackDir
+    cs_bdir = os.path.dirname(os.path.realpath(__file__))
+    if "assets" in cs_bdir: cs_bdir = cs_bdir.rstrip(f"{os.sep}assets")
+    CSPackDir = cs_bdir + os.sep + "packages"
+    if IsWindows() != True and CSPackDir[0] != "/":
+        CSPackDir = "/" + CSPackDir
+    globalInput["CSPackDir"] = CSPackDir
     # Get file specific info
     if fending != ".exe" and fending != "platform-binary":
         commentChar = "#"
