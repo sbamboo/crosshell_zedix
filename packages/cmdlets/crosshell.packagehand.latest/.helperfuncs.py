@@ -144,7 +144,37 @@ def updateRepositoryFile(repoFile=str(),identify=bool(),ignoreFormat=False,idefF
         print("Done!")
 
 # Function that matches package in multiple repos
-def matchPackage(mainRepoFile,repoFolder,version):
+def matchPackage(mainRepoFile,repoFolder,name,version,repo,localFormatVersion,ignoreFormat):
+    #TODO if package found in locals show info and ask user to choose one by writing a number (1,2.. depending on amount of packages) use tabledraw, this list will also include official repo data. otherwise check if in normal repository and if not say message to user.
+    #TODO then if no versio is given as argument show al avaliable versions in the selected repository and ask user to choose.
+    #TODO return source data
+    # Split name
+    author = name.split(".")[0]
+    name = name.split(".")[1]
+    # Main repo data
+    mainRepoData = getRepositoryData(mainRepoFile,localFormatVersion,ignoreFormat)
+    if mainRepoData == "ERR": exit()
+    # Assemble repoFolder Packages
+    localPackages = dict()
+    for file in os.listdir(repoFolder):
+        file = repoFolder + os.sep + file
+        content = getRepositoryData(file,localFormatVersion,ignoreFormat)
+        if content != "ERR":
+            for package in content["Repository"]["Entries"]:
+                key = list(package.keys())[0]
+                localPackages[key] = list()
+            for package in content["Repository"]["Entries"]:
+                key = list(package.keys())[0]
+                package[key]["repoFile"] = file
+                localPackages[key].append( package[key] )
+    # exist at al?
+    if name in list(localPackages.keys()):
+        # Choose one
+        pass
+    # Search default
+    else:
+        if name in list(mainRepoData["Repository"]["Entries"].keys()):
+            print(name)
     # Version if the version of the package to match for if not found use latest and inform user
     # check through mainrepo then get al data from al repoFolders note theese should get updated :( then match for al occurences of package name and collect list of al version avaliable throughout al repos. If multiple latest versions are given then ask the user to choose one, showing the url to the repo.
     pass

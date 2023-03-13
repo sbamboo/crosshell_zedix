@@ -2,12 +2,12 @@
 {"Repository":{
 
     "Meta":{
-        "Author": "Crosshell", // The author of the repository, used for identification
-        "Id": "96825035-189a-430a-ade9-de557ffd6a7b", // Id for verification.
+        "Author": "", // The author of the repository, used for identification
+        "Id": "", // Id for verification.
         "VersionNumerical": "1.0", // Numerical version of the repository, used to check if newer repo version is avaliable.
         "CreationDate": "2023-03-13", // Creation date of the repository
         "UpdateDate": "2023-03-13", // When the repository was last updated
-        "RepositoryUrl": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc" // The url to find the repository, this is needed for updates.
+        "RepositoryUrl": "" // The url to find the repository, this is needed for updates.
     },
   
     "Entries": [
@@ -19,8 +19,37 @@
             "Versions": [ // This contians al version of the package, atleast a "Latest" package must be present since it's defaulted to.
 
                 {"Latest": { // Version name (Needed for install)
-                    "VersionNumerical": "1.0", // Numerical version number of package version
+                    "VersionNumerical": "0.1", // Numerical version number of package version
                     "Description": "Testing package", // Description for the package
+                    "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
+                        {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
+                          "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'
+                          "FileFormat": "package", // The fileextension used, on UrlPackage should always be package
+                          "Source": "<INSERT_URL_HERE>", // Url to source, check format based on types ^^^
+                          "Overwrites": { // Overwrites, leave them as empty strings to disable
+                            "Properties": "", //Escape characters inside quotes. Note! This is the raw properties file so new lines for every propertie using a newline character. ("\n")
+                            "WrapperScript": "" //Source for a wrapper script escape characters and include newlines just like in the properties section. This should be code that wrapps something in a script. Include correct properties for wrappers.
+                          }
+                        }
+                    ],
+                    "Dependencies": [
+                        {"Type":"package","Source":"crosshell.core.latest"}, //if type 'package' source is package name (Note, version included as a dot)
+                        {"Type":"pipinstall","Source":"pyyaml"} //if type 'pipinstall' source is pip package to install
+                    ]
+                }}
+
+            ]
+        }},
+
+        {"Maria":{
+            "Author": "bob", // The author of the package
+            "License": "", // The license applying to the package, enter URL if license is longer then one line. And leave empty to use the crosshell license.
+            "PackageType": "cmdlet", // What is this package, 'cmdlet' for a cmdlet package
+            "Versions": [ // This contians al version of the package, atleast a "Latest" package must be present since it's defaulted to.
+
+                {"Latest": { // Version name (Needed for install)
+                    "VersionNumerical": "1.0", // Numerical version number of package version
+                    "Description": "IDK", // Description for the package
                     "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
                         {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
                           "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'

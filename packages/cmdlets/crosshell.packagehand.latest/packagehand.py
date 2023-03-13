@@ -21,6 +21,8 @@ cparser.add_argument('-version', dest="package_version", help="The version of th
 cparser.add_argument('--install','--add','--a','--i', dest="install", action='store_true', help="Install switch")
 cparser.add_argument('--ignoreFormat','--if', dest="ignoreFormat", action='store_true', help="Ignores repository format version")
 cparser.add_argument('-updateLocalRepo','-uprep', dest="updateLocalRepo", help="Updates the local repository, must be used with -repofile and supply update URL")
+cparser.add_argument('-repoIdef','-ridef', dest="customrepoIdefFile", help="The filepath to the custom repositories identifier file.")
+cparser.add_argument('-repoIdefURL','-rideu', dest="customrepoIdefUrl", help="The url to the custom repositories identifier file.")
 # Package (Comsume al remaining arguments)
 cparser.add_argument('package', nargs='*', help="The package id (author.package) ór (author.package.version)")
 # Create main arguments object
@@ -63,7 +65,10 @@ else:
 
 # [Update local file?]
 if argus.updateLocalRepo != None and argus.customrepofile:
-    ph_ret = updateRepositoryFile(repoFile=str(argus.customrepofile),identify=False,ignoreFormat=bool(argus.ignoreFormat),repoURL=str(argus.updateLocalRepo))
+    if argus.customrepoIdefFile != None and argus.customrepoIdefUrl != None:
+        ph_ret = updateRepositoryFile(repoFile=str(argus.customrepofile),identify=True,ignoreFormat=bool(argus.ignoreFormat),idefFile=str(argus.customrepoIdefFile),repoURL=str(argus.updateLocalRepo),idefURL=str(argus.customrepoIdefUrl))
+    else:
+        ph_ret = updateRepositoryFile(repoFile=str(argus.customrepofile),identify=False,ignoreFormat=bool(argus.ignoreFormat),repoURL=str(argus.updateLocalRepo))
     if ph_ret == "ERR": exit() # HandleStuff
 
 # [Get data for official repo]
@@ -79,13 +84,30 @@ if argus.package:
     # Get package version since it may be an argument or .<version> in package name
     ph_packver = "Latest"
     ph_packname = argus.package[0]
+    ph_packrepo = None
     if argus.package_version != None: ph_packver = str(argus.package_version)
     ph_packnamePartials = str(ph_packname).split(".")
+    # Get list of local repos
+    ph_localRepoFiles = os.listdir(ph_repoDir)
+    ph_localRepoFiles_2 = list()
+    for file in ph_localRepoFiles:
+        fname = file.split(".")
+        fname.pop(-1)
+        fname = '.'.join(fname)
+        ph_localRepoFiles_2.append(fname)
+    ph_localRepoFiles,ph_localRepoFiles_2 = ph_localRepoFiles_2,None
+    # Repo define
+    if ph_packnamePartials[0] in ph_localRepoFiles:
+        ph_packrepo = ph_packnamePartials[0]
+        ph_packnamePartials.pop(0)
+    # Version define
     if len(ph_packnamePartials) >= 3:
         if ph_packver == None: 
             ph_packver = ph_packnamePartials[-1]
-        ph_packname = ph_packnamePartials[0] + "." + ph_packnamePartials[1]
+        ph_packnamePartials.pop(-1)
+        ph_packname = ".".join(ph_packnamePartials)
     # Match packages
-    matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,version=ph_packver)
-    # Function to handle dependencies
+    sourcedata = matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,name=ph_packname,version=ph_packver,repo=ph_packrepo,localFormatVersion=ph_LocalFormatVersion,ignoreFormat=bool(argus.ignoreFormat))
+    #TODO handle dependencies
+    #TODO install package from source data using a function to handle diffrent types of source types
     pass
