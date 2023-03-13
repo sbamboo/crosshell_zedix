@@ -10,6 +10,6 @@ assets/persistance.yaml
 assets/profile.msg
 assets/profile.py
 packages/cmdlets/simonkalmiclaesson.resgen.latest/projects/*
-packcges/cmdlets/group.school/*
-packcges/cmdlets/group.games/*
-packcges/cmdlets/group.coding/*
+packages/cmdlets/group.school/*
+packages/cmdlets/group.games/*
+packages/cmdlets/group.coding/*
