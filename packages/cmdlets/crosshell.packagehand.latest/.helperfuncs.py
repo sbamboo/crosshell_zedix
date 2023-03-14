@@ -55,7 +55,6 @@ def downloadRepositoryFile(repoFile=str(), repoURL=str(),ignoreFormat=False):
             repoData = getRepositoryData(repoFile=repoFile,ignoreFormat=ignoreFormat)
             if repoData == "ERR": return "ERR"
             # Get url
-            repoData = getRepositoryData(repoFile=repoFile,ignoreFormat=False)
             repoURL = repoData["Repository"]["Meta"].get("RepositoryUrl")
             if repoURL == None:
                 print("\033[31m[Packagehand.helper] Error: No repoURL given as argument and no repo url found in the current version. No repo-url to use!\033[0m")
@@ -72,83 +71,101 @@ def downloadRepositoryFile(repoFile=str(), repoURL=str(),ignoreFormat=False):
         print("\033[31m[Packagehand.helper] Error arised apon download!\033[0m")
         return "ERR"
 
-# Function to download repositoryIdefFile
-def downloadRepositoryIdefFile(idefFile=str(), idefURL=str()):
+# Function to download repositoryVerfFile
+def downloadRepositoryVerfFile(verfFile=str(), verfURL=str()):
     try:
-        if os.path.exists(idefFile): os.remove(idefFile)
-        simpleDownload(idefURL,idefFile)
+        if os.path.exists(verfFile): os.remove(verfFile)
+        simpleDownload(verfURL,verfFile)
     except:
-        print("\033[31m[Packagehand.helper] Error arised apon download!\033[0m")
+        print("\033[31m[Packagehand.helper] Error arised apon downloading verf file!\033[0m")
         return "ERR"
 
 
 # Function to update a repository
-def updateRepositoryFile(repoFile=str(),identify=bool(),ignoreFormat=False,idefFile=None,repoURL=None,idefURL=None):
+def updateRepositoryFile(repoFile=str(),versionCheck=bool(),skipOnEmptyURL=False,ignoreFormat=False,verfFile=None,repoURL=None,verfURL=None,localFormatVersion=None):
+    repoName = os.path.basename(repoFile)
     # Check if repo file exists
     if not os.path.exists(repoFile):
+        # Skip update on empty URL?
+        if skipOnEmptyURL == True and repoURL == "": return "EXIT"
         # Check if user given Url
         if repoURL != None:
             simpleDownload(repoURL,repoFile)
-            if identify == True:
-                if idefFile != None and idefURL != None:
-                    simpleDownload(idefURL,idefFile)
+            # Download verf file if needed
+            if versionCheck == True:
+                if verfFile != None and verfURL != None:
+                    if os.path.exists(verfFile): os.remove(verfFile)
+                    simpleDownload(verfURL,verfFile)
         else:
             print("\033[31m[Packagehand.helper] Error: No repo file found and no repoURL argument passed, no url to download with!\033[0m")
+            return "EXIT"
     # Should be updated
     else:
-        # Identify
-        if identify == True:
-            # Has idefFile
-            if idefFile == None:
-                c = input("\033[33m[Packagehand.helper] No idefFile provided, can't check for updates. Do you want to update anyway? [y/n] \033[0m")
-                if c.lower() != "n":
+        # VersionCheck
+        if versionCheck == True:
+            # Has verfFile
+            if verfFile == None:
+                c = input("\033[33m[Packagehand.helper] No verfFile provided, can't check for updates. Do you want to update anyway? [y/n] \033[0m")
+                if c.lower() == "n":
                     return "EXIT"
-            elif idefURL == None:
-                c = input("\033[33m[Packagehand.helper] No idefURL provided, can't check for updates. Do you want to update anyway? [y/n] \033[0m")
-                if c.lower() != "n":
+            elif verfURL == None:
+                c = input("\033[33m[Packagehand.helper] No verfURL provided, can't check for updates. Do you want to update anyway? [y/n] \033[0m")
+                if c.lower() == "n":
                     return "EXIT"
             # Get Id info
-            ph_localIdef_id = "Unknown"
-            ph_localIdef_ver = -2
+            ph_localVerf_id = "Unknown"
+            ph_localVerf_ver = -2
             print("Checking repository version...")
-            ph_localIdef_raw = fs.readFromFile(idefFile)
-            ph_onlineIdef_raw = simpleDownload(idefURL,"").decode()
-            # Get localIdefInfo
-            for line in ph_localIdef_raw.split("\n"):
+            ph_localVerf_raw = fs.readFromFile(verfFile)
+            ph_onlineVerf_raw = simpleDownload(verfURL,"").decode()
+            # Get localVerfInfo
+            for line in ph_localVerf_raw.split("\n"):
                 prop = line.split(".")[0]
                 data = line.split(".")[1]
-                if prop == "id": ph_localIdef_id = str(data)
-                elif prop == "version": ph_localIdef_ver = int(data)
-            # Get onlineIdefInfo
-            for line in ph_onlineIdef_raw.split("\n"):
-                prop = line.split(".")[0]
-                data = line.split(".")[1]
-                if prop == "id": ph_onlineIdef_id = str(data)
-                elif prop == "version": ph_onlineIdef_ver = int(data)
+                if prop == "id": ph_localVerf_id = str(data)
+                elif prop == "version": ph_localVerf_ver = int(data)
+            # Get onlineVerfInfo
+            for line in ph_onlineVerf_raw.split("\n"):
+                if line != "":
+                    prop = line.split(".")[0]
+                    data = line.split(".")[1]
+                    if prop == "id": ph_onlineVerf_id = str(data)
+                    elif prop == "version": ph_onlineVerf_ver = int(data)
             # Compare and update if needed
-            if ph_localIdef_ver > ph_onlineIdef_ver:
+            ph_localVerf_id = (ph_localVerf_id.lower()).strip()
+            ph_onlineVerf_id = (ph_onlineVerf_id.lower()).strip()
+            if ph_localVerf_id != ph_onlineVerf_id:
+                c = input("\033[33mYour local repository's id dosen't match the one in the versionFile, can't check for updates. Do you want to update anyway? [y/n] \033[0m")
+                if c.lower() == "n":
+                    return "EXIT"
+            if ph_localVerf_ver > ph_onlineVerf_ver:
                 print("Your local repository is newer then the one online, will continue without changes...")
                 return "EXIT"
-            elif ph_localIdef_ver < ph_onlineIdef_ver:
+            elif ph_localVerf_ver < ph_onlineVerf_ver:
                 print("Your local repository is outdated, downloading the latest one...")
             else:
-                print("Repository up to date!")
+                print(f"Repository {repoName} up to date!")
                 return "EXIT"
-        # Download repofile
-        ret = downloadRepositoryFile(repoFile=repoFile,repoURL=repoURL,ignoreFormat=ignoreFormat)
-        if ret == "ERR": return "ERR"
-        # Update identifier
-        if identify == True:
-            ret = downloadRepositoryIdefFile(idefFile,idefURL)
+        # Retrive repoURL
+        if repoURL == None:
+            content = getRepositoryData(repoFile=repoFile,localFormatVersion=localFormatVersion,ignoreFormat=True)
+            repoURL = content["Repository"]["Meta"]["RepositoryUrl"]
+        # Skip update on empty URL?
+        if skipOnEmptyURL == True and repoURL == "": pass
+        else:
+            # Download repofile
+            ret = downloadRepositoryFile(repoFile=repoFile,repoURL=repoURL,ignoreFormat=ignoreFormat)
             if ret == "ERR": return "ERR"
+            # Update identifier
+            if versionCheck == True:
+                ret = downloadRepositoryVerfFile(verfFile,verfURL)
+                if ret == "ERR": return "ERR"
         # Finish
-        print("Done!")
+        print(f"Updated {repoName}!")
+        return "DONE"
 
 # Function that matches package in multiple repos
-def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localFormatVersion,ignoreFormat):
-    #TODO if package found in locals show info and ask user to choose one by writing a number (1,2.. depending on amount of packages) use tabledraw, this list will also include official repo data. otherwise check if in normal repository and if not say message to user.
-    #TODO then if no versio is given as argument show al avaliable versions in the selected repository and ask user to choose.
-    #TODO return source data
+def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localFormatVersion,ignoreFormat,defaultRepoType):
     # Split name
     split = pack_name.split(".")
     if len(split) > 2:
@@ -181,7 +198,7 @@ def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localF
         for package in mainRepoData["Repository"]["Entries"]:
                 key = list(package.keys())[0]
                 package[key]["repoFile"] = mainRepoFile
-                package[key]["repoType"] = "official"
+                package[key]["repoType"] = defaultRepoType
                 if findings.get(key) == None: findings[key] = list()
                 findings[key].append( package[key] )
         # Amnt exist
@@ -227,7 +244,10 @@ def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localF
                 drawTable(table)
                 c_id = input("\033[33mWhat repository do you want to use? id: \033[0m")
                 # get id
-                choosenRepoData = findings[name][int(c_id)-1]
+                try:
+                    choosenRepoData = findings[name][int(c_id)-1]
+                except:
+                    choosenRepoData = findings[name][0]
             else:
                 choosenRepoData = findings[name][0]
         # Amount of versions?
@@ -238,11 +258,11 @@ def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localF
             found = False
             for version in choosenRepoData["Versions"]:
                 key = list(version.keys())[0]
-                if key.lower() == key.lower():
+                if pack_version.lower() == key.lower():
+                    found = True
                     choosenVersion = version
-                else:
-                    choosenVersion = choosenRepoData["Versions"][0]
             if found == False:
+                print(f"\033[33mThe version '{pack_version}' was not found under '{list(choosenRepoData.keys())[0]}' so defaulting to 'Latest'\033[0m")
                 choosenVersion = choosenRepoData["Versions"][0]
         # Version not defined
         else:
@@ -275,17 +295,72 @@ def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localF
                     choosenVersion = choosenRepoData["Versions"][0]
             else:
                 choosenVersion = choosenRepoData["Versions"][0]
-        return choosenVersion
+        return True,choosenVersion
     # Search default
     else:
         entries = [ list(entry.keys())[0] for entry in mainRepoData["Repository"]["Entries"] ]
         entriesLOW = [ entry.lower() for entry in entries ]
         if name.lower() in entriesLOW:
-            print(name)
+            found = False
+            for package in mainRepoData["Repository"]["Entries"]:
+                key = list(package.keys())[0]
+                if key.lower() == name.lower():
+                    choosenRepoData = package[name]
+                    found = True
+            if found == False:
+                choosenRepoData = mainRepoData["Repository"]["Entries"][0][name]
+            # Amount of versions?
+            versions = [list(item.keys())[0] for item in choosenRepoData["Versions"]]
+            amntVersions = len(versions)
+            # Version defined
+            if pack_version != "" and pack_version != None:
+                found = False
+                for version in choosenRepoData["Versions"]:
+                    key = list(version.keys())[0]
+                    if pack_version.lower() == key.lower():
+                        found = True
+                        choosenVersion = version
+                if found == False:
+                    print(f"\033[33mThe version '{pack_version}' was not found under '{list(choosenRepoData.keys())[0]}' so defaulting to 'Latest'\033[0m")
+                    choosenVersion = choosenRepoData["Versions"][0]
+            # Version not defined
+            else:
+                if amntVersions > 1:
+                    # prep table
+                    table = dict()
+                    table["Version"] = list()
+                    table["NumVersion"] = list()
+                    table["Description"] = list()
+                    # populate table
+                    for version in choosenRepoData["Versions"]:
+                        key = list(version.keys())[0]
+                        table["Version"].append( key )
+                        table["NumVersion"].append( version[key]["VersionNumerical"] )
+                        table["Description"].append( version[key]["Description"] )
+                    # print table
+                    drawTable(table)
+                    c_ver = input(f"\033[33mThere are multiple versions of {name} in the choosen repository, which one do you want to use?\033[0m ")
+                    versionsLOW = [version.lower() for version in versions]
+                    if c_ver.lower() in versionsLOW:
+                        found = False
+                        for version in choosenRepoData["Versions"]:
+                            key =  list(version.keys())[0]
+                            if key.lower() == c_ver.lower():
+                                choosenVersion = version
+                                found = True
+                        if found == False:
+                            choosenVersion = choosenRepoData["Versions"][0]
+                    else:
+                        choosenVersion = choosenRepoData["Versions"][0]
+                else:
+                    choosenVersion = choosenRepoData["Versions"][0]
+            return True,choosenVersion
         else:
+            print(f"\033[31mPackage '{name}' not found in officialRepo!\033[0m")
             return False,{}
-    # Version if the version of the package to match for if not found use latest and inform user
-    # check through mainrepo then get al data from al repoFolders note theese should get updated :( then match for al occurences of package name and collect list of al version avaliable throughout al repos. If multiple latest versions are given then ask the user to choose one, showing the url to the repo.
+
+# Function to install a package
+def installPackage(packageData=dict()):
     pass
 
 # Function to handle depedencies
