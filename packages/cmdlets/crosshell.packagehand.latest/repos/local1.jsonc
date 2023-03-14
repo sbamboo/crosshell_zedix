@@ -36,6 +36,25 @@
                         {"Type":"package","Source":"crosshell.core.latest"}, //if type 'package' source is package name (Note, version included as a dot)
                         {"Type":"pipinstall","Source":"pyyaml"} //if type 'pipinstall' source is pip package to install
                     ]
+                }},
+                {"LTS": { // Version name (Needed for install)
+                    "VersionNumerical": "1.2", // Numerical version number of package version
+                    "Description": "Testing package", // Description for the package
+                    "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
+                        {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
+                          "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'
+                          "FileFormat": "package", // The fileextension used, on UrlPackage should always be package
+                          "Source": "<INSERT_URL_HERE>", // Url to source, check format based on types ^^^
+                          "Overwrites": { // Overwrites, leave them as empty strings to disable
+                            "Properties": "", //Escape characters inside quotes. Note! This is the raw properties file so new lines for every propertie using a newline character. ("\n")
+                            "WrapperScript": "" //Source for a wrapper script escape characters and include newlines just like in the properties section. This should be code that wrapps something in a script. Include correct properties for wrappers.
+                          }
+                        }
+                    ],
+                    "Dependencies": [
+                        {"Type":"package","Source":"crosshell.core.latest"}, //if type 'package' source is package name (Note, version included as a dot)
+                        {"Type":"pipinstall","Source":"pyyaml"} //if type 'pipinstall' source is pip package to install
+                    ]
                 }}
 
             ]

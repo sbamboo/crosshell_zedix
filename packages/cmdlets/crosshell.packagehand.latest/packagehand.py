@@ -96,6 +96,7 @@ if argus.package:
         fname = '.'.join(fname)
         ph_localRepoFiles_2.append(fname)
     ph_localRepoFiles,ph_localRepoFiles_2 = ph_localRepoFiles_2,None
+    ph_localRepoFiles.append("officialRepo")
     # Repo define
     if ph_packnamePartials[0] in ph_localRepoFiles:
         ph_packrepo = ph_packnamePartials[0]
@@ -107,7 +108,8 @@ if argus.package:
         ph_packnamePartials.pop(-1)
         ph_packname = ".".join(ph_packnamePartials)
     # Match packages
-    sourcedata = matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,name=ph_packname,version=ph_packver,repo=ph_packrepo,localFormatVersion=ph_LocalFormatVersion,ignoreFormat=bool(argus.ignoreFormat))
+    sourcedata = matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,pack_name=ph_packname,pack_version=ph_packver,pack_repo=ph_packrepo,localFormatVersion=ph_LocalFormatVersion,ignoreFormat=bool(argus.ignoreFormat))
+    print(sourcedata)
     #TODO handle dependencies
     #TODO install package from source data using a function to handle diffrent types of source types
     pass
