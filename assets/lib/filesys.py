@@ -60,6 +60,8 @@ class filesys():
         Functions included are:
           - help: Shows this help message.
           - errorhandler: Internal function to handle errors. (Taking "action=<str_action>", "path=<str_path>" and "noexist=<bool>"
+          - renameFile: Renames a file. (Taking "filepath=<str>", "newFilepath=<str>")
+          - renameDir: Renames a directory. (Taking "folderpath=<str>", "newFolderpath=<str>")
           - doesExist: Checks if a file/directory exists. (Taking "path=<str>")
           - notExist: Checks if a file/directory does not exist. (Taking "path=<str>")
           - isFile: Checks if a object is a file. (Taking "path=<str>")
@@ -77,8 +79,8 @@ class filesys():
           - copyFile: Wrapper around shutil.copy2. (Taking "sourcefile=<str>" and "destination=<str>")
           - copyFolder: Wrapper around shutil.copytree. (Taking "sourceDirectory=<str>" and "destinationDirectory=<str>")
           - copyFolder2: Custom recursive folder copy, destination may exists. (Taking "sourceDirectory=<str>", "destinationDirectory=<str>" and "debug=<bool>")
-          - archive: Creates an archive of a folder. (Taking "sourceDirectory=<str>",<destination=<str>" and "format=<archive.format>") Note! Paths on on windows must be double slashed.
-          - unArchive: Unpacks a archive into a folder. (Taking "archiveFile=<str>",<destination=<str>" and "format=<archive.format>") Note! Paths on on windows must be double slashed.
+          - archive: Creates an archive of a folder. (Taking "sourceDirectory=<str>","<destination=<str>" and "format=<archive.format>") Note! Paths on on windows must be double slashed.
+          - unArchive: Unpacks a archive into a folder. (Taking "archiveFile=<str>","<destination=<str>") Note! Paths on on windows must be double slashed.
           - scantree: Returns a generator, wrapps scantree. (Taking "path=<str>")
           - isExecutable: Checks if a file is an executable. (Taking "filepath=<str>")
           - getMagicMime: Gets the magic-mime info of a file. (Taking "filepath=<str>")
@@ -131,9 +133,36 @@ class filesys():
                 if action == "file": output = f"\033[31mError: File not found! ({path})\033[0m"
         return output
 
+    # Function to rename a file
+    def renameFile(filepath=str(),newFilepath=str()):
+        # Validate
+        valid1 = filesys.errorHandler("file",filepath)
+        valid2 = filesys.errorHandler("file",newFilepath,noexist=True)
+        if valid1 != True:
+            print("[filepath]"+valid1)
+        elif valid2 != True:
+            print("[newFilepath]"+valid2)
+        else:
+            try:
+                os.rename(filepath,newFilepath)
+            except: print("\033[31mAn error occurred!\033[0m")
+
+    # Function to rename a folder
+    def renameDir(folderpath=str(),newFolderpath=str()):
+        # Validate
+        valid1 = filesys.errorHandler("dir",folderpath)
+        valid2 = filesys.errorHandler("dir",newFolderpath,noexist=True)
+        if valid1 != True:
+            print("[folderpath]"+valid1)
+        elif valid2 != True:
+            print("[newFolderpath]"+valid2)
+        else:
+            try:
+                shutil.move(folderpath,newFolderpath)
+            except: print("\033[31mAn error occurred!\033[0m")
 
     # Function to create file
-    def createFile(filepath=(), overwrite=False, encoding=None):
+    def createFile(filepath=str(), overwrite=False, encoding=None):
         # Validate
         valid = filesys.errorHandler("file",filepath,noexist=True)
         # Overwrite to file
@@ -153,7 +182,7 @@ class filesys():
             except: print("\033[31mAn error occurred!\033[0m")
     
     # Function to create directory
-    def createDir(folderpath=()):
+    def createDir(folderpath=str()):
         # Validate
         valid = filesys.errorHandler("dir",folderpath,noexist=True)
         # Make directory

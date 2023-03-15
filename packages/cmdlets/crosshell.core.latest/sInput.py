@@ -1,5 +1,6 @@
 # [Imports]
 import argparse
+from assets.lib.filesys import filesys as fs
 
 # [Arguments]
 cparser = argparse.ArgumentParser(prog="sInput",exit_on_error=False,add_help=False)
@@ -20,7 +21,7 @@ if argus.GetHistory == True:
     if sInput_historyType == "File" or sInput_historyType == "FILE":
         # Get history content
         if os.path.exists(sInput_history_location) == True:
-            hisContent = getContent(sInput_history_location)
+            hisContent = fs.readFromFile(sInput_history_location)
             if hisContent != "" and hisContent != None:
                 # Parse content
                 print(pt_format(cs_palette,"\033[94;4mSmartInput history\033[0m"))

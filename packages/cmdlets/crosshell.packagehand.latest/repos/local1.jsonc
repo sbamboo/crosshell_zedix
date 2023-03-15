@@ -24,6 +24,7 @@
                     "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
                         {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
                           "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'
+                          "Dotted": "False", // Wether or not to put the installed files inside a ".dotted" sub folder
                           "FileFormat": "package", // The fileextension used, on UrlPackage should always be package
                           "Source": "<INSERT_URL_HERE>", // Url to source, check format based on types ^^^
                           "Overwrites": { // Overwrites, leave them as empty strings to disable
@@ -43,10 +44,13 @@
                     "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
                         {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
                           "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'
+                          "Dotted": "False", // Wether or not to put the installed files inside a ".dotted" sub folder
                           "FileFormat": "package", // The fileextension used, on UrlPackage should always be package
                           "Source": "<INSERT_URL_HERE>", // Url to source, check format based on types ^^^
                           "Overwrites": { // Overwrites, leave them as empty strings to disable
+                            "PropMainFile": "", //The file name excluding fileending of the executable file to create a properties file for
                             "Properties": "", //Escape characters inside quotes. Note! This is the raw properties file so new lines for every propertie using a newline character. ("\n")
+                            "WrapperFileEnding": "", //File ending of the wrapper script file
                             "WrapperScript": "" //Source for a wrapper script escape characters and include newlines just like in the properties section. This should be code that wrapps something in a script. Include correct properties for wrappers.
                           }
                         }

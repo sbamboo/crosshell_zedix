@@ -52,11 +52,11 @@ if not os.path.exists(ph_repoDir): os.mkdir(ph_repoDir)
 # [Ensure official repository]
 # Check if local repo should be downloaded
 if not os.path.exists(ph_repoFile):
-    print("Local repo not found, downloading...")
+    print("\033[33mLocal repo not found, downloading...\033[0m")
     simpleDownload(ph_repoURL,ph_repoFile)
     if os.path.exists(ph_verfFile): os.remove(ph_verfFile)
     simpleDownload(ph_verfURL,ph_verfFile)
-    print("Done!")
+    print("\033[32mDone!\033[0m")
 # Check if local repo should be updated
 else:
     ph_ret = updateRepositoryFile(repoFile=ph_repoFile,versionCheck=True,ignoreFormat=bool(argus.ignoreFormat),skipOnEmptyURL=False,verfFile=ph_verfFile,repoURL=ph_repoURL,verfURL=ph_verfURL,localFormatVersion=ph_LocalFormatVersion)
@@ -141,10 +141,14 @@ if argus.package:
         ph_packnamePartials.pop(-1)
         ph_packname = ".".join(ph_packnamePartials)
     # Match packages
-    sourcedata = matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,pack_name=ph_packname,pack_version=ph_packver,pack_repo=ph_packrepo,localFormatVersion=ph_LocalFormatVersion,ignoreFormat=bool(argus.ignoreFormat),defaultRepoType=defaultRepoType)
-    print(sourcedata)
-    #TODO install package from source data using a function to handle diffrent types of source types
-    installPackage(packageData=sourcedata)
-    #TODO handle dependencies and write package.deps file to package final install
-    handleDependencies(deps=sourcedata[list(sourcedata.keys())[0]]["Dependencies"])
-    pass
+    matched,sourcedata = matchPackage(mainRepoFile=ph_repoFile,repoFolder=ph_repoDir,pack_name=ph_packname,pack_version=ph_packver,pack_repo=ph_packrepo,localFormatVersion=ph_LocalFormatVersion,ignoreFormat=bool(argus.ignoreFormat),defaultRepoType=defaultRepoType)
+    # Does exist
+    if matched == True:
+        print(f"\033[33mInstalling '{ph_packname}'...\033[0m")
+        #TODO install package from source data using a function to handle diffrent types of source types
+        ph_packname_name = ph_packname.split(".")[0]
+        ph_packname_author = ph_packname.split(".")[1]
+        ph_destinationFolder = package_install(packageData=sourcedata,packAuthor=ph_packname_author,packName=ph_packname_name,baseFolder=CSPackDir)
+        if ph_destinationFolder == "EXIT": exit()
+        #TODO handle dependencies and write package.deps file to package final install
+        handleDependencies(deps=sourcedata[list(sourcedata.keys())[0]]["Dependencies"],destinationFolder=ph_destinationFolder)

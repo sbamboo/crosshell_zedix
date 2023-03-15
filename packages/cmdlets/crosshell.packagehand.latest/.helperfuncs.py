@@ -4,6 +4,7 @@ from assets.lib.importa import *
 globals().update( fromPathAA(f"{os.path.dirname(__file__)}{os.sep}.ensurePIPPack.py") )
 
 # [Imports]
+import platform
 import re
 import json
 try:
@@ -115,7 +116,7 @@ def updateRepositoryFile(repoFile=str(),versionCheck=bool(),skipOnEmptyURL=False
             # Get Id info
             ph_localVerf_id = "Unknown"
             ph_localVerf_ver = -2
-            print("Checking repository version...")
+            print("\033[33mChecking repository version...\033[0m")
             ph_localVerf_raw = fs.readFromFile(verfFile)
             ph_onlineVerf_raw = simpleDownload(verfURL,"").decode()
             # Get localVerfInfo
@@ -144,7 +145,7 @@ def updateRepositoryFile(repoFile=str(),versionCheck=bool(),skipOnEmptyURL=False
             elif ph_localVerf_ver < ph_onlineVerf_ver:
                 print("Your local repository is outdated, downloading the latest one...")
             else:
-                print(f"Repository {repoName} up to date!")
+                print(f"\033[34mRepository {repoName} up to date!\033[0m")
                 return "EXIT"
         # Retrive repoURL
         if repoURL == None:
@@ -161,7 +162,7 @@ def updateRepositoryFile(repoFile=str(),versionCheck=bool(),skipOnEmptyURL=False
                 ret = downloadRepositoryVerfFile(verfFile,verfURL)
                 if ret == "ERR": return "ERR"
         # Finish
-        print(f"Updated {repoName}!")
+        print(f"\033[32mUpdated {repoName}!\033[0m")
         return "DONE"
 
 # Function that matches package in multiple repos
@@ -359,10 +360,207 @@ def matchPackage(mainRepoFile,repoFolder,pack_name,pack_version,pack_repo,localF
             print(f"\033[31mPackage '{name}' not found in officialRepo!\033[0m")
             return False,{}
 
-# Function to install a package
-def installPackage(packageData=dict()):
-    pass
-
 # Function to handle depedencies
-def handleDependencies(deps=dict()):
-    pass
+def handleDependencies(deps=dict(),destinationFolder=str()):
+    for depedency in deps:
+        # Parse
+        _type = depedency["Type"]
+        _source = depedency["Source"]
+        # Inform
+        _sourceName = _source.split(" ")[0]
+        print(f"[\033[96mph.DepMan\033[0m]: \033[33mInstalling depencency '{_sourceName}' of type '{_type}'...\033[0m")
+        # PipPackage
+        if _type == "pipinstall":
+            try:
+                ensurePipPack("python3",_source)
+                print(f"[\033[96mph.DepMan\033[0m]: \033[32mInstalled depencency '{_sourceName}'!\033[0m")
+            except:
+                print(f"[\033[96mph.DepMan\033[0m]: \033[31mInstallation of '{_sourceName}' failed!\033[0m")
+        # Package
+        elif _type == "package":
+            print(f"[\033[96mph.DepMan\033[0m]: \033[31mSkipped install of '{_sourceName}', dependency type not implemented!\033[0m")
+    # Print deps to destinationFolder
+    depsFile = destinationFolder + os.sep + "deps.json"
+    with open(depsFile, "w") as outfile:
+        json.dump(deps, outfile)
+
+# Function to get platformType
+def getPlatformType():
+    platformv = platform.system()
+    if platformv == "Linux":
+        return "lnx"
+    elif platformv == "Darwin":
+        return "mac"
+    elif platformv == "Windows":
+        return "win"
+    else:
+        return "unknown"
+
+# Function to rename a package file
+def renamePackageFile(filepath=str(),fileending=str()):
+    # package
+    if fileending.lower() == "package":
+        oldname = os.path.basename(filepath)
+        newname_s = oldname.split(".")
+        newname_s.pop(-1)
+        newname = '.'.join(newname_s) + ".zip"
+        newFilepath = filepath.rstrip(oldname)
+        newFilepath = newFilepath + newname
+    else:
+        newFilepath = filepath
+    return newFilepath
+
+# Function to install a package
+def package_install(packageData=dict(),packAuthor=str(),packName=str(),baseFolder=str()):
+    # Get data
+    _verName = list(packageData.keys())[0]
+    _verNumerical = packageData[_verName]["VersionNumerical"]
+    _verDesc = packageData[_verName]["Description"]
+    _verSources = packageData[_verName]["Sources"]
+    _osPlatform = getPlatformType()
+    # Choose platform
+    _verSelectedSource = None
+    for index,source in enumerate(_verSources):
+        _sourcePlatforms = source["Platform"]
+        _sourcePlatforms = [platform.lower() for platform in _sourcePlatforms] # lowercase sourcePlatforms
+        if "global" in _sourcePlatforms:
+            _verSelectedSource = _verSources[index]
+        elif _osPlatform in _sourcePlatforms:
+            _verSelectedSource = _verSources[index]
+    # no found
+    if _verSelectedSource == None:
+        print(f"\033[31mNo sources of '{packName}.{_verName}' matches your platform '{_osPlatform}', Install aborted!\033[0m")
+        return "EXIT"
+    # Get more info
+    _sourcePlatforms = _verSelectedSource["Platform"]
+    _sourceType = _verSelectedSource["Type"]
+    _sourceDotted = _verSelectedSource["Dotted"]
+    _sourceFileFormat = _verSelectedSource["FileFormat"]
+    _sourceSource = _verSelectedSource["Source"]
+    _sourceOverwrite_main = _verSelectedSource["Overwrites"]["PropMainFile"]
+    _sourceOverwrite_prop = _verSelectedSource["Overwrites"]["Properties"]
+    _sourceOverwrite_wfen = _verSelectedSource["Overwrites"]["WrapperFileEnding"]
+    _sourceOverwrite_wrap = _verSelectedSource["Overwrites"]["WrapperScript"]
+    # Install based on type
+    # UrlPackage
+    if _sourceType.lower() == "urlpackage":
+        # prep
+        destinationFolder = baseFolder + os.sep + packAuthor + "." + packName
+        # Check if already exist
+        if os.path.exists(destinationFolder):
+            print(f"\033[31mA package with name '{packName}' from '{packAuthor}' already seems to be installed, please uninstall it or update it instead!\033[0m")
+            return "EXIT"
+        # Create folder
+        fs.createDir(folderpath=destinationFolder)
+        # Download source
+        destinationFile = destinationFolder + os.sep + os.path.basename(_sourceSource)
+        simpleDownload(_sourceSource,destinationFile)
+        # Rename source file
+        renamedFile = renamePackageFile(filepath=destinationFile,fileending=_sourceFileFormat)
+        fs.renameFile(destinationFile,renamedFile)
+        # Unpack the file
+        if _sourceDotted == "True" or _sourceDotted == True:
+            destinationFolder_dotted = destinationFolder + os.sep + ".dotted"
+            fs.createDir(folderpath=destinationFolder_dotted)
+            fs.unArchive(archiveFile=renamedFile,destination=destinationFolder_dotted)
+        else:
+            fs.unArchive(archiveFile=renamedFile,destination=destinationFolder)
+        # Handle overwrites
+        if _sourceOverwrite_prop != "":
+            _propFilePath = destinationFolder + os.sep + _sourceOverwrite_main + ".cfg"
+            fs.writeToFile(inputs=_sourceOverwrite_prop,filepath=_propFilePath, append=False, encoding=None, autocreate=True)
+        if _sourceOverwrite_wrap != "":
+            _wrapFilePath = destinationFolder + os.sep + ".wrapper." + _sourceOverwrite_wfen
+            fs.writeToFile(inputs=_sourceOverwrite_wrap,filepath=_wrapFilePath, append=False, encoding=None, autocreate=True)
+        # write down packageDataJson
+        dataFile = destinationFolder + os.sep + "package.json"
+        with open(dataFile, "w") as outfile:
+            json.dump(packageData, outfile)
+        # Return destinationFolder
+        return destinationFolder
+    # UrlSourceArchive
+    elif _sourceType.lower() == "urlsourcearchive":
+        # prep
+        destinationFolder = baseFolder + os.sep + packAuthor + "." + packName
+        # Check if already exist
+        if os.path.exists(destinationFolder):
+            print(f"\033[31mA package with name '{packName}' from '{packAuthor}' already seems to be installed, please uninstall it or update it instead!\033[0m")
+            return "EXIT"
+        # Create folder
+        fs.createDir(folderpath=destinationFolder)
+        # Download source
+        destinationFile = destinationFolder + os.sep + os.path.basename(_sourceSource)
+        simpleDownload(_sourceSource,destinationFile)
+        # Rename source file
+        renamedFile = renamePackageFile(filepath=destinationFile,fileending=_sourceFileFormat)
+        fs.renameFile(destinationFile,renamedFile)
+        # Unpack the file
+        destinationFolder_dotted = None
+        if _sourceDotted == "True" or _sourceDotted == True:
+            destinationFolder_dotted = destinationFolder + os.sep + ".dotted"
+            fs.createDir(folderpath=destinationFolder_dotted)
+            fs.unArchive(archiveFile=renamedFile,destination=destinationFolder_dotted)
+        else:
+            fs.unArchive(archiveFile=renamedFile,destination=destinationFolder)
+        # Handle overwrites
+        if _sourceOverwrite_prop != "":
+            _propFilePath = destinationFolder + os.sep + _sourceOverwrite_main + ".cfg"
+            fs.writeToFile(inputs=_sourceOverwrite_prop,filepath=_propFilePath, append=False, encoding=None, autocreate=True)
+        if _sourceOverwrite_wrap != "":
+            _wrapFilePath = destinationFolder + os.sep + ".wrapper." + _sourceOverwrite_wfen
+            fs.writeToFile(inputs=_sourceOverwrite_wrap,filepath=_wrapFilePath, append=False, encoding=None, autocreate=True)
+        # Run phbuild.py
+        if destinationFolder_dotted != None:
+            _phbuildFile = destinationFolder_dotted + os.sep + "phbuild.py"
+        else:
+            _phbuildFile = destinationFolder + os.sep + "phbuild.py"
+        sentVars = {
+            "ph_verName": _verName,
+            "ph_verNumerical": _verNumerical,
+            "ph_verDescription": _verDesc,
+            "ph_verSources": _verSources,
+            "ph_osPlatform": _osPlatform,
+            "ph_verSelectedSource": _verSelectedSource,
+            "ph_sourcePlatforms": _sourcePlatforms,
+            "ph_sourceType": _sourceType,
+            "ph_sourceDotted": _sourceDotted,
+            "ph_sourceFileFormat": _sourceFileFormat,
+            "ph_sourceSource": _sourceSource,
+            "ph_sourceOverwrite_main": _sourceOverwrite_main,
+            "ph_sourceOverwrite_prop": _sourceOverwrite_prop,
+            "ph_sourceOverwrite_wfen": _sourceOverwrite_wfen,
+            "pg_sourceOverwrite_wrap": _sourceOverwrite_wrap
+        }
+        exec(open(_phbuildFile,'r').open(),sentVars)
+        # write down packageDataJson
+        dataFile = destinationFolder + os.sep + "package.json"
+        with open(dataFile, "w") as outfile:
+            json.dump(packageData, outfile)
+        # Return destinationFolder
+        return destinationFolder
+    # UrlSourceFile
+    elif _sourceType.lower() == "urlsourcefile":
+        # prep
+        destinationFolder = baseFolder + os.sep + packAuthor + "." + packName
+        # Check if already exist
+        if os.path.exists(destinationFolder):
+            print(f"\033[31mA package with name '{packName}' from '{packAuthor}' already seems to be installed, please uninstall it or update it instead!\033[0m")
+            return "EXIT"
+        # Create folder
+        fs.createDir(folderpath=destinationFolder)
+        # Download source
+        destinationFile = destinationFolder + os.sep + os.path.basename(_sourceSource)
+        simpleDownload(_sourceSource,destinationFile)
+        # Handle overwrites
+        if _sourceOverwrite_prop != "":
+            _propFilePath = destinationFolder + os.sep + _sourceOverwrite_main + ".cfg"
+            fs.writeToFile(inputs=_sourceOverwrite_prop,filepath=_propFilePath, append=False, encoding=None, autocreate=True)
+        if _sourceOverwrite_wrap != "":
+            _wrapFilePath = destinationFolder + os.sep + ".wrapper." + _sourceOverwrite_wfen
+            fs.writeToFile(inputs=_sourceOverwrite_wrap,filepath=_wrapFilePath, append=False, encoding=None, autocreate=True)
+        # write down packageDataJson
+        dataFile = destinationFolder + os.sep + "package.json"
+        with open(dataFile, "w") as outfile:
+            json.dump(packageData, outfile)
+        # Return destinationFolder
+        return destinationFolder
