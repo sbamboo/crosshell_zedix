@@ -1,1 +1,0 @@
-os.system("python3 -c " + "'" + (' '.join(argv)).strip() + "'")

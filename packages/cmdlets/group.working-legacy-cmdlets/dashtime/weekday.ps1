@@ -1,6 +1,6 @@
 <#
   .SYNOPSIS
-  Alias to: dashtime.
+  Alias to: dashtime, shows weekday.
 
   
 #>
