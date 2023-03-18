@@ -50,3 +50,12 @@ volume
 webcontent
 webstart
 while
+
+myip
+
+codeopen
+generateRandKey
+gitopen
+pwsh
+versionControl
+winimgman
