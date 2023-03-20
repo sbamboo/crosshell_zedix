@@ -54,8 +54,8 @@ class filesys():
     sep = os.sep
 
     # Help function
-    def help():
-        print(f'''
+    def help(ret=False):
+        helpText = '''
         This class contains functions to perform filessytem actions like creating and removing files/directories.
         Functions included are:
           - help: Shows this help message.
@@ -82,11 +82,13 @@ class filesys():
           - archive: Creates an archive of a folder. (Taking "sourceDirectory=<str>","<destination=<str>" and "format=<archive.format>") Note! Paths on on windows must be double slashed.
           - unArchive: Unpacks a archive into a folder. (Taking "archiveFile=<str>","<destination=<str>") Note! Paths on on windows must be double slashed.
           - scantree: Returns a generator, wrapps scantree. (Taking "path=<str>")
-          - isExecutable: Checks if a file is an executable. (Taking "filepath=<str>")
+          - isExecutable: Checks if a file is an executable. (Taking "filepath=<str>" and optionally "fileEndings=<list>")
           - getMagicMime: Gets the magic-mime info of a file. (Taking "filepath=<str>")
           - openFolder: Opens a folder in the host's filemanager. (Taking "path=<str>") Might not work on al systems!
         For al functions taking encoding, the argument is an overwrite for the default encoding "filesys.defaultencoding" that is set to {filesys.defaultencoding}.
-        ''')
+        '''
+        if ret != True: print(helpText)
+        else: return helpText
 
     # Function to check if a file/directory exists
     def doesExist(path=str()):
@@ -387,7 +389,9 @@ class filesys():
             print(valid); exit()
 
     # Function to check if a file is an executable
-    def isExecutable(filepath=str()):
+    def isExecutable(filepath=str(),fileEndings=None):
+        exeFileEnds = [".exe",".cmd",".com",".py"]
+        if fileEndings != None: exeFileEnds = fileEndings
         valid = filesys.errorHandler("file", filepath)
         if valid == True:
             try:
@@ -402,7 +406,7 @@ class filesys():
                 # Windows
                 if altConUtils.IsWindows():
                     fending = str("." +''.join(filepath.split('.')[-1]))
-                    if fending == ".exe" or fending == ".cmd" or fending == ".com" or fending == ".py":
+                    if fending in exeFileEnds:
                         return True
                     else:
                         return False

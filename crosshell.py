@@ -245,6 +245,8 @@ cspathables = cs_loadCmdlets(path_cmdletsfolder,allowedFileTypes)
 if cs_cliargs.nowelcome == False: cs_writeWelcome(csversionData,csbasedir,globals(),cs_palette)
 # Run Loop if the "crosshell_doLoop" is enabled
 while crosshell_doLoop == True:
+    # Update title
+    setConTitle(cs_persistance("get","cs_title",cs_persistanceFile))
     # Handle the command argument and if a command is given set it as the input
     if cs_cliargs.command != "" and cs_cliargs.command != None:
         paramCommand = True
