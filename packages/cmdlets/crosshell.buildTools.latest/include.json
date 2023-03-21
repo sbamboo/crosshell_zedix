@@ -1,0 +1,8 @@
+{
+  "PyVersion": "3.10.1",
+  "Requirements": {
+    "pyyaml": {"Ver":"1.0", "Type":"Wheel"},
+    "numpy":  {"Ver":"2.3.1", "Type":"Source"},
+    "pynput ": {"Ver":"2.3.1", "Type":"None"}
+  }
+}
