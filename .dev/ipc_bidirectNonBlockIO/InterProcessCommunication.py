@@ -1,11 +1,15 @@
 import subprocess
+import threading
 
 class IPCHost():
 
     Task = list()
     stripAnsi = False
 
+    outBuffer = str()
+    errBuffer = str()
     intProcess = None
+    outputThread = None
 
     def __init__(self, Task, stripAnsi=False):
         self.Task = Task
@@ -20,19 +24,29 @@ class IPCHost():
             universal_newlines= universalNewlines
         )
 
+        # Start a separate thread to read the subprocess output
+        self.outputThread = threading.Thread(target=self.readOutput)
+        self.outputThread.start()
+
+    def readOutput(self):
+        for line in self.intProcess.stdout:
+            self.outBuffer += line
+
     def sendInput(self, input):
         self.intProcess.stdin.write(input)
+        self.intProcess.stdin.flush()
 
     def getOutput(self):
-        stdout = self.intProcess.stdout.readline()
-        stderr = self.intProcess.stderr.readline()
-        if stderr != "":
+        if self.errBuffer != "":
+            _tmp = self.errBuffer
+            self.errBuffer = ""
             if self.stripAnsi == True:
-                return "Subprocess traceback:\n" + stderr
+                return "Subprocess traceback:\n" + _tmp
             else:
-                return "\033[91mSubprocess traceback:\n\033[33m" + stderr + "\033[0m"
+                return "\033[91mSubprocess traceback:\n\033[33m" + _tmp + "\033[0m"
         else:
-            return stdout
+            return self.outBuffer
+
 
 class IPCSubs():
     
@@ -45,6 +59,7 @@ class IPCSubs():
 
     def sendInput(self, input):
         self.sysOut.write(input)
+        self.sysOut.flush()
 
     def getOutput(self):
         lines = list()
