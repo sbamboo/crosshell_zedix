@@ -1,0 +1,60 @@
+# FRONTEND
+import subprocess
+
+while True:
+    # read input from user
+    user_input = input("> ")
+
+    # call backend script with input
+    shell_process = subprocess.Popen(
+        ["python", "backend.py"],  # replace with your backend script and arguments
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True,
+    )
+
+    # send input to shell and read output
+    shell_output, shell_error = shell_process.communicate(user_input)
+
+    # print shell output
+    print(shell_output.strip())
+
+    # print shell error, if any
+    if shell_error:
+        print(f"Shell Error: {shell_error.strip()}")
+
+    # split shell output into lines
+    shell_lines = shell_output.strip().split("\n")
+
+    # if the shell command produced output, call the command
+    if shell_lines:
+        command_process = subprocess.Popen(
+            shell_lines,  # split shell output into arguments
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True,
+        )
+
+        # read command output and error
+        command_output, command_error = command_process.communicate()
+
+        # print command output
+        print(command_output.strip())
+
+        # print command error, if any
+        if command_error:
+            print(f"Command Error: {command_error.strip()}")
+
+
+# BACKEND
+import sys
+
+# loop over input from stdin
+for input_line in sys.stdin:
+    # process input (replace with your backend logic)
+    output_line = f"Shell says: {input_line.strip()}"
+
+    # write output to stdout
+    sys.stdout.write(output_line + "\n")
