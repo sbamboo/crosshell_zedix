@@ -22,19 +22,19 @@ class IPCHost():
             universal_newlines= universalNewlines
         )
     
-    def sendInput(self, input):
-        self.outBuffer, self.errBuffer = self.intProcess.communicate(input)
+    def sendInput(self, inputStr):
+        self.outBuffer, self.errBuffer = self.intProcess.communicate(inputStr.encode())
 
     def getOutput(self):
-        if self.errBuffer != "":
-            _tmp = self.errBuffer
+        if self.errBuffer.decode() != "":
+            _tmp = self.errBuffer.decode()
             self.errBuffer = ""
             if self.stripAnsi == True:
                 return "Subprocess traceback:\n" + _tmp
             else:
                 return "\033[91mSubprocess traceback:\n\033[33m" + _tmp + "\033[0m"
         else:
-            return self.outBuffer
+            return self.outBuffer.decode()
 
 
 class IPCSubs():
@@ -46,8 +46,8 @@ class IPCSubs():
         self.sysIn = sysIn
         self.sysOut = sysOut
 
-    def sendInput(self, input):
-        self.sysOut.write(input)
+    def sendInput(self, inputStr):
+        self.sysOut.write(inputStr)
 
     def getOutput(self):
         lines = list()

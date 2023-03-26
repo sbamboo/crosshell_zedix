@@ -32,8 +32,8 @@ class IPCHost():
         for line in self.intProcess.stdout:
             self.outBuffer += line
 
-    def sendInput(self, input):
-        self.intProcess.stdin.write(input)
+    def sendInput(self, inputStr):
+        self.intProcess.stdin.write(inputStr.encode())
         self.intProcess.stdin.flush()
 
     def getOutput(self):

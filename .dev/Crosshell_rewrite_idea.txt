@@ -1,0 +1,29 @@
+Console:
+  - Calls the core functions with info like:
+    AllowedPrompts = ["BAR"] and Multiline = True
+  - Takes input from the user
+  - Shows info from api:  infoFile.tmt > {"BAR":"I am a oneline text", "POPUP":"I should be in a box", "FULLSCREEN": "line1\nline2", "AUTOCOMPLETE":"write this..."}
+  - Render output
+
+CommandLoader:
+  - Takes: FileTypes = [".exe",".py","Platform_Binary"] and LoadDirectory = "<path>" # Platform_Binary is platform specific binary
+  - Looks through path and gets file config from root.ycfg file
+  - Returns dictionary of patahables {"Pathables": {"P1":{...}} }
+
+Interpriter:
+  - Takes Multiline: <bool>
+  - Loads readerModules and applies based on filetype from pathables
+  - Splites multilines and semicolons
+  - Handles al input stuff:
+    '! <command>' blocks semicolons for interpritation and sends al other input post command as one argument
+  - Checks pathables and returns like this:
+    {"ToExecute": [ {"Reader":"<readerPath>","Arguments":["<argument1>"],"Piped":<bool>}} ] } #Note commandID is then the index
+
+Executor:
+  - Loops through toExecute 
+  - Takes interpriter dictionary
+  - Executes file with the reader if not None otherwise using the pyExe or fileExe
+  - Takes stdout always but if piped send as pipe to next execute. If no next execute send as pipeOut or if not piped as stdout
+  - Returns:
+    {"Executed": [ {"PipeOut":"<pipeOutString","stdOut":"<stdOutString>","stdERR":"<stdErrString>"} ] } # commandID is index and al pipeout is saved
+  - data is returned to console to render output
