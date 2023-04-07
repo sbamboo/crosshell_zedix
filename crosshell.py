@@ -103,7 +103,7 @@ if os.path.exists(path_cmdlet_zedix_core) != True:
     else:
         print("[Crosshell]: Downloading core files...")
     os.mkdir(path_cmdlet_zedix_core)
-    gitFolderDown("https://api.github.com/repos/simonkalmiclaesson/crosshell_zedix/contents/packages/cmdlets/crosshell.core.latest",path_cmdlet_zedix_core)
+    gitFolderDown("https://api.github.com/repos/sbamboo/crosshell_zedix/contents/packages/cmdlets/crosshell.core.latest",path_cmdlet_zedix_core)
     if cs_cliargs.stripansi != True:
         print("\033[32m[Crosshell]: Done!\033[0m")
     else:

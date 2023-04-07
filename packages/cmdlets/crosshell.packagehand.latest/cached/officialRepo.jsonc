@@ -7,7 +7,7 @@
         "VersionNumerical": "1.0", // Numerical version of the repository, used to check if newer repo version is avaliable.
         "CreationDate": "2023-03-13", // Creation date of the repository
         "UpdateDate": "2023-03-13", // When the repository was last updated
-        "RepositoryUrl": "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc" // The url to find the repository, this is needed for updates.
+        "RepositoryUrl": "https://github.com/sbamboo/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc" // The url to find the repository, this is needed for updates.
     },
   
     "Entries": [
@@ -23,7 +23,7 @@
                     "Description": "Testing package", // Description for the package
                     "Sources": [ // This is to allow both platform specific sources and only global if needed (Note! These are automaticly choosen so you must include al that is avaliable, or users wont be able to download it)
                         {"Platform": ["Global"], // 'Global' for every platform, or a combination of 'win', 'lnx', 'mac' for respective platforms
-                          "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/simonkalmiclaesson/packagehand_repository/main/crosshell_zedix/types.yaml'
+                          "Type": "UrlPackage", //Types are in 'https://raw.githubusercontent.com/sbamboo/packagehand_repository/main/crosshell_zedix/types.yaml'
                           "Dotted": "False", // Wether or not to put the installed files inside a ".dotted" sub folder
                           "FileFormat": "package", // The fileextension used, on UrlPackage should always be package
                           "Source": "<INSERT_URL_HERE>", // Url to source, check format based on types ^^^

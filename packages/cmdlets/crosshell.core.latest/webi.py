@@ -36,7 +36,7 @@ else:
 
 # list
 if _list == True:
-    id_linkbase = "https://simonkalmiclaesson.github.io/"
+    id_linkbase = "https://sbamboo.github.io/"
     id_link1 = "websa/shortener.html"
     url = id_linkbase + id_link1 + "?list"
     c = "id_shorteners = "
@@ -49,7 +49,7 @@ if _list == True:
 
 # id
 if _id != "" and _id != None:
-    id_linkbase = "https://simonkalmiclaesson.github.io/"
+    id_linkbase = "https://sbamboo.github.io/"
     id_link1 = "websa/shortener.html"
     url = id_linkbase + id_link1 + f"?id={id}&giveurl"
     c = "urllocation_" + _id + " = "

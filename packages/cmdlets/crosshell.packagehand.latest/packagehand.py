@@ -38,8 +38,8 @@ if argus.exhelp: cparser.print_help(); exit()
 # [Setup/Declarations]
 ph_ProtectedPackages = []
 ph_LocalFormatVersion = 1 # The format version this version of packagehand expects
-ph_repoURL = "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc"
-ph_verfURL = "https://github.com/simonkalmiclaesson/packagehand_repository/raw/main/crosshell_zedix/repo.verf"
+ph_repoURL = "https://github.com/sbamboo/packagehand_repository/raw/main/crosshell_zedix/repo.jsonc"
+ph_verfURL = "https://github.com/sbamboo/packagehand_repository/raw/main/crosshell_zedix/repo.verf"
 ph_cacheDir = f"{CSScriptRoot}{os.sep}cached"
 ph_repoDir = f"{CSScriptRoot}{os.sep}repos"
 ph_repoFile = f"{ph_cacheDir}{os.sep}officialRepo.jsonc"

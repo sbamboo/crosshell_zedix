@@ -27,3 +27,39 @@ Executor:
   - Returns:
     {"Executed": [ {"PipeOut":"<pipeOutString","stdOut":"<stdOutString>","stdERR":"<stdErrString>"} ] } # commandID is index and al pipeout is saved
   - data is returned to console to render output
+
+
+
+Modules:
+  - Modules may replace either:   console.py, loader.py, interpriter.py or executor.py
+  - They do this by calling the scriptHandle library with a file and a profile. Profiles is data for arguments/returns with names and types
+  - ^^^ Allowes for injection between files aswell
+  - Modules may bundle packages in the packages directory and crosshell will load them from the module folder aswell by calling the CommandLoader.
+  - Modules may also include a reader aslong as specific reader-package info is included. Theese readers will be treated as a bundled-package.
+  - Profiles can be added with the scriptHandle library aswell from the module.
+  - Al module injects/replaces/profiles and metadata exists in a module.yml file inside the folder to be loaded as a module.
+  - Croshell will not autoload modules if not specificly asked to, instead you will have to tell crosshell to load a module with the moduleHandler cmdlet
+
+
+Plugins:
+  - Plugins use a API covering some internal functions aswell as some library functions. This is to allow for execution of cmdlets without starting crosshell or likewise usage of the app
+
+Scripting:
+  - The crosshell scriptRunner will return, scripts may use the "CrosshellScripting 1.1" language interacting with al crosshell loaded cmdlets (similar to api access) however they should also be able to do API calls if said flag is given.
+  - Scripts may also use a stripped down python language with api access and a special function for executing commands. (This will use the LimitExec library)
+
+Cmdlet-Bundles:
+  - Cmdlet bundles is the specname for a folder containing cmdlets, the folders you download as packages. Only diffrence is that they may now either use the old "per-command-config system" or the new root.ycfg file.
+
+Cmdlet-flags:
+  - Instead of being included in the file, flags will now be able to be put in either the config file or the root.ycfg file. And inscript support will be removed.
+  - Note! these flags are for readers to use.
+
+Readers:
+  - Readers are packages including a reader.py file aswell as a reader.yml file. Containing covered filetypes aswell as the readerInfo.
+
+Settings:
+  - Settings will contain information in modules being the root-objects in the yaml spec.
+
+Persistance:
+  - Stores diffrent information between sessions and accessible with the persistance module.
