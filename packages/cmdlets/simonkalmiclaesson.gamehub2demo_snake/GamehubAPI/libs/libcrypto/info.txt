@@ -1,0 +1,4 @@
+libcrypto is a cryptography library made for crosshell, but is also included in gamehub since gamehub uses it for key management.
+
+Version: 1.0
+Author:  Simon Kalmi Claesson

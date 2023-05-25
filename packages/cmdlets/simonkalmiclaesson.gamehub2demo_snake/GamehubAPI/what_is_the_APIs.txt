@@ -1,0 +1,6 @@
+Note! Internal means inside/imported-to python whilst external means usable from commandline or non-python programs
+
+gamehubAPI.py: Internal/External api for core functions, including classes and functions.
+quickuseAPI.py: Internal/External api for some oldVer compatabiltiy aswell as abstraction layers for front/back end usage rather then in only one file.
+
+internal_saveService/service.py: This is for inAPI use only dont use!
