@@ -264,13 +264,15 @@ class scoreboardConnector():
         return self.encdec_dict(key=self.kryptokey,dictionary=_dict,mode=mode)
 
 # Function to get TOS
-def gamehub_getTOS(net=bool()):
+def gamehub_getTOS(net=bool(),tosFile=f"{parentPath}\\..\\tos.txt"):
     if net == True:
         import requests
         r = requests.get("https://raw.githubusercontent.com/sbamboo/Gamehub/main/API/v2/tos.txt", allow_redirects=True)
-        return r.content
+        if os.path.exists(tosFile): os.remove(tosFile)
+        open(tosFile,'w').write(r.content.decode('utf-8'))
+        return r.content.decode('utf-8')
     else:
-        return open("..\\tos.txt",'r').read()
+        return open("tosFile",'r').read()
 
 # Main function for handling a scoreboard from a function
 def gamehub_scoreboardFunc(
