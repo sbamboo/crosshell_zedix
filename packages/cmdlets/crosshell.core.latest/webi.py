@@ -1,5 +1,5 @@
 # [Imports]
-import webbrowser
+import webbrowser,requests
 
 # [Get argv]
 argus = (' '.join(argv)).strip()
@@ -25,7 +25,7 @@ if "-list" in argus:
 if "-id" in argus:
     _id = argus.replace("-id","")
     _id = _id.strip()
-elif "-nid" in args:
+elif "-nid" in argus:
     _nid = argus.replace("-nid","")
     _nid = _nid.strip()
 else:

@@ -1,5 +1,5 @@
 # Pantryapi: Library to work with pantryapi
-# Version 1.0, Made by: Simon Kalmi Claesson
+# Version 1.1, Made by: Simon Kalmi Claesson [2023-04-27]
 #
 
 import requests
@@ -18,6 +18,8 @@ def pantryapi(_id, method, body=None, basket=None):
         response = requests.put(url, headers=headers, json=body)
     elif method == 'post':
         response = requests.post(url, headers=headers, json=body)
+    elif method == 'delete':
+        response = requests.delete(url, headers=headers, json=body)
     else:
         raise ValueError(f"Invalid method '{method}'")
 
@@ -26,6 +28,11 @@ def pantryapi(_id, method, body=None, basket=None):
 
 # Abstraction layer for better understanding and easier access to the pantry api
 def pantryapireq(key, basket=None, json=None, mode=None):
+    '''
+    Methods: getall, get, append, create/replace, remove(deletes a basket, cannot be undone!)
+    Arguments: {key=<pantryKey>, basket=<basketName>, json=<jsonData>, mode=<mode>}
+    To send/get/append to basket basked must already exist. 'pantryapireq(<key>, <baskedName>, json=<startData>, "create"'
+    '''
     if mode != None: mode = mode.lower()
     if mode == 'getall':
         ans = pantryapi(key, "GET")
@@ -38,7 +45,17 @@ def pantryapireq(key, basket=None, json=None, mode=None):
             ans = pantryapi(key, "POST", basket=basket, body=json)
         else:
             ans = pantryapi(key, "POST", basket=basket)
+    elif mode == "remove":
+        ans = pantryapi(key, "DELETE", basket=basket)
     else:
         raise ValueError("Invalid mode")
     return ans
 
+
+def pantryapiCont(**kwargs):
+    a = None
+    a = pantryapireq(**kwargs)
+    try:
+        return a.content.decode()
+    except:
+        return a
