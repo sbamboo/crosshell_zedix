@@ -30,29 +30,33 @@ else:
     api_access_url = input("No url config file found please write webhook url to save: ")
     fs.writeToFile(api_access_url,webhook_url_file,autocreate=True)
 localcopy_devices = {
-    "balkongen.socket1": "switch.balkongen_socket_1",
-    "sovrum.fonsterlampa": "switch.fonster_lampan",
-    "vardagsrum.fonsterlampa": "switch.fonsterlampa_vardagsrum_socket_1",
-    "kok.fonsterlampa": "switch.koket",
-    "sovrum.skrivaren": "switch.skrivaren",
-    "sovrum2.sangbord": "switch.sovrum2_fonster",
-    "sovrum.sanglampa": "switch.sangbord",
-    "sovrum.tvsystem": "switch.tv_system",
+    "balkong.utag": "switch.balkongutag_socker_1",
+    #"sovrum.fonsterlampa": "switch.fonster_lampan",
+    "vardagsrum.fonster": "switch.fonsterlampa_vardagsrum_socket_1",
+    "kok.utag": "switch.kok_utag",
+    #"sovrum.skrivaren": "switch.skrivaren",
+    #"sovrum.tvsystem": "switch.tv_system",
 
-    "sovrum.lampa2": "light.lampa_2",
-    "sovrum.lampa4": "light.lampa_4",
-    "hallen.lampac": "light.lampa_c",
-    "sovrum.lampaS": "light.lampa_s",
-    "sovrum.ledlist": "light.led_list_sovrum",
-    "sovrum2.fonsterlampa": "light.sovrum2",
-    "sovrum2.byralampa": "light.sovrum_2b",
-    "sovrum2.taklampa": "light.sovrum2d",
-
-    "sovrum": "light.lampor_i_sovrum",
-    "sovrum2": "light.lampor_i_sovrum2",
-    "sovrum.taklampa": "light.taklampa",
-    "vardagsrum": "light.vardagsrum",
-    "vardagsrum.taklampa": "light.taklampa_vardagsrum"
+    #"sovrum.sangbord": "light.sv2_sangbord",
+    "sovrum.takH": "light.sv1_takhoger",
+    "sovrum.takM": "light.sv1_takmitt",
+    "sovrum.takV": "light.sv1_takvanster",
+    #"sovrum.lampaS": "light.lampa_s",
+    #"sovrum.ledlist": "light.led_list_sovrum",
+    "sovrum2.byra": "light.sv2_byra",
+    "sovrum2.tak": "light.sv2_tak",
+    "sovrum2.fonster": "light.sv2_fonster",
+    "sovrum2.sangbord": "light.sv2_sangbord",
+    "hall.tak": "light.hall_tak",
+    "vardagsrum.bord": "light.va_bordslampa",
+    "vardagsrum.horn": "light.va_hornlampa",
+    "vardagsrum.soff": "light.va_sofflampa",
+    "vardagsrum.tak": "light.va_taklampa",
+    "vardagsrum.tak1": "light.va_tak1",
+    "vardagsrum.tak2": "light.va_tak2",
+    "vardagsrum.tak3": "light.va_tak3",
+    "vardagsrum.tak4": "light.va_tak4",
+    "vardagsrum.tak5": "light.va_tak5"
 }
 
 # [List devices]

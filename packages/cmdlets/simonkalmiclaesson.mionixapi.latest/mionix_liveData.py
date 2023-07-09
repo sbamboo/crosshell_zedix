@@ -6,7 +6,7 @@ except:
     import websocket
 
 import json
-from assets.lib.drawlib.base import fill_terminal
+from assets.lib.drawlib.linedraw import fill_terminal
 
 ws = websocket.create_connection("ws://localhost:7681", subprotocols=["mionix-beta"])
 

@@ -1,0 +1,15 @@
+# haapi -device <device> -action <action>
+#                  //
+# haapi -s <device>:<action>
+#                  //
+# haapi -s <device>:<action>:<actionArgument>
+
+
+# Brightness (50%):
+haapi -s <device>:brightness:50
+              //
+haapi -s <device>:bright:50
+
+
+# Turn on
+haapi -s <device>:turn_on
