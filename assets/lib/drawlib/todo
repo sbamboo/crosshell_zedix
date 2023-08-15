@@ -1,0 +1,12 @@
+# A little todo list for development :)
+
+Conic Bezier Curves
+circleSector: mX, mY, rad, deg1, deg2
+(fillIn, dualWide) sprite modification
+Sort some things? Maybe not so many files?
+custom palette classObject with custom __get__ method to handle hex to rgbAnsi, remember to change the typeCheck to ad or isInstance(palette,<Class>)
+make the drawlib class use cmpxPixelGroup dataType
+use ^^^ to find a awy for multiChar generation, smth like charFunctions, ex: charFunc=sparkles(pixels)
+
+hex/rgb to palette
+make assets.drawlib_asset_palette use colorings palette system

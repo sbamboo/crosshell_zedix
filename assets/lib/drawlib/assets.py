@@ -1,5 +1,5 @@
 import re
-from assets.lib.drawlib.internal import *
+from .legacy import drawlib_internal_printmemsprite
 
 # De tokenising function (Variables in string)
 def deTokenize(string):

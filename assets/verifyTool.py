@@ -22,7 +22,7 @@ if shouldcheck == True:
     import os
     import socket
     import json
-    from assets.lib.drawlib.internal import drawlib_internal_printmemsprite
+    from assets.lib.drawlib.legacy import drawlib_internal_printmemsprite
     from assets.lib.drawlib.linedraw import draw_point,fill_terminal
     from assets.lib.conUtils import *
     from assets.lib.pantryapi import pantryapireq

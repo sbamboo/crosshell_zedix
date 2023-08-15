@@ -1,9 +1,5 @@
-# [Imports]
-import os
 import math
 
-# [Functions]
-# Function to draw a memsprite
 def drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX=None,offsetY=None):
   if offsetX != None: posX = posX + offsetX
   if offsetY != None: posY = posY + offsetY
@@ -34,3 +30,39 @@ def drawlib_internal_draw_curve(center=tuple(), radius=int(), char=str()):
         rows[y][x] = char
     # Join each row of the list into a single string and return it
     return "\n".join("".join(row) for row in rows)
+
+
+def draw_fillcircle(char,posX,posY,diameter):
+  colorcode = "33"
+  # Generate a memSprite
+  radius = diameter / 2 - .5
+  r = (radius + .25)**2 + 1
+  memsprite = ""
+  for i in range(diameter):
+    y = (i - radius)**2
+    for j in range(diameter):
+      x = (j - radius)**2
+      if x + y <= r:
+        memsprite = memsprite + f'{char}{char}'
+      else:
+        memsprite = memsprite + '  '
+    memsprite = memsprite + '\n'
+  # Print memsprite
+  drawlib_internal_printmemsprite( memsprite.split('\n'),posX,posY,colorcode )
+
+# Function that draws a curve at the given cordinates (top-right) taking radius char.
+def draw_curve(cordinates=tuple(), radius=int(), char=str(), quadrant=int()):
+    flipped_texture = []
+    curve_texture = ( drawlib_internal_draw_curve((0,0), radius, char) ).split("\n")
+    if quadrant == 1 or quadrant == 4:
+        flipped_texture = reversed(curve_texture)
+    else:
+        flipped_texture = curve_texture
+    if quadrant == 4 or quadrant == 3:
+        curve_texture = flipped_texture
+        flipped_texture = []
+        for line in curve_texture:
+            line = ''.join(reversed(list(str(line))))
+            flipped_texture.append(line)
+    flipped_texture = [s for s in flipped_texture if s.strip()]
+    drawlib_internal_printmemsprite(flipped_texture,cordinates[0],cordinates[1],"0")

@@ -1,4 +1,4 @@
-from assets.lib.drawlib.assets import getANSI,deTokenize
+from .assets import getANSI,deTokenize
 
 def inputAtCords (posX, posY, text=None, color=None, offsetX=None, offsetY=None):
 	if offsetX != None: posX = posX + offsetX

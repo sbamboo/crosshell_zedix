@@ -22,7 +22,7 @@ else: raw_data = {}
 # Load gui
 if "-g" in inputs or "gui" in inputs:
     # [Imports]
-    from assets.lib.drawlib.internal import drawlib_internal_printmemsprite
+    from assets.lib.drawlib.legacy import drawlib_internal_printmemsprite
     from assets.lib.drawlib.linedraw import draw_point,fill_terminal
     from assets.lib.conUtils import *
     # [Functions]

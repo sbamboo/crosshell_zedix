@@ -1,0 +1,12 @@
+{
+    "format": 1,
+    "fFormat": "JSON",
+    "libInfo": {
+        "name":    "Drawlib",
+        "desc":    "Drawlib is a simple CLI/TUI drawing library (renderer) made in python.",
+        "version": "1.0",
+        "vid":     "1",
+        "release": "2023-08-15",
+        "author":  "Simon Kalmi Claesson"
+    }
+}

@@ -8,14 +8,9 @@
 
 # [Imports]
 import os
-import math
-from assets.lib.drawlib.internal import *
-from assets.lib.drawlib.SimpleSpriteRenderer import *
-
-# [Functions]
-# PrintMemorySprite
-def printmemsprite(texture,posX,posY,colorcode,offsetX,offsetY): drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX=None,offsetY=None)
-
+from .tools import *
+from .pointGroupAlgorithms import *
+from .SimpleSpriteRenderer import rend
 
 # Fill Screen
 def fill_terminal(char):
@@ -28,128 +23,118 @@ def fill_terminal(char):
 
 
 # Draw a point of cords
-def draw_point(char, x, y):
+def draw_point(char, x, y, ansi=None):
   if x != None and y != None and char != None:
     # Save the current position of the write head
     print("\033[s", end="")
     # Move the write head to the specified coordinates
-    print("\033[{};{}H{}".format(y, x, char), end="")
+    string = ""
+    if ansi != None: string = ansi
+    string += "\033[{};{}H{}".format(y, x, char)
+    if ansi != None: string += "\033[0m"
+    print(string, end="")
     # Return the write head to the original position
     print("\033[u", end="")
 
 
 # Draw a line
-def draw_line(char, start_x, start_y, end_x, end_y):
-  # Save the current position of the write head
-  print('\033[s', end='')
-  # Calculate the distance between the two points
-  x_distance = end_x - start_x
-  y_distance = end_y - start_y
-  # Determine the slope of the line
-  if x_distance == 0:
-    slope = float('inf')
-  else:
-    slope = y_distance / x_distance
-  # Iterate over the points on the line
-  if abs(slope) <= 1:
-    # Iterate over the x-values of the line
-    for x in range(int(start_x), int(end_x) + 1):
-      # Calculate the y-value of the line at this x-value
-      y = start_y + slope * (x - start_x)
-      # Round the y-value to the nearest integer
-      y = int(round(y))
-      # Move the write head to the x, y position
-      print('\033[{};{}H'.format(y + 1, x + 1), end='')
-      # Print the character at the x, y position
-      print(char, end='')
-  else:
-    # Iterate over the y-values of the line
-    for y in range(int(start_x), int(end_x) + 1):
-      # Calculate the x-value of the line at this y-value
-      x = start_x + (y - start_y) / slope
-      # Round the x-value to the nearest integer
-      x = int(round(x))
-      # Move the write head to the x, y position
-      print('\033[{};{}H'.format(y + 1, x + 1), end='')
-      # Print the character at the x, y position
-      print(char, end='')
-  # Return the write head to its original position
-  print('\033[u', end='')
+def draw_line(char=str,x1=int,y1=int,x2=int,y2=int,ansi=None):
+    # CapValues
+    capIntsX([x1,x2])
+    capIntsY([y1,y2])
+    # Calculate Coordinates
+    coordinates = beethams_line_algorithm(x1,y1,x2,y2)
+    # Draw coordinates
+    for coords in coordinates:
+        x = coords[0]
+        y = coords[1]
+        draw_point(char,x,y,ansi=ansi)
 
 
 # Draw a triangle
-def draw_triangle(char, x1, y1, x2, y2, x3, y3):
+def draw_triangle_sides(char, s1, s2, s3, ansi=None):
+  # side 1
+  draw_line(char,*s1[0],*s1[1],ansi=ansi)
+  # side 2
+  draw_line(char,*s2[0],*s2[1],ansi=ansi)
+  # side 3
+  draw_line(char,*s3[0],*s3[1],ansi=ansi)
+
+def draw_triangle_points(char, p1, p2, p3, ansi=None):
+  draw_line(char,*p1,*p2,ansi=ansi)
+  draw_line(char,*p1,*p3,ansi=ansi)
+  draw_line(char,*p2,*p3,ansi=ansi)
+
+def draw_triangle_coords(char, x1, y1, x2, y2, x3, y3, ansi=None):
   p1 = [x1,y1]
   p2 = [x2,y2]
   p3 = [x3,y3]
-  draw_line(char,*p1,*p2)
-  draw_line(char,*p1,*p3)
-  draw_line(char,*p2,*p3)
+  draw_line(char,*p1,*p2,ansi=ansi)
+  draw_line(char,*p1,*p3,ansi=ansi)
+  draw_line(char,*p2,*p3,ansi=ansi)
 
+def draw_circle(char=str,xM=int,yM=int,r=int,ansi=None):
+  rigX = xM+r
+  lefX = xM-r
+  topY = yM+r
+  botY = yM-r
+  diam = (r*2)+1
+  # CapValues
+  capIntsX([xM,rigX,lefX])
+  capIntsY([yM,topY,botY])
+  # Calculate Coordinates
+  coordinates = beethams_circle_algorithm(xM,yM,r)
+  # Draw coordinates
+  for coords in coordinates:
+      x = coords[0]
+      y = coords[1]
+      draw_point(char,x,y,ansi=ansi)
 
-def draw_fillcircle(char,posX,posY,diameter):
-  colorcode = "33"
-  # Generate a memSprite
-  radius = diameter / 2 - .5
-  r = (radius + .25)**2 + 1
-  memsprite = ""
-  for i in range(diameter):
-    y = (i - radius)**2
-    for j in range(diameter):
-      x = (j - radius)**2
-      if x + y <= r:
-        memsprite = memsprite + f'{char}{char}'
-      else:
-        memsprite = memsprite + '  '
-    memsprite = memsprite + '\n'
-  # Print memsprite
-  printmemsprite( memsprite.split('\n'),posX,posY,colorcode )
+def draw_ellipse(char=str,cX=int,cY=int,xRad=int,yRad=int,ansi=None):
+  rigX = cX+xRad
+  lefX = cX-xRad
+  topY = cY+yRad
+  botY = cY-yRad
+  # CapValues
+  capIntsX([cX,rigX,lefX])
+  capIntsY([cY,topY,botY])
+  # Calculate Coordinates
+  coordinates = beethams_ellipse_algorithm(cX,cY,xRad,yRad)
+  # Draw coordinates
+  for coords in coordinates:
+      x = coords[0]
+      y = coords[1]
+      draw_point(char,x,y,ansi=ansi)
 
+def draw_quadBezier(char,sX=int,sY=int,cX=int,cY=int,eX=int,eY=int,ansi=None):
+  # CapValues
+  capIntsX([sX,cX,eX])
+  capIntsY([sY,cY,eY])
+  # Calculate Coordinates
+  coordinates = generate_quadratic_bezier(sX,sY,cX,cY,eX,eY)
+  # Draw coordinates
+  for coords in coordinates:
+      x = coords[0]
+      y = coords[1]
+      draw_point(char,x,y,ansi=ansi)
 
-def draw_circle(char,posX,posY,diameter):
-  colorcode = "33"
-  # Generate a memSprite
-  radius = diameter / 2 - .5
-  r = (radius + .25)**2 + 1
-  r_min = (radius -1)**2 + 1
-  memsprite = ""
-  for i in range(diameter):
-    y = (i - radius)**2
-    for j in range(diameter):
-      x = (j - radius)**2
-      if r_min <= x+y <= r:
-        memsprite = memsprite + f'{char}{char}'
-      else:
-        memsprite = memsprite + '  '
-    memsprite = memsprite + '\n'
-  # Print memsprite
-  printmemsprite( memsprite.split('\n'),posX,posY,colorcode )
-
-
-# Function that draws a curve at the given cordinates (top-right) taking radius char.
-def draw_curve(cordinates=tuple(), radius=int(), char=str(), quadrant=int()):
-    flipped_texture = []
-    curve_texture = ( drawlib_internal_draw_curve((0,0), radius, char) ).split("\n")
-    if quadrant == 1 or quadrant == 4:
-        flipped_texture = reversed(curve_texture)
-    else:
-        flipped_texture = curve_texture
-    if quadrant == 4 or quadrant == 3:
-        curve_texture = flipped_texture
-        flipped_texture = []
-        for line in curve_texture:
-            line = ''.join(reversed(list(str(line))))
-            flipped_texture.append(line)
-    flipped_texture = [s for s in flipped_texture if s.strip()]
-    printmemsprite(flipped_texture,cordinates[0],cordinates[1],"0")
+def draw_cubicBezier(char,sX=int,sY=int,c1X=int,c1Y=int,c2X=int,c2Y=int,eX=int,eY=int, algorithm="step",modifier=None,ansi=None):
+  '''
+  Alogrithm: "step" or "point"
+  Modifier: With step algorithm, def: 0.01; With point algorithm, def: 100
+  '''
+  # CapValues
+  capIntsX([sX,c1X,c2X,eX])
+  capIntsY([sY,c1Y,c2Y,eY])
+  # Calculate Coordinates
+  coordinates = generate_cubic_bezier(sX, sY, c1X, c1Y, c2X, c2Y, eX, eY, algorithm,modifier)
+  # Draw coordinates
+  for coords in coordinates:
+      x = coords[0]
+      y = coords[1]
+      draw_point(char,x,y,ansi=ansi)
 
 
 # Function to use drawlibs SimpleSpriteRenderer
 def draw_sprite(TextureFile=str(),ScreenCordX=int(),ScreenCordY=int(),Color=None):
     rend(TextureFile=str(),ScreenCordX=int(),ScreenCordY=int(),Color=None)
-
-
-
-# [ASSET]
-# For assets functions use "from assets.lib.drawlib.asset import *"
-# For tui functions use "from assets.lib.drawlib.tui import *"
