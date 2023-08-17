@@ -1,5 +1,6 @@
 from .assets import getANSI,deTokenize
 
+# Function to place an input() statement at a x,y position
 def inputAtCords (posX, posY, text=None, color=None, offsetX=None, offsetY=None):
 	if offsetX != None: posX = posX + offsetX
 	if offsetY != None: posY = posY + offsetY

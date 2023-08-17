@@ -1,0 +1,1 @@
+ImageRenderer is a utility made by: Simon Kalmi Claesson

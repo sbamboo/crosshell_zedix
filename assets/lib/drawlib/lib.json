@@ -7,6 +7,13 @@
         "version": "1.0",
         "vid":     "1",
         "release": "2023-08-15",
-        "author":  "Simon Kalmi Claesson"
+        "author":  "Simon Kalmi Claesson",
+        "dependencies": [
+            {
+                "name":    "ImageRenderer",
+                "version": "2.0",
+                "author":  "Simon Kalmi Claesson"
+            }
+        ]
     }
 }

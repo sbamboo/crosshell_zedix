@@ -1,5 +1,6 @@
 import math
 
+# Function to print a texture(listOfLines) position colors and such
 def drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX=None,offsetY=None):
   if offsetX != None: posX = posX + offsetX
   if offsetY != None: posY = posY + offsetY

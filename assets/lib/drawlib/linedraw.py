@@ -51,7 +51,7 @@ def draw_line(char=str,x1=int,y1=int,x2=int,y2=int,ansi=None):
         draw_point(char,x,y,ansi=ansi)
 
 
-# Draw a triangle
+# Draw a triangle using sides
 def draw_triangle_sides(char, s1, s2, s3, ansi=None):
   # side 1
   draw_line(char,*s1[0],*s1[1],ansi=ansi)
@@ -59,12 +59,12 @@ def draw_triangle_sides(char, s1, s2, s3, ansi=None):
   draw_line(char,*s2[0],*s2[1],ansi=ansi)
   # side 3
   draw_line(char,*s3[0],*s3[1],ansi=ansi)
-
+# Same but using points
 def draw_triangle_points(char, p1, p2, p3, ansi=None):
   draw_line(char,*p1,*p2,ansi=ansi)
   draw_line(char,*p1,*p3,ansi=ansi)
   draw_line(char,*p2,*p3,ansi=ansi)
-
+# Same but using coords
 def draw_triangle_coords(char, x1, y1, x2, y2, x3, y3, ansi=None):
   p1 = [x1,y1]
   p2 = [x2,y2]
@@ -72,6 +72,7 @@ def draw_triangle_coords(char, x1, y1, x2, y2, x3, y3, ansi=None):
   draw_line(char,*p1,*p2,ansi=ansi)
   draw_line(char,*p1,*p3,ansi=ansi)
   draw_line(char,*p2,*p3,ansi=ansi)
+
 
 def draw_circle(char=str,xM=int,yM=int,r=int,ansi=None):
   rigX = xM+r

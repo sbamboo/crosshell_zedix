@@ -1,3 +1,4 @@
+# Standard color-ansi palette
 standardPalette = {
     "f_Black": "\033[90m",
     "b_Black": "\033[100m",
@@ -33,10 +34,13 @@ standardPalette = {
     "b_DarkWhite": "\033[47m"
 }
 
-def getStdPalette():
+# Simple function to get the stdpalette (if '''import drawlib.coloring as coloring; stdpalette = coloring.stdpalette''' is not avaliable)
+def getStdPalette() -> dict:
     return standardPalette
 
+# Get the value from the palette using a palette
 def getAnsiFromColor(color,palette):
+    # Handle non-capitalized color names
     hasDark = "dark" in color.lower()
     if hasDark == True:
         color = color.lower()
@@ -49,12 +53,14 @@ def getAnsiFromColor(color,palette):
         color = mode + "Dark" + color
     else:
         color = mode + color
+    # get the palette and error if non existing
     ansi = palette.get(color)
     if ansi == None:
-        raise(f"Color 'color' not found in selected palette!")
+        raise Exception(f"Color 'color' not found in selected palette!")
     else:
         return ansi
 
+# Function to also autoNone if invalid input is given
 def autoNoneColor(color,palette):
     if color == None or palette == None or type(palette) != dict:
         return None

@@ -69,7 +69,7 @@ def drawlib_asset_palette(): return {
 }
 
 # Get ANSI code from palette
-def getANSI (name):
+def getANSI(name):
 	# Get hex value
 	hex = drawlib_asset_palette()[name]
 	hex = hex.replace("#",'')
@@ -92,3 +92,42 @@ def getANSI (name):
 def render_asset(posX,posY,texture,color,offsetX,offsetY):
     colorcode = getANSI(color)
     drawlib_internal_printmemsprite(texture,posX,posY,colorcode,offsetX,offsetY)
+
+# Asset class for ease of use
+class asset():
+	def __init__(self,filepath=str,offsetX=0,offsetY=0,autoLoad=False):
+		self.filepath = filepath
+		self.offsetX = offsetX
+		self.offsetY = offsetY
+		self.texture = None
+		self.posX = None
+		self.posY = None
+		self.color = None
+		if autoLoad == True: self.load()
+	def load(self):
+		self.posX,self.posY,self.texture,self.color = load_asset(self.filepath)
+	def render(self):
+		render_asset(self.posX, self.posY, self.texture, self.color, self.offsetX, self.offsetY)
+	def asTexture(self):
+		return self.texture
+	def asAsset(self):
+		return self.posX, self.posY, self.texture, self.color
+	def asAssetObj(self):
+		return {"posX":self.posX,"posY":self.posY,"texture":self.texture,"color":self.color}
+
+# Texture class for ease of use
+class texture():
+	def __init__(self,filepath,autoLoad=False):
+		self.filepath = filepath
+		self.texture = texture
+		if autoLoad == True: self.load()
+	def load(self):
+		self.texture = load_texture(self.filepath)
+	def render(self,posX=int,posY=int,color=None,offsetX=0,offsetY=0):
+		render_asset(posX, posY, self.texture, color, offsetX, offsetY)
+	def asTexture(self):
+		return self.texture
+	def asAsset(self,posX=int,posY=int,color=None):
+		return posX, posY, self.texture, color
+	def asAssetObj(self,posX=int,posY=int,color=None):
+		return {"posX":posX,"posY":posY,"texture":self.texture,"color":color}

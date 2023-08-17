@@ -1,11 +1,19 @@
 from .linedraw import *
 from .coloring import autoNoneColor,getStdPalette
 
+# Helper function to check the type of an object if its a type
 def _isPoint(obj):
     if isinstance(obj,list) or isinstance(obj,point): return True
     else: return False
 
+# Import the stdPalette from coloring
 stdpalette = getStdPalette()
+
+# Classes are for the ease of use of the basic shapes, they build on the linedrawing functions, which builds on pixelGroups, thus they take 'char'.
+# They also take the generatorCoordinates and lastly some standard arguments:
+# 'color':    Being a paletteKey.
+# 'palette':  The palette to use, def drawlib.coloring.stdpalette.
+# 'autoDraw': Auto calls the drawing method when classInstance is created.
 
 class point():
     def __init__(self,char,x1,y1,color=None,palette=stdpalette,autoDraw=False):
@@ -14,6 +22,7 @@ class point():
         self.y1 = y1
         self.ansi = autoNoneColor(color,palette)
         if autoDraw == True: self.draw()
+    # Use the linedraw.draw_point function
     def draw(self):
         draw_point(self.char,self.x1,self.y1,self.ansi)
 
