@@ -2,7 +2,7 @@ import re
 from .legacy import drawlib_internal_printmemsprite
 
 # De tokenising function (Variables in string)
-def deTokenize(string):
+def deTokenize(string,variables=globals()):
 	# Get tokens
 	prepLine = str(string)
 	tokens = re.findall(r'%.*?%',prepLine)
@@ -10,11 +10,14 @@ def deTokenize(string):
 	for token in tokens:
 		token = str(token)
 		var = token.replace('%','')
-		value = str(globals()[var])
+		value = str(variables[var])
 		string = string.replace(token,value)
 	# Return de-tokenised string
 	return string
-
+def deTokenizeTexture(texture,variables=globals()):
+	for i,line in enumerate(texture):
+		texture[i] = deTokenize(line,variables)
+	return texture
 
 # Function to load a texture file to a list of texture_lines
 def load_texture(filepath):
