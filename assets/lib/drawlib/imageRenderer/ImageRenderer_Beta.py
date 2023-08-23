@@ -1,11 +1,10 @@
 # Author: Simon Kalmi Claesson
-# Version: 2.0
+# Version: 2.1
+# Changelog: Added alpha support for boxMode
 
 # [Imports]
 import os
 import re
-import sys
-import subprocess
 import argparse
 from PIL import Image
 
@@ -68,6 +67,29 @@ def unicodeToPwshUnicode(inputString):
     unicodeEscapePattern = r'(\\\\u|\\u)([0-9A-Fa-f]{4})'
     convertedString = re.sub(unicodeEscapePattern, replaceUnicode, inputString)
     return convertedString
+
+def darkenColor(hexcolor, alpha):
+    open("C:\\users\\simonkalmi.claesson\\out.txt",'w').write(f"{hexcolor};{alpha}")
+    # Convert hexcolor to RGB values
+    r = int(hexcolor[0:2], 16)
+    g = int(hexcolor[2:4], 16)
+    b = int(hexcolor[4:6], 16)
+    # Calculate AlphaDiff
+    alpha_diff = 255 - alpha
+    # Darken each color component by the AlphaDiff
+    r = max(0, r - alpha_diff)
+    g = max(0, g - alpha_diff)
+    b = max(0, b - alpha_diff)
+    # Convert the darkened RGB values back to hex
+    darkened_hex = "{:02X}{:02X}{:02X}".format(r, g, b)
+    return darkened_hex
+
+def darkenColorWrap(hexcolor,alpha=None,apply=True):
+    if apply == True:
+        return darkenColor(hexcolor,alpha)
+    else:
+        return hexcolor
+
 
 # [Main Function]
 def ImageRenderer(image=str,type="ascii",mode=None,char=None,pc=False,method=None,invert=False,monochrome=False,width=None,height=None,resampling="lanczos",asTexture=False,colorMode="pythonAnsi",textureCodec=None):
@@ -238,22 +260,22 @@ def ImageRenderer(image=str,type="ascii",mode=None,char=None,pc=False,method=Non
                         if monochrome:
                             charIndex = int(pixelAverage(pixel) / (255 / len(monoGradient)))
                             #char = f"{hexToAnsi(monoGradient[charIndex])}{char}\033[0m"
-                            char = stringPrepper(charset,monoGradient[charIndex],False,colorMode)
+                            char = stringPrepper(charset,darkenColorWrap(monoGradient[charIndex],pixel[3],method == "alpha"),False,colorMode)
                         # FullColor
                         else:
                             #char = f"{hexToAnsi(pixelToHexColor(pixel))}{char}\033[0m"
-                            char = stringPrepper(charset,pixelToHexColor(pixel),False,colorMode)
+                            char = stringPrepper(charset,darkenColorWrap(pixelToHexColor(pixel),pixel[3],method == "alpha"),False,colorMode)
                     # BACKGROUND
                     elif mode == "background":
                         # MONO
                         if monochrome:
                             charIndex = int(pixelAverage(pixel) / (255 / len(monoGradient)))
                             #char = f"{hexToAnsi(monoGradient[charIndex], background=True)}{char}\033[0m"
-                            char = stringPrepper(charset,monoGradient[charIndex],True,colorMode)
+                            char = stringPrepper(charset,darkenColorWrap(monoGradient[charIndex],pixel[3],method == "alpha"),True,colorMode)
                         # FullColor
                         else:
                             #char = f"{hexToAnsi(pixelToHexColor(pixel), background=True)}{char}\033[0m"
-                            char = stringPrepper(charset,pixelToHexColor(pixel),True,colorMode)
+                            char = stringPrepper(charset,darkenColorWrap(pixelToHexColor(pixel),pixel[3],method == "alpha"),True,colorMode)
                     line += char
             # Print or append to texture
             outTexture.append(line+"\033[0m")

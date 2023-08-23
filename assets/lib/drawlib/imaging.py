@@ -40,10 +40,11 @@ class asciiImage():
         if yPos == None: yPos = self.yPos
         if yPos == None: raise ValueError("yPos not defined!")
         if self.texture == None: self._getTexture()
-        render_listTexture(xPos,yPos,texture)
+        render_listTexture(xPos,yPos,self.texture)
+        return self
 
 class boxImage():
-    def __init__(self,imagePath=str,mode="foreground",char=None,monochrome=False,width=None,height=None,resampling="lanczos",textureCodec=None,xPos=None,yPos=None):
+    def __init__(self,imagePath=str,mode="foreground",char=None,monochrome=False,width=None,height=None,resampling="lanczos",method=None,textureCodec=None,xPos=None,yPos=None):
         # Req Arguments
         self.imagePath = imagePath
         # Presets
@@ -59,8 +60,9 @@ class boxImage():
         self.textureCodec = textureCodec
         self.xPos = xPos
         self.yPos = yPos
+        self.method = method
     def _getTexture(self,asTexture=True):
-        self.texture = ImageRenderer(image=self.imagePath,type=self.type,mode=self.mode,char=self.char,monochrome=self.monochrome,width=self.width,height=self.height,resampling=self.resampling,textureCodec=self.textureCodec, asTexture=asTexture,colorMode="pythonAnsi")
+        self.texture = ImageRenderer(image=self.imagePath,type=self.type,mode=self.mode,char=self.char,monochrome=self.monochrome,width=self.width,height=self.height,resampling=self.resampling,textureCodec=self.textureCodec,method=self.method, asTexture=asTexture,colorMode="pythonAnsi")
     def resize(self,width=int,height=int,resampling=None):
         if resampling != None: self.resampling = resampling
         self.width = width
@@ -79,3 +81,4 @@ class boxImage():
         if yPos == None: raise ValueError("yPos not defined!")
         if self.texture == None: self._getTexture()
         render_listTexture(xPos,yPos,self.texture)
+        return self
