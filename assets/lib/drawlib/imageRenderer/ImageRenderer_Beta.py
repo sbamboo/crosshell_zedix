@@ -69,7 +69,6 @@ def unicodeToPwshUnicode(inputString):
     return convertedString
 
 def darkenColor(hexcolor, alpha):
-    open("C:\\users\\simonkalmi.claesson\\out.txt",'w').write(f"{hexcolor};{alpha}")
     # Convert hexcolor to RGB values
     r = int(hexcolor[0:2], 16)
     g = int(hexcolor[2:4], 16)
