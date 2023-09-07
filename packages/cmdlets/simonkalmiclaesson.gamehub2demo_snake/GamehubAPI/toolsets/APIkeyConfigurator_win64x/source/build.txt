@@ -1,0 +1,1 @@
+cd C:\Users\simon\Documents\GitHub\Gamehub\API\v2\Source\toolsets\APIkeyConfigurator_win64x\source; C:\Users\simon\AppData\Local\Programs\Python\Python310\python.exe -m nuitka APIkeyConfigurator.py

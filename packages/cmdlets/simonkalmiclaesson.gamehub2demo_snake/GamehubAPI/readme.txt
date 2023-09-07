@@ -5,3 +5,4 @@ Also some libraries has some dependencies
 libRSA:       cryptography,  "pip install cryptography"
 libCrypto:    aes,           "pip install pyaes"
 libpantryapi: requests,      "pip install requests"
+quickuseAPI:  scandir,       "pip install scandir"

@@ -31,6 +31,7 @@ def has_connection(override_url=None):
         return False
 
 def fromPath(path):
+    path = path.replace("\\",os.sep)
     spec = importlib.util.spec_from_file_location("module", path)
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)

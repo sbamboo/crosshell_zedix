@@ -1,11 +1,12 @@
 {
-    "Name": "GamehubAPI 2.0 (ALPHA)",
+    "Name": "GamehubAPI 2.8 (ALPHA)",
     "Desc": "New gamehubAPI, looking for a better way to handle scoreboads aswell as allowing backwards compatability with older versions of the API",
     "Version": {
         "Major": "2",
-        "Minor": "0",
-        "Vid": "1",
-        "ReleaseDate": "2023-05-03"
+        "Minor": "8",
+        "Vid": "9",
+        "ReleaseDate": "2023-08-30",
+        "ChangelogNote": "Added sorting function and fixed missing user bug for creating new users."
     },
     "License": "https://raw.githubusercontent.com/sbamboo/Gamehub/main/API/v2/tos.txt",
     "Platform": "Crossplatform-PYTHON3"

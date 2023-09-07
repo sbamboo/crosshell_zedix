@@ -1,0 +1,26 @@
+usage: Gamehub_Services_Backup: Cli.py (read libschedule/readme.txt)
+       [-h] [-task_name TASK_NAME] [-interval_str INTERVAL_STR]
+       [-script_path SCRIPT_PATH] [-python_path PYTHON_PATH]
+       [-script_args SCRIPT_ARGS] [-python_args PYTHON_ARGS]
+       [-break_file_path BREAK_FILE_PATH] [--schedule] [--unschedule]
+
+options:
+  -h, --help            show this help message and exit
+  -task_name TASK_NAME  The name of the task.
+  -interval_str INTERVAL_STR
+                        <Interval>_<TimeUnit>, ex: 10_days.
+  -script_path SCRIPT_PATH
+                        Path to the script to schedule.
+  -python_path PYTHON_PATH
+                        Path to the python executable to use. (On windows use
+                        pythonw.exe to not create a terminal window)
+  -script_args SCRIPT_ARGS
+                        Aditional Arguments to send to the script. (optional)
+  -python_args PYTHON_ARGS
+                        Aditional Arguments to send to python. (optional)
+  -break_file_path BREAK_FILE_PATH
+                        Path to a break-file, if a interval is too short and
+                        you need to use a loopExecution cycle provide this.
+                        (optional)
+  --schedule            Use to schedule a task.
+  --unschedule          Use to unschedule a task.

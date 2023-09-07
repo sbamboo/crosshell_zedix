@@ -1,0 +1,5 @@
+Schedule:
+usr/bin/python3 /home/$USER/gamehub/quickuseAPI.py --backupService -bs_apiConfPath /home/$USER/gamehub/api.sconf -bs_scoreboard test -bs_backupMode on -bs_backupLoc /home/$USER/gamehub/backups -bs_interval 1_minutes --bs_ping --bs_serviceManagerFile
+
+Unshedule:
+usr/bin/python3 /home/$USER/gamehub/quickuseAPI.py --backupService -bs_scoreboard "test" -bs_mode "unschedule"

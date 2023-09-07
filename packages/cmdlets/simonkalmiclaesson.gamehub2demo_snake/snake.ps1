@@ -15,6 +15,7 @@ Using Namespace System.Windows.Threading
 # [START OF SKC ADDITIONS]
 param([switch]$debug,[string]$params)
 # Default settings
+$pypath = "python3.exe"
 $mode = "Default"
 $inttheme_backgroundName = $host.UI.RawUI.BackgroundColor
 $inttheme_backgroundAnsi = "0m"
@@ -44,7 +45,7 @@ $script:gamehubAPI = "$PSScriptRoot\GamehubAPI\gamehubAPI.py"
 $script:quickuseAPi = "$PSScriptRoot\GamehubAPI\quickuseAPI.py"
 function RunPython($file,$argu) {
     $processInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $processInfo.FileName = "python3.exe"
+    $processInfo.FileName = "$pypath"
     $processInfo.Arguments = "$file $argu"
     $processInfo.RedirectStandardOutput = $true
     $processInfo.UseShellExecute = $false
@@ -68,7 +69,9 @@ cls
 # Show intro 
 pwsh -file "$psscriptroot\banner.ps1" -color "$inttheme_backgroundAnsi"
 # Show scoreboard
-$gamehub_scores_json = RunPython($quickuseAPI,'--apiConfScoreboardFunc -qu_apiConfPath ' + "$PSScriptRoot\API.sconf" + ' -qu_scoreboard "snake2" --qu_get --autoPath')
+$gamehub_scores_json = RunPython($quickuseAPI,'--apiConfScoreboardFunc -qu_apiConfPath ' + "$PSScriptRoot\API.sconf" + ' -qu_scoreboard "snake2" --qu_get --autoPath --qu_autoFindGlobalManagerFile --qu_autoHandlePingRemoval')
+$gamehub_scores_json = "!imf-swq!" + $gamehub_scores_json
+$gamehub_scores_json = RunPython($quickuseAPI,'--sortScoreboardJson -json "' + $gamehub_scores_json + '"')
 $gamehub_scores = $gamehub_scores_json | ConvertFrom-Json
 # Find longest
 $gamehub_maxL = 0

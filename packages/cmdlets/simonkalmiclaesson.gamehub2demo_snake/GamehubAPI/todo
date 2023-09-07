@@ -1,0 +1,2 @@
+[high prio] gamehub_saveService_on in quickuseAPI uses hardcoded terminal apps! This is not gonna work!
+[okay prio] add doCheckExistance, autoHandlePingRemoval and autoFindGlobalManagerFile to save service and al its functions

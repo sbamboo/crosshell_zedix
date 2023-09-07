@@ -1,0 +1,1 @@
+python3.exe C:\Users\%username%\libschedule\cliWrapper.py --unschedule -task_name "test"

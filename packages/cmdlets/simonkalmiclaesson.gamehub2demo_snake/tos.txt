@@ -5,6 +5,7 @@ You must accept the agreements bellow to be allowed to use gamehub api and gameh
 TOS = Terms of Use
 You = The player/user
 I = The author of gamehub
+Basket = A scoreboard instance and/or scoreboard on ex: pantry.
 
  1. You (the player/user) may only have one account saved in the cloud and only use that one account (per basket).
 
@@ -12,22 +13,26 @@ I = The author of gamehub
 
  3. You may not under any circumstances use the api key for any malicious purpose or at all outside of the api calls made available to you.
  
- 4. I (the author of gamehub) takes no responsibility for psychological issues/conditions that may arise when playing games on gamehub ex. addiction, stress or likewise.
+ 4. Overuse of the api or usage that negatively affects others is not permitted. For usage guidelines and common practice, contact the author.
  
  5. Since this is a closed beta, I (the author of gamehub) remain in a position where I can request you to allow me access to update and/or remove the closed beta from your computer and access. 
  
- 6. I (the author of gamehub) Remain in a position where I may change and update the terms of use. And whilst I should do my best at informing you (the user) of a TOS changes. You should take your responsibility to check the TOS on the link: "https://raw.githubusercontent.com/sbamboo/CrossShell/main/assets/gamehub_api_tos.txt". If you (the user) no longer want to accept the TOS please inform me and stop using the gamehub services. In other words, I may change the TOS and you would automatically (by using the service) agree to the new TOS, and if not contact me and stop using gamehub.
+ 6. I (the author of gamehub) Remain in a position where I may change and update the terms of use. And whilst I should do my best at informing you (the user) of a TOS changes. You should take your responsibility to check the TOS on the link: "https://raw.githubusercontent.com/sbamboo/Gamehub/main/API/v2/tos.txt". If you (the user) no longer want to accept the TOS please inform me and stop using the gamehub services. In other words, I may change the TOS and you would automatically (by using the service) agree to the new TOS, and if not contact me and stop using gamehub.
  
  7. You (the user) remain within the right to disagree to the TOS, but keep in mind that you are only allowed to use gamehub when you have agreed to the TOS.
 
  8. I (the author of gamehub) takes no responsibility for data loss and errors while saving since the api and the gamehub services/app is in development.
  
- 9. When you (the user) agrees to this TOS you are legally bound to your agreement until you disagree or unbind yourself where you as stated in TOS.7 are no longer allowed to use any product under this TOS. Until you agree it again.
+ 9. I (the author of gamehub) takes no responsibility for psychological issues/conditions that may arise when playing games on gamehub ex. addiction, stress or likewise.
+
+ 10. I (the author of gamehub) take no responsebility to problems hapening to your computer after installing and using gamehub services.
  
- 10. I take no responsebility to problems hapening to your computer after installing and using gamehub services.
+ 11. When you (the user) agrees to this TOS you are legally bound to your agreement until you disagree or unbind yourself where you as stated in TOS.7 are no longer allowed to use any product under this TOS. Until you agree it again.
+
 
 Developers: (Rules above still apply)
  1. Developers may not overuse the api or attempt to misuse or break the api.
  
 ================================================================================
-Written: 2023-05-03, by Simon Kalmi Claesson
+Originally Written: 2023-05-03, by Simon Kalmi Claesson
+Updated: 2023-08-09, by Simon Kalmi Claesson

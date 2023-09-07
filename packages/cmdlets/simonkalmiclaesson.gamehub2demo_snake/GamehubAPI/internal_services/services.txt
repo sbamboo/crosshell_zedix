@@ -1,0 +1,3 @@
+Services are a way for gamehub to schedule events, they build on the libschedule library.
+
+service.py: This file is meant to be the one scheduled
