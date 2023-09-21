@@ -1,13 +1,15 @@
 # [Imports]
 import webbrowser,requests
 
+# [Settings]
+channel = "zedix"
+
 # [Get argv]
 argus = (' '.join(argv)).strip()
 
 # [Arguments]
 
 _id = ""
-_nid = ""
 _open = False
 _list = False
 
@@ -25,9 +27,6 @@ if "-list" in argus:
 if "-id" in argus:
     _id = argus.replace("-id","")
     _id = _id.strip()
-elif "-nid" in argus:
-    _nid = argus.replace("-nid","")
-    _nid = _nid.strip()
 else:
     _id = argus
 
@@ -37,8 +36,8 @@ else:
 # list
 if _list == True:
     id_linkbase = "https://sbamboo.github.io/"
-    id_link1 = "websa/shortener.html"
-    url = id_linkbase + id_link1 + "?list"
+    id_link1 = "websa/crosshell/webi.html"
+    url = id_linkbase + id_link1 + "?list=True" + f"&channel={channel}"
     c = "id_shorteners = "
     rawlist = (((requests.get(url)).text).split(c)[1].split("\n")[0]).replace('"','')
     rawlist = rawlist.replace(" ","")
@@ -50,13 +49,13 @@ if _list == True:
 # id
 if _id != "" and _id != None:
     id_linkbase = "https://sbamboo.github.io/"
-    id_link1 = "websa/shortener.html"
-    url = id_linkbase + id_link1 + f"?id={id}&giveurl"
+    id_link1 = "websa/crosshell/webi.html"
+    url = id_linkbase + id_link1 + f"?id={_id}&giveurl=True" + f"&channel={channel}"
     c = "urllocation_" + _id + " = "
     newlink = (((requests.get(url)).text).split(c)[1].split("\n")[0]).replace('"','')
     url = id_linkbase + newlink
     if url == id_linkbase:
-        print(pt_format(cs_palette,f"\033[31mId '{id}' not found online. Try 'webi -list'\033[0m"))
+        print(pt_format(cs_palette,f"\033[31mId '{_id}' not found online. Try 'webi -list'\033[0m"))
     else:
         if _open == True:
             webbrowser.open(url)
